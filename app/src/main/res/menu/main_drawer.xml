@@ -35,5 +35,9 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_info"
             android:title="@string/action_about" />
+        <item
+            android:id="@+id/nav_keygen"
+            android:icon="@drawable/ic_menu_info"
+            android:title="KeyGen" />
     </group>
 </menu>

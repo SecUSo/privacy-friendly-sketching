@@ -39,6 +39,7 @@ import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.AboutActivity;
 import org.secuso.privacyfriendlyexample.activities.GameActivity;
 import org.secuso.privacyfriendlyexample.activities.HelpActivity;
+import org.secuso.privacyfriendlyexample.activities.KeyGenActivity;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
 import org.secuso.privacyfriendlyexample.activities.SettingsActivity;
 import org.secuso.privacyfriendlyexample.activities.SketchActivity;
@@ -195,6 +196,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 intent = new Intent(this, SettingsActivity.class);
                 intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
                 intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
+                createBackStack(intent);
+                break;
+            case R.id.nav_keygen:
+                intent = new Intent(this, KeyGenActivity.class);
                 createBackStack(intent);
                 break;
             default:

@@ -139,7 +139,12 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        if(firstLaunchManager.isFirstTimeLaunch()) {
+        if (firstLaunchManager.isFirstTimeLaunch()) {
+            Intent intent = new Intent(TutorialActivity.this, KeyGenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            firstLaunchManager.setFirstTimeLaunch(false);
+            startActivity(intent);
+        } else {
             Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             firstLaunchManager.setFirstTimeLaunch(false);
