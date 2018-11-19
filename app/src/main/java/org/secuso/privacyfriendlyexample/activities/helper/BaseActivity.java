@@ -41,6 +41,7 @@ import org.secuso.privacyfriendlyexample.activities.GameActivity;
 import org.secuso.privacyfriendlyexample.activities.HelpActivity;
 import org.secuso.privacyfriendlyexample.activities.MainActivity;
 import org.secuso.privacyfriendlyexample.activities.SettingsActivity;
+import org.secuso.privacyfriendlyexample.activities.SketchActivity;
 import org.secuso.privacyfriendlyexample.activities.TutorialActivity;
 
 /**
@@ -165,6 +166,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         Intent intent;
 
         switch(itemId) {
+            case R.id.nav_sketch:
+                intent = new Intent(this, SketchActivity.class);
+                createBackStack(intent);
+                break;
             case R.id.nav_example:
                 intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

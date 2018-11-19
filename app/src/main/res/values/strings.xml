@@ -86,5 +86,7 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="main_floating_button">Floating Button</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
+    <string name="title_activity_sketch">Sketch</string>
+    <string name="action_sketch">Sketch</string>
 
 </resources>
