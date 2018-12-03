@@ -89,4 +89,7 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="title_activity_sketch">Sketch</string>
     <string name="action_sketch">Sketch</string>
 
+    <!-- ### KEYGEN ACTIVITY ### -->
+    <string name="keygen_infotext">Generating Keys...</string>
+
 </resources>
