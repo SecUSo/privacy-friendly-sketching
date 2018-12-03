@@ -17,20 +17,20 @@
 
         <include layout="@layout/toolbar"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <include layout="@layout/content_sketch"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.divyanshu.draw.widget.DrawView
-                android:id="@+id/draw_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
+        <!-- <Button
+            android:id="@+id/button_welcomedialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:layout_gravity="bottom|start"
+            android:background="@drawable/button_normal"
+            android:text="@string/main_floating_button"
+            android:textColor="@color/white"
+            android:layout_margin="@dimen/fab_margin"
+            android:onClick="onClick"/> -->
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
@@ -41,5 +41,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/main_drawer" />
-
 </android.support.v4.widget.DrawerLayout>
