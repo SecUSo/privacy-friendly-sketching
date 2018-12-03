@@ -78,5 +78,8 @@
 
     <string name="next">Weiter</string>
     <string name="skip">Überspringen</string>
+    <string name="title_activity_sketch">Zeichnung</string>
+    <string name="action_sketch">Zeichnung</string>
+    <string name="keygen_infotext">Generiere Schlüssel...</string>
 
 </resources>
