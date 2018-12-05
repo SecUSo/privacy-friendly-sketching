@@ -49,11 +49,7 @@ public class KeyGenActivity extends BaseActivity {
         setContentView(R.layout.activity_keygen);
 
         keyGenClass keyGenClass = new keyGenClass();
-        try {
-            keyGenClass.doInBackground(new URL("http://bla.de"));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+            keyGenClass.doInBackground(null);
         Intent i = new Intent(KeyGenActivity.this, MainActivity.class);
         startActivity(i);
 
