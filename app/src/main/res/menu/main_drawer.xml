@@ -16,6 +16,10 @@
             android:icon="@drawable/ic_menu_tutorial"
             android:title="@string/action_sketch" />
         <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Gallery" />
+        <item
             android:id="@+id/nav_tutorial"
             android:icon="@drawable/ic_menu_tutorial"
             android:title="@string/action_tutorial" />
