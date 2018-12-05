@@ -39,16 +39,18 @@ public class KeyGenActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keygen);
 
-        keyGenClass keyGenClass = new keyGenClass();
-            keyGenClass.doInBackground(null);
-        Intent i = new Intent(KeyGenActivity.this, MainActivity.class);
-        startActivity(i);
-
     }
 
     @Override
     protected int getNavigationDrawerID() {
         return R.id.nav_keygen;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        keyGenClass keyGenClass = new keyGenClass();
+        keyGenClass.execute();
     }
 
     /**
@@ -60,7 +62,7 @@ public class KeyGenActivity extends BaseActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             TextView tv = findViewById(R.id.keyGenInfoText);
-            tv.setText("0%");
+
         }
 
 
@@ -126,6 +128,13 @@ public class KeyGenActivity extends BaseActivity {
 
 
             return new Long(0);
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+            super.onPostExecute(aLong);
+            Intent i = new Intent(KeyGenActivity.this, MainActivity.class);
+            startActivity(i);
         }
     }
 }
