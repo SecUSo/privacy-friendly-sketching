@@ -81,5 +81,6 @@
     <string name="title_activity_sketch">Zeichnung</string>
     <string name="action_sketch">Zeichnung</string>
     <string name="keygen_infotext">Generiere Schlüssel...</string>
+    <string name="title_gallery_sketch">Gallery</string>
 
 </resources>

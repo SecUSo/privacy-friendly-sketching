@@ -14,7 +14,7 @@
         android:fitsSystemWindows="true"
         tools:context="org.secuso.privacyfriendlyexample.activities.MainActivity">
 
-        <include layout="@layout/toolbar"/>
+        <include layout="@layout/toolbar" />
 
         <include layout="@layout/content_main" />
 
@@ -24,21 +24,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email"
-            android:onClick="onClick" />
+            android:onClick="onClick"
+            android:src="@android:drawable/ic_dialog_email" />
 
         <Button
             android:id="@+id/button_welcomedialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/fab_margin"
+            android:background="@drawable/button_normal"
+            android:onClick="onClick"
             android:paddingStart="@dimen/activity_horizontal_margin"
             android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:layout_gravity="bottom|start"
-            android:background="@drawable/button_normal"
             android:text="@string/main_floating_button"
-            android:textColor="@color/white"
-            android:layout_margin="@dimen/fab_margin"
-            android:onClick="onClick"/>
+            android:textColor="@color/white" />
 
     </android.support.design.widget.CoordinatorLayout>
 

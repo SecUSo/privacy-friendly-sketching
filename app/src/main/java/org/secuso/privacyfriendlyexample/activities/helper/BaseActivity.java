@@ -37,6 +37,7 @@ import android.view.View;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.AboutActivity;
+import org.secuso.privacyfriendlyexample.activities.GalleryActivity;
 import org.secuso.privacyfriendlyexample.activities.GameActivity;
 import org.secuso.privacyfriendlyexample.activities.HelpActivity;
 import org.secuso.privacyfriendlyexample.activities.KeyGenActivity;
@@ -169,6 +170,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         switch(itemId) {
             case R.id.nav_sketch:
                 intent = new Intent(this, SketchActivity.class);
+                createBackStack(intent);
+                break;
+            case R.id.nav_gallery:
+                intent = new Intent(this, GalleryActivity.class);
                 createBackStack(intent);
                 break;
             case R.id.nav_example:
