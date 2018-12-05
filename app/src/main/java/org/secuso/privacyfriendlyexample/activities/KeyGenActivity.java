@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlyexample.helpers.EncryptionHelper;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
@@ -24,11 +25,14 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.util.Calendar;
 import java.util.Enumeration;
 
+import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.security.auth.x500.X500Principal;
@@ -99,6 +103,10 @@ public class KeyGenActivity extends BaseActivity {
                 KeyPairGeneratorSpec kpgs = new KeyPairGeneratorSpec.Builder(getApplicationContext()).setAlias(getString(R.string.key_alias)).setSubject(new X500Principal("CN=" + getString(R.string.key_alias))).setSerialNumber(BigInteger.ONE).setStartDate(now.getTime()).setEndDate(end.getTime()).build();
                 kpg.initialize(kpgs);
                 KeyPair pair = kpg.generateKeyPair();
+
+                EncryptionHelper.savePassPhrase(getApplicationContext(), passphrase);
+
+
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             } catch (NoSuchProviderException e) {
@@ -118,7 +126,6 @@ public class KeyGenActivity extends BaseActivity {
                 while (aliases.hasMoreElements()) {
                     String alias = aliases.nextElement();
                     Log.i("KEYGEN_ACTIVITY", alias);
-
                 }
             } catch (KeyStoreException e) {
                 e.printStackTrace();
