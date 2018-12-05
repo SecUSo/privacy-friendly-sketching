@@ -3,7 +3,7 @@ package org.secuso.privacyfriendlysketches.activities;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -92,9 +92,7 @@ public class GalleryActivity extends BaseActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
 
-        // use a linear layout manager
-        //@todo GridLayoutManager
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
 
         SketchData[] arr = new SketchData[50];
