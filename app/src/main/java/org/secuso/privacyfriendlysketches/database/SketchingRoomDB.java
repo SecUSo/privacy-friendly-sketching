@@ -7,7 +7,9 @@ import androidx.room.RoomDatabase;
  * Created by enyone on 12/3/18.
  */
 
-@Database(entities = {}, version = 1)
-public abstract class SketchingRoomDB extends RoomDatabase {
+@Database(entities = {Sketch.class}, version = 1)
+abstract class SketchingRoomDB extends RoomDatabase {
+
+    public abstract SketchDAO sketchDao();
 
 }
