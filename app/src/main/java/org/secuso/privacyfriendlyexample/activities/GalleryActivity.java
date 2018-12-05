@@ -1,18 +1,39 @@
 package org.secuso.privacyfriendlyexample.activities;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlyexample.R;
 import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlyexample.database.SketchData;
+
+class TestData implements SketchData {
+
+    @Override
+    public Bitmap getSketch() {
+        final int SIZE = 64;
+        int[] data = new int[SIZE * SIZE];
+        for (int x = 0; x < SIZE; ++x)
+            for (int y = 0; y < SIZE; ++y)
+                data[x + y * SIZE] = (int)(Math.floor(Math.random() * Integer.MAX_VALUE));
+        return Bitmap.createBitmap(data, SIZE, SIZE, Bitmap.Config.ALPHA_8);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Test + " + Integer.toString((int)(Math.random() * 10000));
+    }
+}
 
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
-    private String[] dataset;
+    private SketchData[] dataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -27,7 +48,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(String[] myDataset) {
+    public MyAdapter(SketchData[] myDataset) {
         dataset = myDataset;
     }
 
@@ -48,7 +69,8 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
     public void onBindViewHolder(SketchViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        ((TextView)holder.cardView.getChildAt(0)).setText(dataset[position]);
+        ((TextView)holder.cardView.getChildAt(0)).setText(dataset[position].getDescription());
+        ((ImageView)holder.cardView.getChildAt(1)).setImageBitmap(dataset[position].getSketch());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -75,7 +97,9 @@ public class GalleryActivity extends BaseActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        String[] arr = {"Test1", "Test2", "Test3"};
+        SketchData[] arr = new SketchData[50];
+        for (int i = 0; i < 50; ++i)
+            arr[i] = new TestData();
         adapter = new MyAdapter(arr);
         recyclerView.setAdapter(adapter);
     }

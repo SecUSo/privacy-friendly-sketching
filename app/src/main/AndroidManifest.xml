@@ -76,7 +76,6 @@
             android:name="org.secuso.privacyfriendlyexample.activities.SketchActivity"
             android:label="@string/title_activity_sketch"
             android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -86,7 +85,6 @@
             android:name="org.secuso.privacyfriendlyexample.activities.GalleryActivity"
             android:label="@string/title_gallery_sketch"
             android:parentActivityName="org.secuso.privacyfriendlyexample.activities.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
