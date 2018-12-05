@@ -1,4 +1,4 @@
-package org.secuso.privacyfriendlyexample.activities;
+package org.secuso.privacyfriendlysketches.activities;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.secuso.privacyfriendlyexample.R;
-import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
-import org.secuso.privacyfriendlyexample.database.SketchData;
+import org.secuso.privacyfriendlysketches.R;
+import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlysketches.database.SketchData;
 
 class TestData implements SketchData {
 

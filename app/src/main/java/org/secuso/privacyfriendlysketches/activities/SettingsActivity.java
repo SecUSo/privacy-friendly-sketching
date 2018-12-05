@@ -1,4 +1,4 @@
-package org.secuso.privacyfriendlyexample.activities;
+package org.secuso.privacyfriendlysketches.activities;
 
 
 import android.annotation.TargetApi;
@@ -14,8 +14,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
-import org.secuso.privacyfriendlyexample.R;
-import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlysketches.R;
+import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

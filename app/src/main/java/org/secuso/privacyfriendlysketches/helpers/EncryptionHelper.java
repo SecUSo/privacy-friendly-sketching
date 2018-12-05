@@ -1,11 +1,11 @@
-package org.secuso.privacyfriendlyexample.helpers;
+package org.secuso.privacyfriendlysketches.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
 
-import org.secuso.privacyfriendlyexample.R;
+import org.secuso.privacyfriendlysketches.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,11 +1,11 @@
-package org.secuso.privacyfriendlyexample.activities;
+package org.secuso.privacyfriendlysketches.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
 
-import org.secuso.privacyfriendlyexample.R;
-import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlysketches.R;
+import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 
 import com.divyanshu.draw.widget.DrawView;
 

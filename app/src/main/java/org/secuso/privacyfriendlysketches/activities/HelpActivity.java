@@ -15,14 +15,14 @@
  along with Privacy Friendly App Example. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.secuso.privacyfriendlyexample.activities;
+package org.secuso.privacyfriendlysketches.activities;
 
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
-import org.secuso.privacyfriendlyexample.R;
-import org.secuso.privacyfriendlyexample.activities.adapter.HelpExpandableListAdapter;
-import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlysketches.R;
+import org.secuso.privacyfriendlysketches.activities.adapter.HelpExpandableListAdapter;
+import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;

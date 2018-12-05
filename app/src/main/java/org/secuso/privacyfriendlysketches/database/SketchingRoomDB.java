@@ -1,4 +1,4 @@
-package org.secuso.privacyfriendlyexample.database;
+package org.secuso.privacyfriendlysketches.database;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

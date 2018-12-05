@@ -1,22 +1,18 @@
-package org.secuso.privacyfriendlyexample.activities;
+package org.secuso.privacyfriendlysketches.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.security.KeyPairGeneratorSpec;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyProperties;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
-import org.secuso.privacyfriendlyexample.R;
-import org.secuso.privacyfriendlyexample.helpers.EncryptionHelper;
-import org.w3c.dom.Text;
+import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlysketches.R;
+import org.secuso.privacyfriendlysketches.helpers.EncryptionHelper;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
@@ -25,16 +21,11 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.util.Calendar;
 import java.util.Enumeration;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.security.auth.x500.X500Principal;
 
 /**
