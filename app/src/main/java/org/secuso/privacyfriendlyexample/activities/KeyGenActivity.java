@@ -13,16 +13,21 @@ import org.secuso.privacyfriendlyexample.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlyexample.R;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.util.Calendar;
+import java.util.Enumeration;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -87,36 +92,43 @@ public class KeyGenActivity extends BaseActivity {
             //Asymmetric Encryption which is supported on API 21
             KeyPairGenerator kpg = null;
             try {
-                kpg = KeyPairGenerator.getInstance("RSA");
+                kpg = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
+                Calendar now = Calendar.getInstance();
+                Calendar end = Calendar.getInstance();
+                end.add(Calendar.YEAR, 30);
+                KeyPairGeneratorSpec kpgs = new KeyPairGeneratorSpec.Builder(getApplicationContext()).setAlias(getString(R.string.key_alias)).setSubject(new X500Principal("CN=" + getString(R.string.key_alias))).setSerialNumber(BigInteger.ONE).setStartDate(now.getTime()).setEndDate(end.getTime()).build();
+                kpg.initialize(kpgs);
+                KeyPair pair = kpg.generateKeyPair();
             } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (NoSuchProviderException e) {
+                e.printStackTrace();
+            } catch (InvalidAlgorithmParameterException e) {
                 e.printStackTrace();
             }
             if (kpg == null) {
                 Log.i("KEYGEN_ACTIVITY", "keypairgenerator is null");
                 System.exit(0);
             }
-            kpg.initialize(2048);
-            KeyPair pair = kpg.generateKeyPair();
-//            try {
-//                kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, "AndroidKeyStore");
-//                Calendar start = Calendar.getInstance();
-//                Calendar end = Calendar.getInstance();
-//                end.add(Calendar.YEAR, 30);
-//                KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(KeyGenActivity.this.getApplicationContext()).setAlias(getResources().getString(R.string.key_alias)).setSubject(new X500Principal("CN=" + getResources().getString(R.string.key_alias))).setSerialNumber((BigInteger.ONE)).setStartDate(start.getTime()).setEndDate(end.getTime())
-//                        .build();
-//                kpg.initialize(spec);
-//            } catch (NoSuchAlgorithmException e) {
-//                e.printStackTrace();
-//            } catch (NoSuchProviderException e) {
-//                e.printStackTrace();
-//            } catch (InvalidAlgorithmParameterException e) {
-//                e.printStackTrace();
-//            }
-//            if (kpg == null) {
-//                Log.i("KEYGEN_ACTIVITY", "keypairgenerator is null");
-//                System.exit(0);
-//            }
-//            kpg.generateKeyPair();
+
+            try {
+                KeyStore ks = KeyStore.getInstance("AndroidKeyStore");
+                ks.load(null);
+                Enumeration<String> aliases = ks.aliases();
+                while (aliases.hasMoreElements()) {
+                    String alias = aliases.nextElement();
+                    Log.i("KEYGEN_ACTIVITY", alias);
+
+                }
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (CertificateException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
             return new Long(0);
