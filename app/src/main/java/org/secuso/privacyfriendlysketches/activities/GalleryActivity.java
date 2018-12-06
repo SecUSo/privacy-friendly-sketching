@@ -1,5 +1,6 @@
 package org.secuso.privacyfriendlysketches.activities;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlysketches.database.RoomHandler;
 import org.secuso.privacyfriendlysketches.database.Sketch;
 import org.secuso.privacyfriendlysketches.database.SketchDAO;
 import org.secuso.privacyfriendlysketches.database.SketchData;
@@ -41,10 +43,10 @@ class TestData implements SketchData {
 
 class RoomDBTester {
 
-    Context context;
+    Application application;
 
-    public RoomDBTester(Context context) {
-        this.context = context;
+    public RoomDBTester(Application application) {
+        this.application = application;
     }
 
     TestData data = new TestData();
@@ -60,33 +62,28 @@ class RoomDBTester {
     public void saveRandomSketch() {
         Sketch randomSketch = this.getRandomSketch();
 
-        SketchingRoomDB db = SketchingRoomDB.getDatabase(this.context);
-        SketchDAO sketchDAO = db.sketchDao();
+        RoomHandler rh = new RoomHandler(this.application);
         Log.i("ROOM TEST", "Inserting random sketch into db.. (Description = " + randomSketch.description + " )");
-        sketchDAO.insertSketch(randomSketch);
-
+        rh.insertSketch(randomSketch);
     }
 
     public void saveSketch(String description) {
         Sketch randomSketch = this.getRandomSketch();
         Sketch roomTestSketch = new Sketch(randomSketch.getBitmap(), description);
 
-        SketchingRoomDB db = SketchingRoomDB.getDatabase(this.context);
-        SketchDAO sketchDAO = db.sketchDao();
+        RoomHandler rh = new RoomHandler(this.application);
+
 
         Log.i("ROOM TEST", "Inserting non-random test sketch into db.. (Description = " + description + ")");
-        sketchDAO.insertSketch(roomTestSketch);
+        rh.insertSketch(roomTestSketch);
     }
 
     public Sketch[] getAllSketches() {
-        SketchingRoomDB db = SketchingRoomDB.getDatabase(this.context);
-        SketchDAO sketchDAO = db.sketchDao();
+        RoomHandler rh = new RoomHandler(this.application);
 
-        int sketchCount = sketchDAO.getSketchCount();
-        Log.i("ROOM TEST", sketchCount + "sketches in DB");
 
         Log.i("ROOM TEST", "Loading all sketches from db..");
-        Sketch[] sketches = sketchDAO.getAllSketches();
+        Sketch[] sketches = rh.getAllSketches();
 
         for (Sketch sketch : sketches) {
             Log.i("ROOM TEST", "DB Entry || ID = " + sketch.getId() + ", Description = " + sketch.description);

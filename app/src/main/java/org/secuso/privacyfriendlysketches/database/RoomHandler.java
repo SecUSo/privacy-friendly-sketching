@@ -28,9 +28,7 @@ public class RoomHandler {
     //TODO
     public Sketch[] getAllSketches() {
 
-        GetAllAsyncTask gaat = new GetAllAsyncTask(sketchDAO);
-        //return gaat.execute();
-        return null;
+        return this.sketchDAO.getAllSketches();
     }
 
 
@@ -48,20 +46,20 @@ public class RoomHandler {
             return null;
         }
     }
-
-    private static class GetAllAsyncTask extends AsyncTask<Sketch, Long, Sketch[]> {
-
-        private SketchDAO sketchDAO;
-
-        public GetAllAsyncTask(SketchDAO sketchDAO) {
-            this.sketchDAO = sketchDAO;
-        }
-
-        @Override
-        protected Sketch[] doInBackground(Sketch... sketches) {
-            Sketch[] allSketches = this.sketchDAO.getAllSketches();
-            return allSketches;
-        }
-    }
+//
+//    private static class GetAllAsyncTask extends AsyncTask<Sketch, Long, Sketch[]> {
+//
+//        private SketchDAO sketchDAO;
+//
+//        public GetAllAsyncTask(SketchDAO sketchDAO) {
+//            this.sketchDAO = sketchDAO;
+//        }
+//
+//        @Override
+//        protected Sketch[] doInBackground(Sketch... sketches) {
+//            Sketch[] allSketches = this.sketchDAO.getAllSketches();
+//            return allSketches;
+//        }
+//    }
 
 }
