@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by enyone on 12/6/18.
@@ -28,7 +29,15 @@ public class RoomHandler {
     //TODO
     public Sketch[] getAllSketches() {
 
-        return this.sketchDAO.getAllSketches();
+        GetAllAsyncTask gaat = new GetAllAsyncTask(sketchDAO);
+        try {
+            return gaat.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -46,20 +55,20 @@ public class RoomHandler {
             return null;
         }
     }
-//
-//    private static class GetAllAsyncTask extends AsyncTask<Sketch, Long, Sketch[]> {
-//
-//        private SketchDAO sketchDAO;
-//
-//        public GetAllAsyncTask(SketchDAO sketchDAO) {
-//            this.sketchDAO = sketchDAO;
-//        }
-//
-//        @Override
-//        protected Sketch[] doInBackground(Sketch... sketches) {
-//            Sketch[] allSketches = this.sketchDAO.getAllSketches();
-//            return allSketches;
-//        }
-//    }
+
+    private static class GetAllAsyncTask extends AsyncTask<Sketch, Long, Sketch[]> {
+
+        private SketchDAO sketchDAO;
+
+        public GetAllAsyncTask(SketchDAO sketchDAO) {
+            this.sketchDAO = sketchDAO;
+        }
+
+        @Override
+        protected Sketch[] doInBackground(Sketch... sketches) {
+            Sketch[] allSketches = this.sketchDAO.getAllSketches();
+            return allSketches;
+        }
+    }
 
 }

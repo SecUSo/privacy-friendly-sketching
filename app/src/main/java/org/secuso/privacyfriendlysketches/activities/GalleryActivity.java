@@ -69,7 +69,8 @@ class RoomDBTester {
 
     public void saveSketch(String description) {
         Sketch randomSketch = this.getRandomSketch();
-        Sketch roomTestSketch = new Sketch(randomSketch.getBitmap(), description);
+        Sketch roomTestSketch = randomSketch;
+        roomTestSketch.setDescription("Room IS WORKING!");
 
         RoomHandler rh = new RoomHandler(this.application);
 
