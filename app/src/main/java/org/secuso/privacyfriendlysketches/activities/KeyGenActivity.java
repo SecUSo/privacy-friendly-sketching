@@ -93,6 +93,7 @@ public class KeyGenActivity extends BaseActivity {
                 kpg.initialize(kpgs);
                 KeyPair pair = kpg.generateKeyPair();
 
+                //saves the generated and encrypted passphrase inside the shared preferences
                 EncryptionHelper.savePassPhrase(getApplicationContext(), passphrase);
 
 
@@ -105,26 +106,9 @@ public class KeyGenActivity extends BaseActivity {
             }
             if (kpg == null) {
                 Log.i("KEYGEN_ACTIVITY", "keypairgenerator is null");
-                System.exit(0);
             }
 
-            try {
-                KeyStore ks = KeyStore.getInstance("AndroidKeyStore");
-                ks.load(null);
-                Enumeration<String> aliases = ks.aliases();
-                while (aliases.hasMoreElements()) {
-                    String alias = aliases.nextElement();
-                    Log.i("KEYGEN_ACTIVITY", alias);
-                }
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            } catch (CertificateException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            //Create Room Database
 
 
             return new Long(0);

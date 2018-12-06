@@ -2,20 +2,32 @@ package org.secuso.privacyfriendlysketches.database;
 
 import android.graphics.Bitmap;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import org.secuso.privacyfriendlysketches.helpers.Utility;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 /**
  * Created by enyone on 12/5/18.
  */
 
-@Entity(primaryKeys = {"id"}, tableName = "sketch")
+@Entity(tableName = "sketch")
 public class Sketch {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
-    public Bitmap bitmap;
+    public byte[] bitmap;
     public String description;
+
+    public Sketch(Bitmap bitmap, String description) {
+        this.bitmap = Utility.bitmapToBlob(bitmap);
+        this.description = description;
+    }
+
+    public Sketch(byte[] bitmap, String description) {
+        this.bitmap = bitmap;
+        this.description = description;
+    }
 
     public int getId() {
         return id;
@@ -25,11 +37,15 @@ public class Sketch {
         this.id = id;
     }
 
-    public Bitmap getBitmaph() {
+    public byte[] getBitmapBlob() {
         return this.bitmap;
     }
 
-    public void setBitmap(Bitmap bitmap) {
+    public Bitmap getBitmap() {
+        return Utility.blobToBitmap(this.bitmap);
+    }
+
+    public void setBitmap(byte[] bitmap) {
         this.bitmap = bitmap;
     }
 
