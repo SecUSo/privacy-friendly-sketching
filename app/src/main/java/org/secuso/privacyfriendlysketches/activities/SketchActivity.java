@@ -1,11 +1,13 @@
 package org.secuso.privacyfriendlysketches.activities;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
 
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlysketches.database.Sketch;
 
 import com.divyanshu.draw.widget.DrawView;
 
@@ -17,10 +19,14 @@ enum ToolbarMode {
 }
 
 public class SketchActivity extends BaseActivity {
+    static final int NEW_SKETCH_ID = -1;
+
     private boolean toolbarOpen = false;
     private ToolbarMode toolbarMode = ToolbarMode.None;
     private DrawView drawView;
     private View toolbar;
+
+    private int sketchId = NEW_SKETCH_ID;
 
     private View colorPalette;
     private SeekBar seekBarWidth;
@@ -63,6 +69,16 @@ public class SketchActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
+            if (sketchId != NEW_SKETCH_ID) {
+                Sketch sketch = getRoomHandler().getAllSketches()[sketchId];
+                // drawView.setMPaths([]);
+                // drawView.getBitmap(). sketch.bitmap
+            }
+        }
     }
 
     @Override

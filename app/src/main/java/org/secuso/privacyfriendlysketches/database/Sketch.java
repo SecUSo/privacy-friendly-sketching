@@ -12,8 +12,7 @@ import android.arch.persistence.room.PrimaryKey;
  */
 
 @Entity(tableName = "sketch")
-public class Sketch {
-
+public class Sketch implements SketchData {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public byte[] bitmap;
@@ -56,6 +55,4 @@ public class Sketch {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
 }

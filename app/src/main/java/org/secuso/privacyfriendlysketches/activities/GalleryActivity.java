@@ -1,7 +1,7 @@
 package org.secuso.privacyfriendlysketches.activities;
 
 import android.app.Application;
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,20 +18,21 @@ import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.database.RoomHandler;
 import org.secuso.privacyfriendlysketches.database.Sketch;
-import org.secuso.privacyfriendlysketches.database.SketchDAO;
 import org.secuso.privacyfriendlysketches.database.SketchData;
-import org.secuso.privacyfriendlysketches.database.SketchingRoomDB;
 
 class TestData implements SketchData {
+    @Override
+    public int getId() {
+        return 0;
+    }
 
     @Override
-    public Bitmap getSketch() {
+    public Bitmap getBitmap() {
         final int SIZE = 64;
         int[] data = new int[SIZE * SIZE];
         for (int x = 0; x < SIZE; ++x)
             for (int y = 0; y < SIZE; ++y)
                 data[x + y * SIZE] = (int) (Math.floor(Math.random() * Integer.MAX_VALUE));
-
 
         return Bitmap.createBitmap(data, SIZE, SIZE, Bitmap.Config.ALPHA_8);
     }
@@ -52,7 +54,7 @@ class RoomDBTester {
     TestData data = new TestData();
 
     private Sketch getRandomSketch() {
-        Bitmap bmp = data.getSketch();
+        Bitmap bmp = data.getBitmap();
         String description = data.getDescription();
 
         Sketch s = new Sketch(bmp, description);
@@ -133,8 +135,9 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
     public void onBindViewHolder(SketchViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        holder.cardView.setTag(dataset[position]);
         ((TextView) holder.cardView.getChildAt(0)).setText(dataset[position].getDescription());
-        ((ImageView) holder.cardView.getChildAt(1)).setImageBitmap(dataset[position].getSketch());
+        ((ImageView) holder.cardView.getChildAt(1)).setImageBitmap(dataset[position].getBitmap());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -164,9 +167,7 @@ public class GalleryActivity extends BaseActivity {
         layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        SketchData[] arr = new SketchData[50];
-        for (int i = 0; i < 50; ++i)
-            arr[i] = new TestData();
+        Sketch[] arr = getRoomHandler().getAllSketches();
         adapter = new MyAdapter(arr);
         recyclerView.setAdapter(adapter);
     }
@@ -174,5 +175,17 @@ public class GalleryActivity extends BaseActivity {
     @Override
     protected int getNavigationDrawerID() {
         return R.id.nav_gallery;
+    }
+
+    public void editSketch(View view) {
+        Intent intent = new Intent(this, SketchActivity.class);
+        SketchData data = (SketchData) view.getTag();
+        intent.putExtra("sketchId", data.getId());
+        startActivity(intent);
+    }
+
+    public void addSketch(View view) {
+        Intent intent = new Intent(this, SketchActivity.class);
+        startActivity(intent);
     }
 }

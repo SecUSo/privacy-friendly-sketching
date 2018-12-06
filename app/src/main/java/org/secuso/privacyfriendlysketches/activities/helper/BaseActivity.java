@@ -45,6 +45,7 @@ import org.secuso.privacyfriendlysketches.activities.MainActivity;
 import org.secuso.privacyfriendlysketches.activities.SettingsActivity;
 import org.secuso.privacyfriendlysketches.activities.SketchActivity;
 import org.secuso.privacyfriendlysketches.activities.TutorialActivity;
+import org.secuso.privacyfriendlysketches.database.RoomHandler;
 
 /**
  * @author Christopher Beckmann, Karola Marky
@@ -76,6 +77,13 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     // Helper
     private Handler mHandler;
     protected SharedPreferences mSharedPreferences;
+
+    private RoomHandler roomHandler;
+    protected RoomHandler getRoomHandler() {
+        if (roomHandler == null)
+            roomHandler = new RoomHandler(getApplication());
+        return roomHandler;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
