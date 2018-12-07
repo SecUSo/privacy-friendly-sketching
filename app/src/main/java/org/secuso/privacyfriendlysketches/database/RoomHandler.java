@@ -71,7 +71,7 @@ public class RoomHandler {
 
     }
 
-    public void updateSkatch(int id) {
+    public void updateSketch(int id) {
 
         UpdateAsyncTask updateAsyncTask = new UpdateAsyncTask(sketchDAO);
         try {
