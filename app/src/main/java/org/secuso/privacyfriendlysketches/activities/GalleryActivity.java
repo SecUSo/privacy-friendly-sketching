@@ -160,11 +160,6 @@ public class GalleryActivity extends BaseActivity implements View.OnLongClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        /*RoomDBTester tester = new RoomDBTester(getApplication());
-        tester.saveRandomSketch();
-        tester.saveSketch("non random description ROOM works!");
-        tester.getAllSketches();*/
-
         recyclerView = findViewById(R.id.recycler_view);
 
         layoutManager = new GridLayoutManager(this, 2);

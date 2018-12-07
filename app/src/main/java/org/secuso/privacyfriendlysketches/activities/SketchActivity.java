@@ -76,7 +76,7 @@ public class SketchActivity extends BaseActivity {
         if (b != null) {
             sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
             if (sketchId != NEW_SKETCH_ID) {
-                Sketch sketch = getRoomHandler().getAllSketches()[sketchId];
+                Sketch sketch = getRoomHandler().getSketch(sketchId);
                 drawView.setBackground(sketch.getBitmap());
             }
         }
@@ -86,8 +86,16 @@ public class SketchActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
 
+        if (drawView.getMPaths().size() == 0)
+            return;
+
         Sketch sketch = new Sketch(this.drawView.getBitmap(), DateFormat.getDateTimeInstance().format(new Date()));
-        getRoomHandler().insertSketch(sketch);
+        if (sketchId != NEW_SKETCH_ID) {
+            sketch.id = sketchId;
+            getRoomHandler().updateSketch(sketch);
+        }
+        else
+            getRoomHandler().insertSketch(sketch);
     }
 
     @Override
