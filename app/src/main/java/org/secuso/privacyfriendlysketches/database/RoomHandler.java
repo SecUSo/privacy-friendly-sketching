@@ -71,11 +71,11 @@ public class RoomHandler {
 
     }
 
-    public void updateSketch(int id) {
+    public void updateSketch(Sketch sketch) {
 
         UpdateAsyncTask updateAsyncTask = new UpdateAsyncTask(sketchDAO);
         try {
-            updateAsyncTask.execute(id).get();
+            updateAsyncTask.execute(sketch).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -147,7 +147,7 @@ public class RoomHandler {
         }
     }
 
-    private static class UpdateAsyncTask extends AsyncTask<Integer, Long, Sketch> {
+    private static class UpdateAsyncTask extends AsyncTask<Sketch, Long, Sketch> {
 
         private SketchDAO sketchDAO;
 
@@ -157,9 +157,8 @@ public class RoomHandler {
 
 
         @Override
-        protected Sketch doInBackground(Integer... integers) {
-            int id = integers[0];
-            this.sketchDAO.updateSketch(id);
+        protected Sketch doInBackground(Sketch... sketches) {
+            this.sketchDAO.updateSketch(sketches);
             return null;
         }
     }

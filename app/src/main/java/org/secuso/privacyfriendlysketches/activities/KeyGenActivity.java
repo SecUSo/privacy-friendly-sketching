@@ -1,5 +1,6 @@
 package org.secuso.privacyfriendlysketches.activities;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,9 +9,11 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.commonsware.cwac.saferoom.SQLCipherUtils;
+import com.commonsware.cwac.saferoom.SafeHelperFactory;
 
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.R;
+import org.secuso.privacyfriendlysketches.database.SketchingRoomDB;
 import org.secuso.privacyfriendlysketches.helpers.EncryptionHelper;
 
 import java.io.IOException;
@@ -111,13 +114,27 @@ public class KeyGenActivity extends BaseActivity {
                 Log.i("KEYGEN_ACTIVITY", "keypairgenerator is null");
             }
 
+
+            //reset key in case keyGen is called again
             SQLCipherUtils.State dbstate = SQLCipherUtils.getDatabaseState(getApplicationContext(), "sketchingroomdb");
             Log.i("KEYGEN_ACTIVITY", dbstate.toString());
+
             if (dbstate.equals(SQLCipherUtils.State.UNENCRYPTED)) {
                 Log.i("KEYGEN_ACTIVITY", "Database unencrypted, ecnrypting db..");
-                //todo
-            }
+                try {
+                    SQLCipherUtils.encrypt(getApplicationContext(), "sketchingroomdb", EncryptionHelper.loadPassPhrase(getApplicationContext()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
+
+            } else if (dbstate.equals(SQLCipherUtils.State.ENCRYPTED)) {
+                Log.i("KEYGEN_ACTIVITY", "DB Encrypted, rekeying..");
+
+                SketchingRoomDB db = SketchingRoomDB.getDatabase(getApplication());
+                SafeHelperFactory.rekey(db.getOpenHelper().getWritableDatabase(), EncryptionHelper.loadPassPhrase(getApplicationContext()));
+
+            }
 
             return new Long(0);
         }

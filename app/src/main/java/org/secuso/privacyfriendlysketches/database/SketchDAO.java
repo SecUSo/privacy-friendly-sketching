@@ -12,6 +12,7 @@ import android.arch.persistence.room.Update;
 
 @Dao
 public interface SketchDAO {
+
     @Insert
     void insertSketch(Sketch... sketches);
 
@@ -33,13 +34,10 @@ public interface SketchDAO {
     @Update
     void updateSketch(Sketch... sketches);
 
-    @Update
-    void updateSketch(int id);
-
     @Delete
     void deleteSketch(Sketch... sketches);
 
-    @Delete
+    @Query("DELETE FROM sketch WHERE id = :id")
     void deleteSketch(int id);
 
     @Query("DELETE FROM sketch")
