@@ -18,6 +18,8 @@ import org.secuso.privacyfriendlysketches.helpers.EncryptionHelper;
 @Database(entities = {Sketch.class}, version = 1)
 public abstract class SketchingRoomDB extends RoomDatabase {
 
+    public static final String DATABASENAME = "sketchingroomdb";
+
     public abstract SketchDAO sketchDao();
 
     private static volatile SketchingRoomDB INSTANCE;
@@ -27,7 +29,7 @@ public abstract class SketchingRoomDB extends RoomDatabase {
             synchronized (SketchingRoomDB.class) {
                 if (INSTANCE == null) {
                     SafeHelperFactory shf = new SafeHelperFactory(EncryptionHelper.loadPassPhrase(context));
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), SketchingRoomDB.class, "sketchingroomdb").openHelperFactory(shf).build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), SketchingRoomDB.class, DATABASENAME).openHelperFactory(shf).build();
                 }
             }
         }

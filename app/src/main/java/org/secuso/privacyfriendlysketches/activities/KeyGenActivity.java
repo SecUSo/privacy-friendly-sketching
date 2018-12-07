@@ -116,13 +116,13 @@ public class KeyGenActivity extends BaseActivity {
 
 
             //reset key in case keyGen is called again
-            SQLCipherUtils.State dbstate = SQLCipherUtils.getDatabaseState(getApplicationContext(), "sketchingroomdb");
+            SQLCipherUtils.State dbstate = SQLCipherUtils.getDatabaseState(getApplicationContext(), SketchingRoomDB.DATABASENAME);
             Log.i("KEYGEN_ACTIVITY", dbstate.toString());
 
             if (dbstate.equals(SQLCipherUtils.State.UNENCRYPTED)) {
                 Log.i("KEYGEN_ACTIVITY", "Database unencrypted, ecnrypting db..");
                 try {
-                    SQLCipherUtils.encrypt(getApplicationContext(), "sketchingroomdb", EncryptionHelper.loadPassPhrase(getApplicationContext()));
+                    SQLCipherUtils.encrypt(getApplicationContext(), SketchingRoomDB.DATABASENAME, EncryptionHelper.loadPassPhrase(getApplicationContext()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
