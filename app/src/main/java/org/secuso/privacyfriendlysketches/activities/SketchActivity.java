@@ -1,15 +1,17 @@
 package org.secuso.privacyfriendlysketches.activities;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
+
+import com.divyanshu.draw.widget.DrawView;
 
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.database.Sketch;
 
-import com.divyanshu.draw.widget.DrawView;
+import java.text.DateFormat;
+import java.util.Date;
 
 enum ToolbarMode {
     None,
@@ -75,10 +77,17 @@ public class SketchActivity extends BaseActivity {
             sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
             if (sketchId != NEW_SKETCH_ID) {
                 Sketch sketch = getRoomHandler().getAllSketches()[sketchId];
-                // drawView.setMPaths([]);
-                // drawView.getBitmap(). sketch.bitmap
+                drawView.setBackground(sketch.getBitmap());
             }
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Sketch sketch = new Sketch(this.drawView.getBitmap(), DateFormat.getDateTimeInstance().format(new Date()));
+        getRoomHandler().insertSketch(sketch);
     }
 
     @Override

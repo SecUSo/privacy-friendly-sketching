@@ -26,6 +26,8 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mIsSaving = false
     private var mIsStrokeWidthBarEnabled = false
 
+    private var mBackgroud: Bitmap? = null
+
     init {
         mPaint.apply {
             color = mPaintOptions.color
@@ -90,6 +92,11 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
     }
 
+    fun setBackground(background: Bitmap?) {
+        mBackgroud = background
+        invalidate()
+    }
+
     fun getBitmap(): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -107,6 +114,9 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        if (mBackgroud != null)
+            canvas.drawBitmap(mBackgroud, null, canvas.clipBounds, null)
+
         for ((key, value) in mPaths) {
             changePaint(value)
             canvas.drawPath(key, mPaint)
@@ -122,6 +132,7 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     fun clearCanvas() {
+        mBackgroud = null
         mLastPaths = mPaths.clone() as LinkedHashMap<MyPath, PaintOptions>
         mPath.reset()
         mPaths.clear()
