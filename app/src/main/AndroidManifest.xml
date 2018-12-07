@@ -89,8 +89,7 @@
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.KeyGenActivity"
             android:label="@string/title_activity_game"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.MainActivity"
-            android:screenOrientation="portrait"
+            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
