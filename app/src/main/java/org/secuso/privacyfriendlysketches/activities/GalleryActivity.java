@@ -34,7 +34,7 @@ class TestData implements SketchData {
             for (int y = 0; y < SIZE; ++y)
                 data[x + y * SIZE] = (int) (Math.floor(Math.random() * Integer.MAX_VALUE));
 
-        return Bitmap.createBitmap(data, SIZE, SIZE, Bitmap.Config.ALPHA_8);
+        return Bitmap.createBitmap(data, SIZE, SIZE, Bitmap.Config.ARGB_8888);
     }
 
     @Override

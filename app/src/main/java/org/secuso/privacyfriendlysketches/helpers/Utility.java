@@ -2,6 +2,7 @@ package org.secuso.privacyfriendlysketches.helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 
@@ -13,7 +14,9 @@ public class Utility {
 
     public static byte[] bitmapToBlob(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        boolean result = bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        if (!result)
+            Log.e("Sketching","Cannot convert bitmap to compressed array.");
         byte[] blob = baos.toByteArray();
         return blob;
     }
