@@ -6,7 +6,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
-    android:onClick="editSketch">
+    android:onClick="editSketch"
+    android:longClickable="true">
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_margin="16dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp" />
 
     <TextView
         android:id="@+id/info_text"
@@ -14,11 +21,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:layout_margin="16dp"
-        android:text="Testasdfsadfasdf" />
-
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_margin="16dp"
-        android:layout_width="128dp"
-        android:layout_height="128dp" />
+        android:text="" />
 </android.support.v7.widget.CardView>

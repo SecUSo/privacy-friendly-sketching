@@ -1,9 +1,11 @@
 package org.secuso.privacyfriendlysketches.activities;
 
 import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -126,6 +128,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
         CardView v = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_gallery_entry, parent, false);
 
+        v.setOnLongClickListener((GalleryActivity) parent.getContext());
         SketchViewHolder vh = new SketchViewHolder(v);
         return vh;
     }
@@ -136,8 +139,8 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.cardView.setTag(dataset[position]);
-        ((TextView) holder.cardView.getChildAt(0)).setText(dataset[position].getDescription());
-        ((ImageView) holder.cardView.getChildAt(1)).setImageBitmap(dataset[position].getBitmap());
+        ((TextView) holder.cardView.getChildAt(1)).setText(dataset[position].getDescription());
+        ((ImageView) holder.cardView.getChildAt(0)).setImageBitmap(dataset[position].getBitmap());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -147,7 +150,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
     }
 }
 
-public class GalleryActivity extends BaseActivity {
+public class GalleryActivity extends BaseActivity implements View.OnLongClickListener {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -157,10 +160,10 @@ public class GalleryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        RoomDBTester tester = new RoomDBTester(getApplication());
+        /*RoomDBTester tester = new RoomDBTester(getApplication());
         tester.saveRandomSketch();
         tester.saveSketch("non random description ROOM works!");
-        tester.getAllSketches();
+        tester.getAllSketches();*/
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -175,6 +178,29 @@ public class GalleryActivity extends BaseActivity {
     @Override
     protected int getNavigationDrawerID() {
         return R.id.nav_gallery;
+    }
+
+    @Override
+    public boolean onLongClick(View v) { deleteSketch(v); return true; }
+
+    public void deleteSketch(final View view) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.dialog_delete_message)
+                .setMessage(((SketchData) view.getTag()).getDescription());
+
+        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+            int sketchId = ((SketchData) view.getTag()).getId();
+
+            public void onClick(DialogInterface dialog, int id) {
+                getRoomHandler().deleteSketch(sketchId);
+            }
+        });
+        builder.setNegativeButton(R.string.dialog_cancel, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void editSketch(View view) {

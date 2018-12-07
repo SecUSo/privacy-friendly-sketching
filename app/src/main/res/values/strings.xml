@@ -93,5 +93,8 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <!-- ### KEYGEN ACTIVITY ### -->
     <string name="keygen_infotext">Generating Keys...</string>
     <string name="key_alias">PASSPHRASE_KEY</string>
+    <string name="dialog_delete_message">Delete this sketch?</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
 
 </resources>
