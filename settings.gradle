@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':draw'
+project(':draw').projectDir = new File('app/dep/AndroidDraw/draw')
