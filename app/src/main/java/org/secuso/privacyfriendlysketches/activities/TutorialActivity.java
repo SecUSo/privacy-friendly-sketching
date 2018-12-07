@@ -145,7 +145,7 @@ public class TutorialActivity extends AppCompatActivity {
             firstLaunchManager.setFirstTimeLaunch(false);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
+            Intent intent = new Intent(TutorialActivity.this, GalleryActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             firstLaunchManager.setFirstTimeLaunch(false);
             startActivity(intent);

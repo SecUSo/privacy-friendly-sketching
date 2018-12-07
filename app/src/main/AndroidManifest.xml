@@ -28,7 +28,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.MainActivity"
@@ -38,29 +38,29 @@
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.HelpActivity"
             android:label="@string/help"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.GameActivity"
@@ -75,20 +75,16 @@
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.SketchActivity"
             android:label="@string/title_activity_sketch"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
             android:label="@string/title_gallery_sketch"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.MainActivity" />
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlysketches.activities.KeyGenActivity"
@@ -98,7 +94,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
         </activity>
     </application>
 

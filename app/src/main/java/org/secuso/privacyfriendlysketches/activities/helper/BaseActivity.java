@@ -182,16 +182,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 break;
             case R.id.nav_gallery:
                 intent = new Intent(this, GalleryActivity.class);
-                createBackStack(intent);
-                break;
-            case R.id.nav_example:
-                intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                break;
-            case R.id.nav_game:
-                intent = new Intent(this, GameActivity.class);
-                createBackStack(intent);
                 break;
             case R.id.nav_tutorial:
                 intent = new Intent(this, TutorialActivity.class);

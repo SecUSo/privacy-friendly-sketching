@@ -94,7 +94,7 @@ public class GameActivity extends BaseActivity {
 
     @Override
     protected int getNavigationDrawerID() {
-        return R.id.nav_game;
+        return 0/*R.id.nav_game*/;
     }
 
     public void onClick(View view) {

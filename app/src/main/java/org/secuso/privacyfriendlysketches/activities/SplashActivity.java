@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
             firstStartPref.initFirstTimeLaunch();
             mainIntent = new Intent(this, TutorialActivity.class);
         } else {
-            mainIntent = new Intent(this, MainActivity.class);
+            mainIntent = new Intent(this, GalleryActivity.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
 

@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
      */
     @Override
     protected int getNavigationDrawerID() {
-        return R.id.nav_example;
+        return 0/*R.id.nav_example*/;
     }
 
     public void onClick(View v) {
