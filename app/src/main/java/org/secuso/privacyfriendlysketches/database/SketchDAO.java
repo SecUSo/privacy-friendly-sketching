@@ -33,8 +33,14 @@ public interface SketchDAO {
     @Update
     void updateSketch(Sketch... sketches);
 
+    @Update
+    void updateSketch(int id);
+
     @Delete
     void deleteSketch(Sketch... sketches);
+
+    @Delete
+    void deleteSketch(int id);
 
     @Query("DELETE FROM sketch")
     void deleteAllSketches();

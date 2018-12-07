@@ -23,7 +23,13 @@ public class RoomHandler {
     public void insertSketch(Sketch... sketches) {
 
         InsertAsyncTask iat = new InsertAsyncTask(this.sketchDAO);
-        iat.execute(sketches);
+        try {
+            iat.execute(sketches).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO
@@ -38,6 +44,43 @@ public class RoomHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Sketch getSketch(int id) {
+
+        GetAsyncTask gat = new GetAsyncTask(sketchDAO);
+        try {
+            return gat.execute(id).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteSketch(int id) {
+        DeleteAsyncTask dat = new DeleteAsyncTask(sketchDAO);
+        try {
+            dat.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateSkatch(int id) {
+
+        UpdateAsyncTask updateAsyncTask = new UpdateAsyncTask(sketchDAO);
+        try {
+            updateAsyncTask.execute(id).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -68,6 +111,56 @@ public class RoomHandler {
         protected Sketch[] doInBackground(Sketch... sketches) {
             Sketch[] allSketches = this.sketchDAO.getAllSketches();
             return allSketches;
+        }
+    }
+
+    private static class GetAsyncTask extends AsyncTask<Integer, Long, Sketch> {
+
+        private SketchDAO sketchDAO;
+
+        public GetAsyncTask(SketchDAO sketchDAO) {
+            this.sketchDAO = sketchDAO;
+        }
+
+
+        @Override
+        protected Sketch doInBackground(Integer... integers) {
+            int id = integers[0];
+            return this.sketchDAO.getSketchById(id);
+        }
+    }
+
+    private static class DeleteAsyncTask extends AsyncTask<Integer, Long, Sketch> {
+
+        private SketchDAO sketchDAO;
+
+        public DeleteAsyncTask(SketchDAO sketchDAO) {
+            this.sketchDAO = sketchDAO;
+        }
+
+
+        @Override
+        protected Sketch doInBackground(Integer... integers) {
+            int id = integers[0];
+            this.sketchDAO.deleteSketch(id);
+            return null;
+        }
+    }
+
+    private static class UpdateAsyncTask extends AsyncTask<Integer, Long, Sketch> {
+
+        private SketchDAO sketchDAO;
+
+        public UpdateAsyncTask(SketchDAO sketchDAO) {
+            this.sketchDAO = sketchDAO;
+        }
+
+
+        @Override
+        protected Sketch doInBackground(Integer... integers) {
+            int id = integers[0];
+            this.sketchDAO.updateSketch(id);
+            return null;
         }
     }
 
