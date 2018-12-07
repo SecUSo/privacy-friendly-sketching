@@ -80,7 +80,13 @@
     <string name="skip">Überspringen</string>
     <string name="title_activity_sketch">Zeichnung</string>
     <string name="action_sketch">Zeichnung</string>
-    <string name="keygen_infotext">Generiere Schlüssel...</string>
-    <string name="title_gallery_sketch">Gallery</string>
+    <string name="keygen_infotext">Bereite Verschlüsselung Datenbank für den ersten Start vor...</string>
+    <string name="title_gallery_sketch">Galerie</string>
+    <string name="dialog_delete_message">Möchten Sie diese Zeichnung wirklich löschen?</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Abbrechen</string>
+    <string name="keygen_progresstext">Erzeuge Passwort..</string>
+    <string name="keygen_progresstext_1">Password erzeugt! Erzeuge Schlüssel...</string>
+    <string name="keygen_progresstext_2">Schlüssel erzeugt! Initialisiere Datenbank..</string>
 
 </resources>

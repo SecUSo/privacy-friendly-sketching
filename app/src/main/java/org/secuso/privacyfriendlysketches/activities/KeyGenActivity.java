@@ -15,6 +15,7 @@ import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.database.SketchingRoomDB;
 import org.secuso.privacyfriendlysketches.helpers.EncryptionHelper;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -39,11 +40,14 @@ import javax.security.auth.x500.X500Principal;
 
 public class KeyGenActivity extends BaseActivity {
 
+    TextView progressText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keygen);
 
+        this.progressText = findViewById(R.id.keyGenProgressText);
     }
 
     @Override
@@ -75,6 +79,15 @@ public class KeyGenActivity extends BaseActivity {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
 
+            switch (values[0]) {
+                case 0:
+                    progressText.setText(getApplicationContext().getString(R.string.keygen_progresstext_1));
+                    break;
+                case 1:
+                    progressText.setText(getApplicationContext().getString(R.string.keygen_progresstext_2));
+                    break;
+            }
+
 
         }
 
@@ -85,6 +98,7 @@ public class KeyGenActivity extends BaseActivity {
             //Generates a passphrase for the encrypted ROOM DB
             SecureRandom random = new SecureRandom();
             byte[] passphrase = random.generateSeed(20);
+            publishProgress(0);
 
 
             //Generates a key to save the passphrase via Android keystore provider
@@ -113,7 +127,7 @@ public class KeyGenActivity extends BaseActivity {
             if (kpg == null) {
                 Log.i("KEYGEN_ACTIVITY", "keypairgenerator is null");
             }
-
+            publishProgress(1);
 
             //reset key in case keyGen is called again
             SQLCipherUtils.State dbstate = SQLCipherUtils.getDatabaseState(getApplicationContext(), SketchingRoomDB.DATABASENAME);
@@ -142,7 +156,7 @@ public class KeyGenActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Long aLong) {
             super.onPostExecute(aLong);
-            Intent i = new Intent(KeyGenActivity.this, MainActivity.class);
+            Intent i = new Intent(KeyGenActivity.this, GalleryActivity.class);
             startActivity(i);
         }
     }
