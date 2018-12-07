@@ -119,6 +119,12 @@ public class SketchActivity extends BaseActivity {
             case R.id.image_draw_color:
                 toolbarMode = ToolbarMode.Color;
                 break;
+            case R.id.image_draw_undo:
+                drawView.undo();
+                break;
+            case R.id.image_draw_redo:
+                drawView.redo();
+                break;
             default: break;
         }
 
