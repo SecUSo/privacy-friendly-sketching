@@ -33,11 +33,6 @@ public class EncryptionHelper {
     private final static String ANDROIDKEYSTORE = "AndroidKeyStore";
 
     public static void savePassPhrase(Context context, byte[] passphrase) {
-        String pass = "";
-        for (int i = 0; i < passphrase.length; i++) {
-            pass += Byte.toString(passphrase[i]);
-        }
-        Log.i("ENCRYPTIONHELPER", "Passphrase: " + pass);
         try {
             String keyAlias = context.getString(R.string.key_alias);
             String appName = context.getString(R.string.app_name);
@@ -78,7 +73,7 @@ public class EncryptionHelper {
         }
     }
 
-    public static byte[] loadPassPhrase(Context context) {
+    public static char[] loadPassPhrase(Context context) {
 
         try {
             String keyAlias = context.getString(R.string.key_alias);
@@ -110,7 +105,12 @@ public class EncryptionHelper {
             }
             Log.i("ENCRYPTIONHELPER", "Decrypted Passphrase: " + pass);
 
-            return plaintext;
+            char[] plaintextChar = new char[plaintext.length];
+            for (int i = 0; i < plaintext.length; i++) {
+                plaintextChar[i] = (char) plaintext[i];
+            }
+
+            return plaintextChar;
 
         } catch (KeyStoreException e) {
             e.printStackTrace();

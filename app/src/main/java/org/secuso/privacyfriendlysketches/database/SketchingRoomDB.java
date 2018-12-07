@@ -6,6 +6,10 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
+import com.commonsware.cwac.saferoom.SafeHelperFactory;
+
+import org.secuso.privacyfriendlysketches.helpers.EncryptionHelper;
+
 
 /**
  * Created by enyone on 12/3/18.
@@ -22,7 +26,8 @@ public abstract class SketchingRoomDB extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (SketchingRoomDB.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), SketchingRoomDB.class, "sketchingroomdb").build();
+                    SafeHelperFactory shf = new SafeHelperFactory(EncryptionHelper.loadPassPhrase(context));
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), SketchingRoomDB.class, "sketchingroomdb").openHelperFactory(shf).build();
                 }
             }
         }

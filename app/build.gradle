@@ -37,6 +37,6 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
 
-    implementation "com.commonsware.cwac:saferoom.x:0.5.1"
+    implementation "com.commonsware.cwac:saferoom:0.4.5"
 
 }

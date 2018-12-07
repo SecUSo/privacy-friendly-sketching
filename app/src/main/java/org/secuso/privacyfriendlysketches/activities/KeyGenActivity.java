@@ -7,6 +7,8 @@ import android.security.KeyPairGeneratorSpec;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.commonsware.cwac.saferoom.SQLCipherUtils;
+
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.helpers.EncryptionHelper;
@@ -81,6 +83,7 @@ public class KeyGenActivity extends BaseActivity {
             SecureRandom random = new SecureRandom();
             byte[] passphrase = random.generateSeed(20);
 
+
             //Generates a key to save the passphrase via Android keystore provider
             //Asymmetric Encryption which is supported on API 21
             KeyPairGenerator kpg = null;
@@ -108,7 +111,12 @@ public class KeyGenActivity extends BaseActivity {
                 Log.i("KEYGEN_ACTIVITY", "keypairgenerator is null");
             }
 
-            //Create Room Database
+            SQLCipherUtils.State dbstate = SQLCipherUtils.getDatabaseState(getApplicationContext(), "sketchingroomdb");
+            Log.i("KEYGEN_ACTIVITY", dbstate.toString());
+            if (dbstate.equals(SQLCipherUtils.State.UNENCRYPTED)) {
+                Log.i("KEYGEN_ACTIVITY", "Database unencrypted, ecnrypting db..");
+                //todo
+            }
 
 
             return new Long(0);
