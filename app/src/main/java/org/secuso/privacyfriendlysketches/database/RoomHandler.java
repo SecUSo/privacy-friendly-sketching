@@ -62,7 +62,7 @@ public class RoomHandler {
     public void deleteSketch(int id) {
         DeleteAsyncTask dat = new DeleteAsyncTask(sketchDAO);
         try {
-            dat.execute().get();
+            dat.execute(id).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
