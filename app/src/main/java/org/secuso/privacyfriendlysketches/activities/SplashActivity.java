@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import org.secuso.privacyfriendlysketches.helpers.EncryptionHelper;
 import org.secuso.privacyfriendlysketches.helpers.FirstLaunchManager;
 
 /**
@@ -38,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
 
         FirstLaunchManager firstStartPref = new FirstLaunchManager(this);
 
-        if(firstStartPref.isFirstTimeLaunch()) {
+        if (firstStartPref.isFirstTimeLaunch() || EncryptionHelper.loadPassPhrase(getApplicationContext()) == null) {
             firstStartPref.initFirstTimeLaunch();
             mainIntent = new Intent(this, TutorialActivity.class);
         } else {
