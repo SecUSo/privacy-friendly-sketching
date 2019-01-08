@@ -89,6 +89,8 @@ public class EncryptionHelper {
             KeyStore store = KeyStore.getInstance(ANDROIDKEYSTORE);
             store.load(null);
             KeyStore.PrivateKeyEntry skEntry = (KeyStore.PrivateKeyEntry) store.getEntry(keyAlias, null);
+            if (skEntry == null)
+                return null;
             PrivateKey sk = skEntry.getPrivateKey();
             Cipher c = Cipher.getInstance("RSA/ECB/PKCS1PADDING");
             c.init(Cipher.DECRYPT_MODE, sk);
