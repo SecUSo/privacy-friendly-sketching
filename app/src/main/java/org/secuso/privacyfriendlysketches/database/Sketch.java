@@ -1,23 +1,20 @@
 package org.secuso.privacyfriendlysketches.database;
 
-import android.graphics.Bitmap;
-
-import org.secuso.privacyfriendlysketches.helpers.Utility;
-
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.divyanshu.draw.widget.MyPath;
 import com.divyanshu.draw.widget.PaintOptions;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+import org.secuso.privacyfriendlysketches.helpers.Utility;
+
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by enyone on 12/5/18.
@@ -51,6 +48,8 @@ public class Sketch implements SketchData {
     }
 
     public LinkedHashMap<MyPath, PaintOptions> getPaths() {
+        if (this.paths.length == 0)
+            return null;
         return Utility.deserializePaths(this.paths);
     }
 
@@ -67,7 +66,41 @@ public class Sketch implements SketchData {
     }
 
     public Bitmap getBitmap() {
+        if (this.bitmap.length == 0)
+            return null;
         return Utility.blobToBitmap(this.bitmap);
+    }
+
+    public Bitmap getFullImage(int width, int height) {
+        Bitmap background = this.getBitmap();
+        LinkedHashMap<MyPath, PaintOptions> paths = getPaths();
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+
+        if (background != null)
+            canvas.drawBitmap(background, null, canvas.getClipBounds(), null);
+
+        if (paths != null) {
+            Iterator<Map.Entry<MyPath, PaintOptions>> itr = paths.entrySet().iterator();
+            while (itr.hasNext()) {
+                Map.Entry<MyPath, PaintOptions> pair = itr.next();
+
+                Paint mPaint = new Paint();
+                mPaint.setStyle(Paint.Style.STROKE);
+                mPaint.setStrokeJoin(Paint.Join.ROUND);
+                mPaint.setStrokeCap(Paint.Cap.ROUND);
+                mPaint.setAntiAlias(true);
+                mPaint.setColor(pair.getValue().getColor());
+                mPaint.setAlpha(pair.getValue().getAlpha());
+                mPaint.setStrokeWidth(pair.getValue().getStrokeWidth());
+
+                canvas.drawPath(pair.getKey(), mPaint);
+            }
+        }
+
+        return bitmap;
     }
 
     public void setBitmap(byte[] bitmap) {

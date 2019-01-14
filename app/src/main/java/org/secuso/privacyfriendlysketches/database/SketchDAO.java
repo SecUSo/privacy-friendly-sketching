@@ -31,6 +31,9 @@ public interface SketchDAO {
     @Query("SELECT COUNT(*) FROM sketch")
     int getSketchCount();
 
+    @Query("SELECT id FROM sketch")
+    int[] getSketchIds();
+
     @Update
     void updateSketch(Sketch... sketches);
 

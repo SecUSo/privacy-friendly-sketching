@@ -93,8 +93,8 @@ public class SketchActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         if (drawView.getMPaths().size() == 0)
             return;

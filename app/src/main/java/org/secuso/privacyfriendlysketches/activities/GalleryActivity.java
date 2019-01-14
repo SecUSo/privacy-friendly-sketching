@@ -1,15 +1,16 @@
 package org.secuso.privacyfriendlysketches.activities;
 
-import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,84 +23,125 @@ import org.secuso.privacyfriendlysketches.database.RoomHandler;
 import org.secuso.privacyfriendlysketches.database.Sketch;
 import org.secuso.privacyfriendlysketches.database.SketchData;
 
-class TestData implements SketchData {
-    @Override
-    public int getId() {
-        return 0;
+class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.SketchViewHolder> {
+    final private int[] sketchIds;
+    final private RoomHandler roomHandler;
+
+    private static class GetSketchAsyncTask extends AsyncTask<Integer, Void, Pair<Sketch, Bitmap>> {
+        final private RoomHandler roomHandler;
+        final private SketchViewHolder holder;
+
+        GetSketchAsyncTask(RoomHandler roomHandler, SketchViewHolder holder) {
+            this.roomHandler = roomHandler;
+            this.holder = holder;
+        }
+
+        @Override
+        protected Pair<Sketch, Bitmap> doInBackground(Integer... id) {
+            Sketch sketch =  this.roomHandler.getSketchSync(id[0]);
+            if (sketch == null)
+                return new Pair<>(null, null);
+            Bitmap image = sketch.getFullImage(1024, 1024);
+            return new Pair<>(sketch, image);
+        }
+
+        @Override
+        protected void onPostExecute(Pair<Sketch, Bitmap> data) {
+            int sketchId = GalleryActivity.getSketchIdFromView(holder.cardView);
+            if (data.first != null && sketchId != data.first.id)
+                return;
+            if (data.first == null) {
+                holder.getTextView().setText(String.format("Error loading sketch id=%d", sketchId));
+                return;
+            }
+            holder.cardView.setTag(data.first);
+            holder.getTextView().setText(data.first.getDescription());
+            holder.getImageView().setImageBitmap(data.second);
+            holder.cardView.animate().alpha(1);
+        }
     }
-
-    @Override
-    public Bitmap getBitmap() {
-        final int SIZE = 64;
-        int[] data = new int[SIZE * SIZE];
-        for (int x = 0; x < SIZE; ++x)
-            for (int y = 0; y < SIZE; ++y)
-                data[x + y * SIZE] = (int) (Math.floor(Math.random() * Integer.MAX_VALUE));
-
-        return Bitmap.createBitmap(data, SIZE, SIZE, Bitmap.Config.ARGB_8888);
-    }
-
-    @Override
-    public String getDescription() {
-        return "Test + " + Integer.toString((int) (Math.random() * 10000));
-    }
-}
-
-class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
-    private SketchData[] dataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class SketchViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public CardView cardView;
+        CardView cardView;
+        AsyncTask asyncTask;
 
-        public SketchViewHolder(CardView v) {
+        SketchViewHolder(CardView v) {
             super(v);
             cardView = v;
+        }
+
+        public ImageView getImageView() {
+            return (ImageView) this.cardView.getChildAt(0);
+        }
+
+        TextView getTextView() {
+            return ((TextView) this.cardView.getChildAt(1));
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(SketchData[] myDataset) {
-        dataset = myDataset;
+    GalleryAdapter(RoomHandler roomHandler, int[] sketchIds) {
+        this.roomHandler = roomHandler;
+        this.sketchIds = sketchIds;
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
-    public SketchViewHolder onCreateViewHolder(ViewGroup parent,
+    public SketchViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                int viewType) {
         // create a new view
         CardView v = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_gallery_entry, parent, false);
 
         v.setOnLongClickListener((GalleryActivity) parent.getContext());
-        SketchViewHolder vh = new SketchViewHolder(v);
-        return vh;
+        return new SketchViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(SketchViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SketchViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.cardView.setTag(dataset[position]);
-        ((TextView) holder.cardView.getChildAt(1)).setText(dataset[position].getDescription());
-        ((ImageView) holder.cardView.getChildAt(0)).setImageBitmap(dataset[position].getBitmap());
+        holder.cardView.setTag(sketchIds[position]);
+        holder.cardView.animate().cancel();
+        holder.cardView.setAlpha(0);
+        holder.getTextView().setText(null);
+        holder.getImageView().setImageBitmap(null);
+        if (holder.asyncTask != null && holder.asyncTask.getStatus() == AsyncTask.Status.PENDING)
+            holder.asyncTask.cancel(true);
+        holder.asyncTask = new GetSketchAsyncTask(this.roomHandler, holder).execute(sketchIds[position]);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return dataset.length;
+        return this.sketchIds.length;
     }
 }
 
 public class GalleryActivity extends BaseActivity implements View.OnLongClickListener {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+
+    static int getSketchIdFromView(View v) {
+        Object tag = v.getTag();
+        if (tag instanceof Sketch)
+            return ((Sketch) tag).id;
+        else
+            return (int) tag;
+    }
+
+    static String getSketchDescriptionFromView(View v) {
+        Object tag = v.getTag();
+        if (tag instanceof Sketch)
+            return ((Sketch) tag).getDescription();
+        else
+            return "";
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +150,36 @@ public class GalleryActivity extends BaseActivity implements View.OnLongClickLis
 
         recyclerView = findViewById(R.id.recycler_view);
 
-        layoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
+    }
 
-        Sketch[] arr = getRoomHandler().getAllSketches();
-        adapter = new MyAdapter(arr);
-        recyclerView.setAdapter(adapter);
+    private static class GetSketchCountAsyncTask extends AsyncTask<Void, Void, int[]> {
+        final private RecyclerView recyclerView;
+        final private RoomHandler roomHandler;
+
+        GetSketchCountAsyncTask(RoomHandler roomHandler, RecyclerView recyclerView) {
+            this.roomHandler = roomHandler;
+            this.recyclerView = recyclerView;
+        }
+
+        @Override
+        protected int[] doInBackground(Void... params) {
+            return this.roomHandler.getSketchIds();
+        }
+
+        @Override
+        protected void onPostExecute(int[] ids) {
+            RecyclerView.Adapter adapter = new GalleryAdapter(roomHandler, ids);
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GetSketchCountAsyncTask asyncTask = new GetSketchCountAsyncTask(getRoomHandler(), recyclerView);
+        asyncTask.execute();
     }
 
     @Override
@@ -125,17 +191,17 @@ public class GalleryActivity extends BaseActivity implements View.OnLongClickLis
     public boolean onLongClick(View v) { deleteSketch(v); return true; }
 
     public void deleteSketch(final View view) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle(R.string.dialog_delete_message)
-                .setMessage(((SketchData) view.getTag()).getDescription());
+                .setMessage(getSketchDescriptionFromView(view));
 
         builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-            int sketchId = ((SketchData) view.getTag()).getId();
+            int sketchId = getSketchIdFromView(view);
 
             public void onClick(DialogInterface dialog, int id) {
                 getRoomHandler().deleteSketch(sketchId);
+                recreate();
             }
         });
         builder.setNegativeButton(R.string.dialog_cancel, null);
@@ -146,8 +212,7 @@ public class GalleryActivity extends BaseActivity implements View.OnLongClickLis
 
     public void editSketch(View view) {
         Intent intent = new Intent(this, SketchActivity.class);
-        SketchData data = (SketchData) view.getTag();
-        intent.putExtra("sketchId", data.getId());
+        intent.putExtra("sketchId", getSketchIdFromView(view));
         startActivity(intent);
     }
 

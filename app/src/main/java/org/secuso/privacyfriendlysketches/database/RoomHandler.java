@@ -46,6 +46,18 @@ public class RoomHandler {
         return null;
     }
 
+    public int getSketchCount() {
+        return sketchDAO.getSketchCount();
+    }
+
+    public int[] getSketchIds() {
+        return sketchDAO.getSketchIds();
+    }
+
+    public Sketch getSketchSync(int id) {
+        return this.sketchDAO.getSketchById(id);
+    }
+
     public Sketch getSketch(int id) {
 
         GetAsyncTask gat = new GetAsyncTask(sketchDAO);
@@ -121,7 +133,6 @@ public class RoomHandler {
         public GetAsyncTask(SketchDAO sketchDAO) {
             this.sketchDAO = sketchDAO;
         }
-
 
         @Override
         protected Sketch doInBackground(Integer... integers) {
