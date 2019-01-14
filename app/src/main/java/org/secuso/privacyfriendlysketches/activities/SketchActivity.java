@@ -5,13 +5,18 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.divyanshu.draw.widget.DrawView;
+import com.divyanshu.draw.widget.MyPath;
+import com.divyanshu.draw.widget.PaintOptions;
 
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.database.Sketch;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 enum ToolbarMode {
     None,
@@ -77,6 +82,11 @@ public class SketchActivity extends BaseActivity {
             sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
             if (sketchId != NEW_SKETCH_ID) {
                 Sketch sketch = getRoomHandler().getSketch(sketchId);
+
+                LinkedHashMap<MyPath, PaintOptions> path = sketch.getPaths();
+                if (path != null)
+                    for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
+                        drawView.addPath(itr.getKey(), itr.getValue());
                 drawView.setBackground(sketch.getBitmap());
             }
         }
@@ -89,7 +99,8 @@ public class SketchActivity extends BaseActivity {
         if (drawView.getMPaths().size() == 0)
             return;
 
-        Sketch sketch = new Sketch(this.drawView.getBitmap(), DateFormat.getDateTimeInstance().format(new Date()));
+        Sketch sketch = new Sketch(this.drawView.getPaintBackground(), this.drawView.getMPaths(),
+                DateFormat.getDateTimeInstance().format(new Date()));
         if (sketchId != NEW_SKETCH_ID) {
             sketch.id = sketchId;
             getRoomHandler().updateSketch(sketch);

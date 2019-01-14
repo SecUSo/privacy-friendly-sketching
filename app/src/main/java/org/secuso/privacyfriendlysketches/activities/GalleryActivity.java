@@ -45,60 +45,6 @@ class TestData implements SketchData {
     }
 }
 
-class RoomDBTester {
-
-    Application application;
-
-    public RoomDBTester(Application application) {
-        this.application = application;
-    }
-
-    TestData data = new TestData();
-
-    private Sketch getRandomSketch() {
-        Bitmap bmp = data.getBitmap();
-        String description = data.getDescription();
-
-        Sketch s = new Sketch(bmp, description);
-        return s;
-    }
-
-    public void saveRandomSketch() {
-        Sketch randomSketch = this.getRandomSketch();
-
-        RoomHandler rh = new RoomHandler(this.application);
-        Log.i("ROOM TEST", "Inserting random sketch into db.. (Description = " + randomSketch.description + " )");
-        rh.insertSketch(randomSketch);
-    }
-
-    public void saveSketch(String description) {
-        Sketch randomSketch = this.getRandomSketch();
-        Sketch roomTestSketch = randomSketch;
-        roomTestSketch.setDescription("Room IS WORKING!");
-
-        RoomHandler rh = new RoomHandler(this.application);
-
-
-        Log.i("ROOM TEST", "Inserting non-random test sketch into db.. (Description = " + description + ")");
-        rh.insertSketch(roomTestSketch);
-    }
-
-    public Sketch[] getAllSketches() {
-        RoomHandler rh = new RoomHandler(this.application);
-
-
-        Log.i("ROOM TEST", "Loading all sketches from db..");
-        Sketch[] sketches = rh.getAllSketches();
-
-        for (Sketch sketch : sketches) {
-            Log.i("ROOM TEST", "DB Entry || ID = " + sketch.getId() + ", Description = " + sketch.description);
-        }
-
-
-        return sketches;
-    }
-}
-
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.SketchViewHolder> {
     private SketchData[] dataset;
 

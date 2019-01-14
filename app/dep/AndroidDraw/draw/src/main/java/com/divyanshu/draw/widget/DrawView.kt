@@ -92,6 +92,10 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
     }
 
+    fun getPaintBackground(): Bitmap? {
+        return mBackgroud
+    }
+
     fun setBackground(background: Bitmap?) {
         mBackgroud = background
         invalidate()
