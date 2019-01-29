@@ -17,7 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by enyone on 12/5/18.
+ * Represents the implementation of a single Sketch consisting of an id, a bitmap, a path
+ * and a description.
  */
 
 @Entity(tableName = "sketch")

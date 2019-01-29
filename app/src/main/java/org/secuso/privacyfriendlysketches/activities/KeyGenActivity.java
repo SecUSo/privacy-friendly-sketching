@@ -35,7 +35,9 @@ import java.util.Enumeration;
 import javax.security.auth.x500.X500Principal;
 
 /**
- * Created by enyone on 11/19/18.
+ * This class contains an activity for the Keygeneration which displays
+ * visual progress of the keys that are being generated in the background.
+ * Also, this class checks the database and rekeys it, if needed.
  */
 
 public class KeyGenActivity extends BaseActivity {

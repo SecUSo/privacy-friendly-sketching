@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by enyone on 12/6/18.
+ * This class handles ROOM queries to the database.
  */
 
 public class RoomHandler {

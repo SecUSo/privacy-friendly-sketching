@@ -12,7 +12,7 @@ import org.secuso.privacyfriendlysketches.helpers.EncryptionHelper;
 
 
 /**
- * Created by enyone on 12/3/18.
+ * Handles the creation of the database and makes sure it is existent and consistent.
  */
 
 @Database(entities = {Sketch.class}, version = 1)

@@ -7,7 +7,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 /**
- * Created by enyone on 12/5/18.
+ * Represents the Data Access Objects for the ROOM Database.
  */
 
 @Dao
