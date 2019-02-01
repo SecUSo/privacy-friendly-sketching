@@ -29,7 +29,6 @@ import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.database.Sketch;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -44,6 +43,7 @@ enum ToolbarMode {
 
 public class SketchActivity extends BaseActivity {
     static final int NEW_SKETCH_ID = -1;
+    static final int TEMP_SKETCH_ID = -2;
 
     private boolean toolbarOpen = false;
     private ToolbarMode toolbarMode = ToolbarMode.None;
@@ -101,18 +101,38 @@ public class SketchActivity extends BaseActivity {
             }
         });
 
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
-            if (sketchId != NEW_SKETCH_ID) {
-                Sketch sketch = getRoomHandler().getSketch(sketchId);
-
-                LinkedHashMap<MyPath, PaintOptions> path = sketch.getPaths();
-                if (path != null)
-                    for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
-                        drawView.addPath(itr.getKey(), itr.getValue());
-                drawView.setBackground(sketch.getBitmap());
+        boolean isTemp = false;
+        if (savedInstanceState != null) {
+            this.sketchId = savedInstanceState.getInt("sketchId");
+            if (sketchId == TEMP_SKETCH_ID) {
+                isTemp = true;
+                Sketch s = getRoomHandler().getSketch(sketchId);
+                if (s != null) {
+                    LinkedHashMap<MyPath, PaintOptions> path = s.getPaths();
+                    if (path != null)
+                        for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
+                            drawView.addPath(itr.getKey(), itr.getValue());
+                    drawView.setBackground(s.getBitmap());
+                    getRoomHandler().deleteSketch(TEMP_SKETCH_ID);
+                }
             }
+        }
+        if (!isTemp) {
+            Bundle b = getIntent().getExtras();
+            if (b != null) {
+                sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
+                if (sketchId != NEW_SKETCH_ID) {
+                    Sketch sketch = getRoomHandler().getSketch(sketchId);
+
+                    LinkedHashMap<MyPath, PaintOptions> path = sketch.getPaths();
+                    if (path != null)
+                        for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
+                            drawView.addPath(itr.getKey(), itr.getValue());
+                    drawView.setBackground(sketch.getBitmap());
+                }
+            }
+
+
         }
     }
 
@@ -130,6 +150,24 @@ public class SketchActivity extends BaseActivity {
             getRoomHandler().updateSketch(sketch);
         } else
             getRoomHandler().insertSketch(sketch);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        getRoomHandler().deleteSketch(TEMP_SKETCH_ID);
+        super.onSaveInstanceState(outState);
+
+        if (drawView.getMPaths().size() == 0) {
+            return;
+        }
+
+        Sketch s = new Sketch(this.drawView.getPaintBackground(), this.drawView.getMPaths(), DateFormat.getDateInstance().format(new Date()));
+        if (sketchId == TEMP_SKETCH_ID || sketchId == NEW_SKETCH_ID) {
+            s.id = TEMP_SKETCH_ID;
+            getRoomHandler().insertSketch(s);
+            outState.putInt("sketchId", TEMP_SKETCH_ID);
+        }
+
     }
 
     @Override
