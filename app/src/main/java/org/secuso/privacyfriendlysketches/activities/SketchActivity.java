@@ -17,6 +17,7 @@
 package org.secuso.privacyfriendlysketches.activities;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -60,12 +61,15 @@ public class SketchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sketch);
 
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
         drawView = findViewById(R.id.draw_view);
         toolbar = findViewById(R.id.draw_tools);
 
-        colorPalette =  findViewById(R.id.draw_color_palette);
-        seekBarWidth =  findViewById(R.id.seekBar_width);
-        seekBarOpacity =  findViewById(R.id.seekBar_opacity);
+        colorPalette = findViewById(R.id.draw_color_palette);
+        seekBarWidth = findViewById(R.id.seekBar_width);
+        seekBarOpacity = findViewById(R.id.seekBar_opacity);
 
         seekBarWidth.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -74,10 +78,12 @@ public class SketchActivity extends BaseActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         seekBarOpacity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -87,10 +93,12 @@ public class SketchActivity extends BaseActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         Bundle b = getIntent().getExtras();
@@ -120,8 +128,7 @@ public class SketchActivity extends BaseActivity {
         if (sketchId != NEW_SKETCH_ID) {
             sketch.id = sketchId;
             getRoomHandler().updateSketch(sketch);
-        }
-        else
+        } else
             getRoomHandler().insertSketch(sketch);
     }
 
@@ -133,7 +140,7 @@ public class SketchActivity extends BaseActivity {
     public void onClick(View view) {
         ToolbarMode toolbarMode = ToolbarMode.None;
 
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.image_draw_eraser:
                 drawView.clearCanvas();
                 break;
@@ -152,7 +159,8 @@ public class SketchActivity extends BaseActivity {
             case R.id.image_draw_redo:
                 drawView.redo();
                 break;
-            default: break;
+            default:
+                break;
         }
 
         if (toolbarMode != ToolbarMode.None) {
@@ -166,14 +174,28 @@ public class SketchActivity extends BaseActivity {
     public void onSelectColor(View view) {
         int colorId = 0;
 
-        switch(view.getId()) {
-            case R.id.image_color_black: colorId = R.color.color_black; break;
-            case R.id.image_color_blue: colorId = R.color.color_blue; break;
-            case R.id.image_color_brown: colorId = R.color.color_brown; break;
-            case R.id.image_color_green: colorId = R.color.color_green; break;
-            case R.id.image_color_pink: colorId = R.color.color_pink; break;
-            case R.id.image_color_red: colorId = R.color.color_red; break;
-            case R.id.image_color_yellow: colorId = R.color.color_yellow; break;
+        switch (view.getId()) {
+            case R.id.image_color_black:
+                colorId = R.color.color_black;
+                break;
+            case R.id.image_color_blue:
+                colorId = R.color.color_blue;
+                break;
+            case R.id.image_color_brown:
+                colorId = R.color.color_brown;
+                break;
+            case R.id.image_color_green:
+                colorId = R.color.color_green;
+                break;
+            case R.id.image_color_pink:
+                colorId = R.color.color_pink;
+                break;
+            case R.id.image_color_red:
+                colorId = R.color.color_red;
+                break;
+            case R.id.image_color_yellow:
+                colorId = R.color.color_yellow;
+                break;
         }
 
         if (colorId != 0) {
@@ -190,10 +212,17 @@ public class SketchActivity extends BaseActivity {
         seekBarOpacity.setVisibility(View.GONE);
 
         switch (mode) {
-            case Color: colorPalette.setVisibility(View.VISIBLE); break;
-            case Width: seekBarWidth.setVisibility(View.VISIBLE); break;
-            case Opacity: seekBarOpacity.setVisibility(View.VISIBLE); break;
-            default: throw new IllegalArgumentException();
+            case Color:
+                colorPalette.setVisibility(View.VISIBLE);
+                break;
+            case Width:
+                seekBarWidth.setVisibility(View.VISIBLE);
+                break;
+            case Opacity:
+                seekBarOpacity.setVisibility(View.VISIBLE);
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
 
         this.toolbarMode = mode;
