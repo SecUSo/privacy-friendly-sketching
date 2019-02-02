@@ -16,8 +16,10 @@
  */
 package org.secuso.privacyfriendlysketches.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -180,7 +182,7 @@ public class SketchActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.image_draw_eraser:
-                drawView.clearCanvas();
+                clearCanvasDialogue();
                 break;
             case R.id.image_draw_width:
                 toolbarMode = ToolbarMode.Width;
@@ -207,6 +209,24 @@ public class SketchActivity extends BaseActivity {
 
             setToolbarMode(toolbarMode);
         }
+    }
+
+    private void clearCanvasDialogue() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.dialog_delete_message)
+                .setMessage(R.string.dialog_delete_message);
+
+        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                drawView.clearCanvas();
+            }
+        });
+        builder.setNegativeButton(R.string.dialog_cancel, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void onSelectColor(View view) {
