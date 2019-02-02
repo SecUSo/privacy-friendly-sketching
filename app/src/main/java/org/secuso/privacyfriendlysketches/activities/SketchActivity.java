@@ -20,7 +20,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.divyanshu.draw.widget.DrawView;
@@ -53,6 +55,7 @@ public class SketchActivity extends BaseActivity {
     private View toolbar;
 
     private int sketchId = NEW_SKETCH_ID;
+    private int focusedColor = 0;
 
     private View colorPalette;
     private SeekBar seekBarWidth;
@@ -231,6 +234,7 @@ public class SketchActivity extends BaseActivity {
 
     public void onSelectColor(View view) {
         int colorId = 0;
+        int toFocusedColor = view.getId();
 
         switch (view.getId()) {
             case R.id.image_color_black:
@@ -257,8 +261,23 @@ public class SketchActivity extends BaseActivity {
         }
 
         if (colorId != 0) {
+            changeColorFocus(this.focusedColor, toFocusedColor);
+            this.focusedColor = toFocusedColor;
             drawView.setColor(getResources().getColor(colorId));
         }
+    }
+
+    private void changeColorFocus(int fromColorId, int toColorId) {
+        if (fromColorId == 0) {
+            fromColorId = R.id.image_color_black;
+        }
+        ImageView fromView = findViewById(fromColorId);
+        fromView.setScaleX(1f);
+        fromView.setScaleY(1f);
+
+        ImageView toView = findViewById(toColorId);
+        toView.setScaleY(1.5f);
+        toView.setScaleX(1.5f);
     }
 
     private void setToolbarMode(ToolbarMode mode) {
