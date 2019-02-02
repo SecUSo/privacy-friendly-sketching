@@ -18,6 +18,7 @@ package org.secuso.privacyfriendlysketches.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.SketchViewHolde
 
         @Override
         protected Pair<Sketch, Bitmap> doInBackground(Integer... id) {
-            Sketch sketch =  this.roomHandler.getSketchSync(id[0]);
+            Sketch sketch = this.roomHandler.getSketchSync(id[0]);
             if (sketch == null)
                 return new Pair<>(null, null);
             Bitmap image = sketch.getFullImage(1024, 1024);
@@ -166,7 +167,15 @@ public class GalleryActivity extends BaseActivity implements View.OnLongClickLis
 
         recyclerView = findViewById(R.id.recycler_view);
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager layoutManager;
+        int orientation = getResources().getConfiguration().orientation;
+        int amountOfColums;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            amountOfColums = 4;
+        } else {
+            amountOfColums = 2;
+        }
+        layoutManager = new GridLayoutManager(this, amountOfColums);
         recyclerView.setLayoutManager(layoutManager);
     }
 
@@ -204,7 +213,10 @@ public class GalleryActivity extends BaseActivity implements View.OnLongClickLis
     }
 
     @Override
-    public boolean onLongClick(View v) { deleteSketch(v); return true; }
+    public boolean onLongClick(View v) {
+        deleteSketch(v);
+        return true;
+    }
 
     public void deleteSketch(final View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
