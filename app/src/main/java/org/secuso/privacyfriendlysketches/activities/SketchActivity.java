@@ -20,8 +20,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
@@ -60,6 +62,8 @@ public class SketchActivity extends BaseActivity {
     private View colorPalette;
     private SeekBar seekBarWidth;
     private SeekBar seekBarOpacity;
+
+    private Sketch sketch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +117,7 @@ public class SketchActivity extends BaseActivity {
                 isTemp = true;
                 Sketch s = getRoomHandler().getSketch(sketchId);
                 if (s != null) {
+                    this.sketch = s;
                     LinkedHashMap<MyPath, PaintOptions> path = s.getPaths();
                     if (path != null)
                         for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
@@ -128,7 +133,7 @@ public class SketchActivity extends BaseActivity {
                 sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
                 if (sketchId != NEW_SKETCH_ID) {
                     Sketch sketch = getRoomHandler().getSketch(sketchId);
-
+                    this.sketch = sketch;
                     LinkedHashMap<MyPath, PaintOptions> path = sketch.getPaths();
                     if (path != null)
                         for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
@@ -139,6 +144,71 @@ public class SketchActivity extends BaseActivity {
 
 
         }
+
+        ImageView iv = findViewById(R.id.image_close_drawing);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("SKETCH ACTIVITY", "top left menu clicked");
+                final AlertDialog.Builder builder = new AlertDialog.Builder(SketchActivity.this);
+                builder.setTitle(R.string.what_would_you_like_to_do)
+                        .setItems(new String[]{
+                                getResources().getString(R.string.select_background),
+                                getResources().getString(R.string.rename_sketch),
+                                getResources().getString(R.string.export_sketch)
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                Log.i("SKETCH ACTIVITY", "button " + which + " clicked");
+                                dialogInterface.dismiss();
+                                switch (which) {
+                                    case 0: //select background
+                                        break;
+                                    case 1: //rename sketch
+                                        Log.i("SKETCH ACTIVITY", "renaming..");
+                                        AlertDialog.Builder renameBuilder = new AlertDialog.Builder(SketchActivity.this);
+                                        renameBuilder.setTitle(R.string.rename_sketch);
+
+                                        final EditText input = new EditText(SketchActivity.this);
+                                        input.setInputType(InputType.TYPE_CLASS_TEXT);
+                                        renameBuilder.setView(input);
+
+                                        renameBuilder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                String newName = input.getText().toString();
+                                                Sketch s = new Sketch(SketchActivity.this.drawView.getPaintBackground(), SketchActivity.this.drawView.getMPaths(), newName);
+                                                if (SketchActivity.this.sketchId != SketchActivity.this.NEW_SKETCH_ID) {
+                                                    SketchActivity.this.sketch = s;
+                                                } else {
+                                                    getRoomHandler().insertSketch(s);
+                                                }
+                                            }
+                                        });
+                                        renameBuilder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                return;
+                                            }
+                                        });
+
+                                        renameBuilder.create();
+                                        renameBuilder.show();
+                                        break;
+                                    case 2: //export sketch
+                                        break;
+                                    default:
+                                        return;
+                                }
+
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+
     }
 
     @Override
@@ -148,13 +218,17 @@ public class SketchActivity extends BaseActivity {
         if (drawView.getMPaths().size() == 0)
             return;
 
-        Sketch sketch = new Sketch(this.drawView.getPaintBackground(), this.drawView.getMPaths(),
-                DateFormat.getDateTimeInstance().format(new Date()));
+
         if (sketchId != NEW_SKETCH_ID) {
+            Sketch sketch = new Sketch(this.drawView.getPaintBackground(), this.drawView.getMPaths(),
+                    this.sketch.description);
             sketch.id = sketchId;
             getRoomHandler().updateSketch(sketch);
-        } else
+        } else {
+            Sketch sketch = new Sketch(this.drawView.getPaintBackground(), this.drawView.getMPaths(),
+                    DateFormat.getDateTimeInstance().format(new Date()));
             getRoomHandler().insertSketch(sketch);
+        }
     }
 
     @Override
@@ -175,10 +249,29 @@ public class SketchActivity extends BaseActivity {
 
     }
 
+
     @Override
     protected int getNavigationDrawerID() {
         return R.id.nav_sketch;
     }
+
+//    public void topLeftMenu(View view) {
+//        Log.i("SKETCH ACTIVITY", "long clicked");
+//        AlertDialog.Builder builder = new AlertDialog.Builder(SketchActivity.this);
+//        builder.setTitle(R.string.dialog_delete_message)
+//                .setMessage(R.string.what_would_you_like_to_do).setItems(new String[]{
+//                getResources().getString(R.string.select_background),
+//                getResources().getString(R.string.rename_sketch),
+//                getResources().getString(R.string.export_sketch)
+//        }, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//            }
+//        });
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//    }
 
     public void onClick(View view) {
         ToolbarMode toolbarMode = ToolbarMode.None;
@@ -309,4 +402,16 @@ public class SketchActivity extends BaseActivity {
         toolbar.animate().translationY((toolbarOpen ? 56 : 0) * getResources().getDisplayMetrics().density);
         toolbarOpen = !toolbarOpen;
     }
+
+//        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+//            int sketchId = getSketchIdFromView(view);
+//
+//            public void onClick(DialogInterface dialog, int id) {
+//                getRoomHandler().deleteSketch(sketchId);
+//                recreate();
+//            }
+//        });
+    //builder.setNegativeButton(R.string.dialog_cancel, null);
+
 }
+

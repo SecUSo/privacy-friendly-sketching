@@ -18,7 +18,7 @@
         android:id="@+id/image_close_drawing"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_close_black_24dp"
+        android:src="@drawable/ic_menu_gallery"
         android:tint="@color/icon_color"
         android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"

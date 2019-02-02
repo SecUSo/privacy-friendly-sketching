@@ -91,13 +91,18 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="title_gallery_sketch">Gallery</string>
 
     <string name="keygen_infotext">Preparing Encryption and Database for first time use..</string>
-    <string name="key_alias">PASSPHRASE_KEY</string>
+    <string name="key_alias" translatable="false">PASSPHRASE_KEY</string>
     <string name="dialog_delete_message">Delete this sketch?</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="keygen_progresstext">Generating passphrase..</string>
     <string name="keygen_progresstext_1">Passphrase Generated! Generating keys..</string>
     <string name="keygen_progresstext_2">Keys generated! Initializing database....</string>
+
+    <string name="what_would_you_like_to_do">What would you like to do?</string>
+    <string name="select_background">Select a background..</string>
+    <string name="rename_sketch">Rename sketch..</string>
+    <string name="export_sketch">Export sketch..</string>
 
 
 </resources>
