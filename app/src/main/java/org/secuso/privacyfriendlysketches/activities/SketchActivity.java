@@ -22,10 +22,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.divyanshu.draw.widget.DrawView;
 import com.divyanshu.draw.widget.MyPath;
@@ -163,6 +167,27 @@ public class SketchActivity extends BaseActivity {
                                 dialogInterface.dismiss();
                                 switch (which) {
                                     case 0: //select background
+                                        Log.i("SKETCH ACTIVITY", "renaming..");
+                                        AlertDialog.Builder backgroundBuilder = new AlertDialog.Builder(SketchActivity.this);
+                                        backgroundBuilder.setTitle(R.string.select_background);
+
+                                        //create a dialog to select bgColor or bgImage
+                                        LinearLayout l = new LinearLayout(SketchActivity.this);
+                                        l.setOrientation(LinearLayout.VERTICAL);
+
+                                        View backgroundPalette = LayoutInflater.from(SketchActivity.this).inflate(R.layout.color_palette_view2, null);
+//                                        LinearLayout backgroundPalette = (R.layout.color_palette_view2);
+                                        TextView bgImageTextView = new TextView(SketchActivity.this);
+                                        bgImageTextView.setText(R.string.select_background);
+                                        bgImageTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                                        backgroundPalette.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
+                                        l.addView(backgroundPalette);
+                                        l.addView(bgImageTextView);
+                                        backgroundBuilder.setView(l);
+                                        backgroundBuilder.create();
+                                        backgroundBuilder.show();
                                         break;
                                     case 1: //rename sketch
                                         Log.i("SKETCH ACTIVITY", "renaming..");
