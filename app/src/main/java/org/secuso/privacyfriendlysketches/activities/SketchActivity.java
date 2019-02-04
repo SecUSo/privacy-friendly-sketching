@@ -16,24 +16,26 @@
  */
 package org.secuso.privacyfriendlysketches.activities;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.divyanshu.draw.widget.DrawView;
@@ -44,7 +46,6 @@ import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.database.Sketch;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
@@ -58,11 +59,16 @@ enum ToolbarMode {
     Opacity
 }
 
+/**
+ * This class represents the editing of a sketch and gives the user the ability to draw sketches with different tools, rename sketches, select a
+ * new background and export the sketches
+ */
 public class SketchActivity extends BaseActivity {
     static final int NEW_SKETCH_ID = -1;
     static final int TEMP_SKETCH_ID = -2;
 
     static final int IMAGE_RESULT_CODE = 1;
+    static final int WRITE_PERMISSION_CODE = 2;
 
     private boolean toolbarOpen = false;
     private ToolbarMode toolbarMode = ToolbarMode.None;
@@ -78,6 +84,7 @@ public class SketchActivity extends BaseActivity {
 
     private Sketch sketch = null;
     private AlertDialog backgroundColorSelectDialog = null;
+    private boolean writePermissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +231,14 @@ public class SketchActivity extends BaseActivity {
                                         renameBuilder.show();
                                         break;
                                     case 2: //export sketch
+                                        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                                        } else {
+                                            setWritePermissionGranted(true);
+                                        }
+                                        if (writePermissionGranted) {
+                                            saveSketch();
+                                        }
                                         break;
                                     default:
                                         return;
@@ -282,24 +297,6 @@ public class SketchActivity extends BaseActivity {
     protected int getNavigationDrawerID() {
         return R.id.nav_sketch;
     }
-
-//    public void topLeftMenu(View view) {
-//        Log.i("SKETCH ACTIVITY", "long clicked");
-//        AlertDialog.Builder builder = new AlertDialog.Builder(SketchActivity.this);
-//        builder.setTitle(R.string.dialog_delete_message)
-//                .setMessage(R.string.what_would_you_like_to_do).setItems(new String[]{
-//                getResources().getString(R.string.select_background),
-//                getResources().getString(R.string.rename_sketch),
-//                getResources().getString(R.string.export_sketch)
-//        }, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//
-//            }
-//        });
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-//    }
 
     public void onClick(View view) {
         ToolbarMode toolbarMode = ToolbarMode.None;
@@ -489,15 +486,29 @@ public class SketchActivity extends BaseActivity {
         toolbarOpen = !toolbarOpen;
     }
 
-//        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-//            int sketchId = getSketchIdFromView(view);
-//
-//            public void onClick(DialogInterface dialog, int id) {
-//                getRoomHandler().deleteSketch(sketchId);
-//                recreate();
-//            }
-//        });
-    //builder.setNegativeButton(R.string.dialog_cancel, null);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case WRITE_PERMISSION_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    this.writePermissionGranted = true;
+                    saveSketch();
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(SketchActivity.this, R.string.permission_error, Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    public void setWritePermissionGranted(boolean b) {
+        this.writePermissionGranted = b;
+    }
+
+    public void saveSketch() {
+        Bitmap bmp = drawView.getBitmap();
+        MediaStore.Images.Media.insertImage(getContentResolver(), bmp, sketch.description, null);
+        Toast.makeText(SketchActivity.this, R.string.sketch_saved, Toast.LENGTH_SHORT).show();
+    }
 
 }
 

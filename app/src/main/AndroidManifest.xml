@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.secuso.privacyfriendlysketches">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -94,5 +97,6 @@
                 android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
         </activity>
     </application>
+
 
 </manifest>
