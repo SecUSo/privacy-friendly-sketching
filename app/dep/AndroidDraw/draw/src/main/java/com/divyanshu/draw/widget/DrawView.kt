@@ -6,6 +6,7 @@ import android.support.annotation.ColorInt
 import android.support.v4.graphics.ColorUtils
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import java.util.LinkedHashMap
 
@@ -25,8 +26,17 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mStartY = 0f
     private var mIsSaving = false
     private var mIsStrokeWidthBarEnabled = false
+    private var mTransform = Matrix()
 
-    private var mBackgroud: Bitmap? = null
+    private var mIsScrolling = false
+    private var mScale = 1f
+    private var mScrollOriginX = 0f
+    private var mScrollOriginY = 0f
+    private var mScrollX = 0f
+    private var mScrollY = 0f
+    private var mScaleGestureDetector: ScaleGestureDetector
+
+    private var mBackground: Bitmap? = null
 
     init {
         mPaint.apply {
@@ -37,6 +47,19 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             strokeWidth = mPaintOptions.strokeWidth
             isAntiAlias = true
         }
+
+        mScaleGestureDetector = ScaleGestureDetector(context,
+                object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+
+                    override fun onScale(detector: ScaleGestureDetector): Boolean {
+                        val oldScale = mScale
+                        mScale *= detector.scaleFactor
+                        mScrollX += detector.focusX * (oldScale - mScale) / mScale
+                        mScrollY += detector.focusY * (oldScale - mScale) / mScale
+                        invalidate()
+                        return true
+                    }
+                })
     }
 
     fun undo() {
@@ -93,11 +116,11 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     fun getPaintBackground(): Bitmap? {
-        return mBackgroud
+        return mBackground
     }
 
     fun setBackground(background: Bitmap?) {
-        mBackgroud = background
+        mBackground = background
         invalidate()
     }
 
@@ -118,8 +141,13 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        if (mBackgroud != null)
-            canvas.drawBitmap(mBackgroud, null, canvas.clipBounds, null)
+        mTransform.setTranslate(mScrollX, mScrollY)
+        mTransform.postScale(mScale, mScale)
+        canvas.matrix = mTransform
+        mTransform.invert(mTransform)
+
+        if (mBackground != null)
+            canvas.drawBitmap(mBackground, null, canvas.clipBounds, null)
 
         for ((key, value) in mPaths) {
             changePaint(value)
@@ -136,7 +164,7 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     fun clearCanvas() {
-        mBackgroud = null
+        mBackground = null
         mLastPaths = mPaths.clone() as LinkedHashMap<MyPath, PaintOptions>
         mPath.reset()
         mPaths.clear()
@@ -171,9 +199,64 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mPaintOptions = PaintOptions(mPaintOptions.color, mPaintOptions.strokeWidth, mPaintOptions.alpha)
     }
 
+    private fun getPointerCenter(event: MotionEvent): MotionEvent.PointerCoords {
+        val result = MotionEvent.PointerCoords()
+        val temp = MotionEvent.PointerCoords()
+        for (i in 0 until event.pointerCount) {
+            event.getPointerCoords(i, temp)
+            result.x += temp.x
+            result.y += temp.y
+        }
+
+        if (event.pointerCount > 0) {
+            result.x /= event.pointerCount.toFloat()
+            result.y /= event.pointerCount.toFloat()
+        }
+
+        return result
+    }
+
+    private fun handleScroll(event: MotionEvent): Boolean {
+        if (event.action != MotionEvent.ACTION_UP
+                && event.action != MotionEvent.ACTION_DOWN
+                && event.action != MotionEvent.ACTION_POINTER_DOWN
+                && event.action != MotionEvent.ACTION_POINTER_UP
+                && event.action != MotionEvent.ACTION_MOVE)
+            return false
+        val shouldScroll = event.pointerCount > 1
+        val center = getPointerCenter(event)
+        if (shouldScroll != mIsScrolling) {
+            mUndonePaths.clear()
+            mPath.reset()
+            if (shouldScroll) {
+                mIsScrolling = true
+                mScrollOriginX = center.x
+                mScrollOriginY = center.y
+            }
+            else if (event.action == MotionEvent.ACTION_UP)
+                mIsScrolling = false
+            return true
+        }
+        if (shouldScroll) {
+            mScrollX += (center.x - mScrollOriginX) / mScale
+            mScrollY += (center.y - mScrollOriginY) / mScale
+            mScrollOriginX = center.x
+            mScrollOriginY = center.y
+            invalidate()
+        }
+        return mIsScrolling
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        val x = event.x
-        val y = event.y
+        mScaleGestureDetector.onTouchEvent(event)
+
+        if (handleScroll(event))
+            return true
+
+        val points: FloatArray = floatArrayOf(event.x, event.y)
+        mTransform.mapPoints(points)
+        val x = points[0]
+        val y = points[1]
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
