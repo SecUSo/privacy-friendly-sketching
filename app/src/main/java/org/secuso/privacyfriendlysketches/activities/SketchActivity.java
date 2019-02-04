@@ -44,6 +44,7 @@ import android.widget.Toast;
 import com.divyanshu.draw.widget.DrawView;
 import com.divyanshu.draw.widget.MyPath;
 import com.divyanshu.draw.widget.PaintOptions;
+import com.divyanshu.draw.widget.CircleView;
 
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
@@ -84,6 +85,7 @@ public class SketchActivity extends BaseActivity {
     private ToolbarMode toolbarMode = ToolbarMode.None;
     private DrawView drawView;
     private View toolbar;
+    private CircleView preview;
 
     private int sketchId = NEW_SKETCH_ID;
     private int focusedColor = 0;
@@ -110,6 +112,8 @@ public class SketchActivity extends BaseActivity {
         drawView = findViewById(R.id.draw_view);
         toolbar = findViewById(R.id.draw_tools);
 
+        preview = findViewById(R.id.circle_view_preview);
+
         colorPalette = findViewById(R.id.draw_color_palette);
         seekBarWidth = findViewById(R.id.seekBar_width);
         seekBarOpacity = findViewById(R.id.seekBar_opacity);
@@ -118,6 +122,7 @@ public class SketchActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 drawView.setStrokeWidth((float) progress);
+                preview.setCircleRadius((float) progress);
             }
 
             @Override
@@ -133,6 +138,7 @@ public class SketchActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 drawView.setAlpha(progress);
+                preview.setAlpha(progress);
             }
 
             @Override
@@ -486,6 +492,7 @@ public class SketchActivity extends BaseActivity {
             changeColorFocus(this.focusedColor, toFocusedColor);
             this.focusedColor = toFocusedColor;
             drawView.setColor(getResources().getColor(colorId));
+            preview.setColor(getResources().getColor(colorId));
         }
     }
 
