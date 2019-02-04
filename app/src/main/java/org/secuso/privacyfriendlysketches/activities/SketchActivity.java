@@ -17,8 +17,11 @@
 package org.secuso.privacyfriendlysketches.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
@@ -31,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.divyanshu.draw.widget.DrawView;
 import com.divyanshu.draw.widget.MyPath;
@@ -40,6 +44,8 @@ import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.database.Sketch;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -55,6 +61,8 @@ enum ToolbarMode {
 public class SketchActivity extends BaseActivity {
     static final int NEW_SKETCH_ID = -1;
     static final int TEMP_SKETCH_ID = -2;
+
+    static final int IMAGE_RESULT_CODE = 1;
 
     private boolean toolbarOpen = false;
     private ToolbarMode toolbarMode = ToolbarMode.None;
@@ -345,6 +353,14 @@ public class SketchActivity extends BaseActivity {
         dialog.show();
     }
 
+    public void onSelectBackgroundImage(View v) {
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, IMAGE_RESULT_CODE);
+        if (this.backgroundColorSelectDialog != null) {
+            this.backgroundColorSelectDialog.dismiss();
+        }
+    }
+
     public void onSelectBackgroundColor(View v) {
         int colorId = 0;
         switch (v.getId()) {
@@ -377,6 +393,20 @@ public class SketchActivity extends BaseActivity {
             drawView.setBackground(b);
             if (this.backgroundColorSelectDialog != null) {
                 this.backgroundColorSelectDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_RESULT_CODE && resultCode == RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            try {
+                Bitmap bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                this.drawView.setBackground(bmp);
+            } catch (IOException e) {
+                Toast.makeText(this, R.string.error_loading_image, Toast.LENGTH_SHORT).show();
             }
         }
     }

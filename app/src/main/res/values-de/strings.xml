@@ -93,5 +93,6 @@
     <string name="rename_sketch">Zeichnung umbenennen..</string>
     <string name="export_sketch">Zeichnung exportieren..</string>
     <string name="select_image">Bild auswählen..</string>
+    <string name="error_loading_image">Fehler beim Laden des Bildes</string>
 
 </resources>

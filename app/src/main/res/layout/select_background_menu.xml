@@ -17,11 +17,12 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_gravity="center"
         android:layout_weight="1"
+        android:background="@color/color_white"
+        android:onClick="onSelectBackgroundImage"
         android:text="@string/select_image" />
 
 </LinearLayout>
