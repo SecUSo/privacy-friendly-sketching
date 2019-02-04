@@ -21,8 +21,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -45,8 +48,13 @@ import com.divyanshu.draw.widget.PaintOptions;
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.database.Sketch;
+import org.secuso.privacyfriendlysketches.helpers.Utility;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -69,6 +77,8 @@ public class SketchActivity extends BaseActivity {
 
     static final int IMAGE_RESULT_CODE = 1;
     static final int WRITE_PERMISSION_CODE = 2;
+    private final static int SAVETYPE_GALLERY = 3;
+    private final static int SAVETYPE_EXTERNAL = 4;
 
     private boolean toolbarOpen = false;
     private ToolbarMode toolbarMode = ToolbarMode.None;
@@ -85,6 +95,9 @@ public class SketchActivity extends BaseActivity {
     private Sketch sketch = null;
     private AlertDialog backgroundColorSelectDialog = null;
     private boolean writePermissionGranted = false;
+
+    private static int SAVETYPE;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,14 +244,47 @@ public class SketchActivity extends BaseActivity {
                                         renameBuilder.show();
                                         break;
                                     case 2: //export sketch
-                                        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-                                        } else {
-                                            setWritePermissionGranted(true);
-                                        }
-                                        if (writePermissionGranted) {
-                                            saveSketch();
-                                        }
+                                        AlertDialog.Builder saveDialogBuilder = new AlertDialog.Builder(SketchActivity.this);
+                                        saveDialogBuilder.setTitle(R.string.export_where);
+                                        saveDialogBuilder.setItems(new String[]{
+                                                getResources().getString(R.string.export_into_gallery),
+                                                getResources().getString(R.string.export_into_external)
+                                        }, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                                switch (i) {
+                                                    case 0: //export to gallery
+                                                        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                                            setSAVETYPE(SAVETYPE_GALLERY);
+                                                            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                                                        } else {
+                                                            setWritePermissionGranted(true);
+                                                        }
+                                                        if (writePermissionGranted) {
+                                                            saveSketchIntoGallery();
+                                                        }
+                                                        break;
+                                                    case 1: //export to external storage
+                                                        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                                            setSAVETYPE(SAVETYPE_EXTERNAL);
+                                                            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                                                        } else {
+                                                            setWritePermissionGranted(true);
+                                                        }
+                                                        if (writePermissionGranted) {
+                                                            saveSketchIntoExternal();
+                                                        }
+                                                        break;
+                                                }
+                                                return;
+                                            }
+
+
+                                        });
+                                        AlertDialog saveDialog = saveDialogBuilder.create();
+                                        saveDialog.show();
+
                                         break;
                                     default:
                                         return;
@@ -490,12 +536,25 @@ public class SketchActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case WRITE_PERMISSION_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    this.writePermissionGranted = true;
-                    saveSketch();
-                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(SketchActivity.this, R.string.permission_error, Toast.LENGTH_SHORT).show();
+                switch (this.SAVETYPE) {
+                    case SAVETYPE_GALLERY:
+                        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                            this.writePermissionGranted = true;
+                            saveSketchIntoGallery();
+                        } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                            Toast.makeText(SketchActivity.this, R.string.permission_error, Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case SAVETYPE_EXTERNAL:
+                        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                            this.writePermissionGranted = true;
+                            saveSketchIntoExternal();
+                        } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                            Toast.makeText(SketchActivity.this, R.string.permission_error, Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                 }
+
                 break;
         }
     }
@@ -504,10 +563,57 @@ public class SketchActivity extends BaseActivity {
         this.writePermissionGranted = b;
     }
 
-    public void saveSketch() {
+    public void setSAVETYPE(int i) {
+        this.SAVETYPE = i;
+    }
+
+    public void saveSketchIntoGallery() {
         Bitmap bmp = drawView.getBitmap();
-        MediaStore.Images.Media.insertImage(getContentResolver(), bmp, sketch.description, null);
+        Sketch s = null;
+        if (this.sketch == null) {
+            s = new Sketch(this.drawView.getPaintBackground(), SketchActivity.this.drawView.getMPaths(), DateFormat.getDateInstance().format(new Date()));
+        } else {
+            s = this.sketch;
+        }
+        MediaStore.Images.Media.insertImage(getContentResolver(), bmp, s.getDescription(), null);
+        getRoomHandler().insertSketch(s);
         Toast.makeText(SketchActivity.this, R.string.sketch_saved, Toast.LENGTH_SHORT).show();
+    }
+
+    public void saveSketchIntoExternal() {
+        if (Utility.isExternalStorageWritable()) {
+            String root = Environment.getExternalStorageDirectory().toString();
+            Sketch s = null;
+            if (sketch == null) {
+                s = new Sketch(this.drawView.getPaintBackground(), SketchActivity.this.drawView.getMPaths(), DateFormat.getDateInstance().format(new Date()));
+            } else {
+                s = this.sketch;
+            }
+            OutputStream os;
+            File dir = new File(root + "/Sketches");
+            dir.mkdirs();
+            File f = new File(dir, s.getDescription() + ".jpg");
+            Bitmap bmp = drawView.getBitmap();
+            if (f.exists()) {
+                f.delete();
+            }
+
+            try {
+                os = new FileOutputStream(f);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                os.flush();
+                os.close();
+
+                MediaStore.Images.Media.insertImage(getContentResolver(), f.getAbsolutePath(), f.getName(), f.getName());
+                Toast.makeText(SketchActivity.this, R.string.sketch_saved, Toast.LENGTH_SHORT).show();
+            } catch (FileNotFoundException e) {
+                Toast.makeText(SketchActivity.this, "FILE NOT FOUND ERROR", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(SketchActivity.this, "IO EXCEPTION", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.i("SKETCH_ACTIVITY", "external NOT writable");
+        }
     }
 
 }

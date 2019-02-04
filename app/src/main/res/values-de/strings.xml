@@ -96,5 +96,8 @@
     <string name="error_loading_image">Fehler beim Laden des Bildes</string>
     <string name="sketch_saved">Zeichnung gespeichert!</string>
     <string name="permission_error">Kein Zugriff gewährt!</string>
+    <string name="export_into_gallery">In die Galerie exportieren</string>
+    <string name="export_into_external">In den externen Speicher exportieren</string>
+    <string name="export_where">Wohin soll die Zeichnung exportiert werden?</string>
 
 </resources>

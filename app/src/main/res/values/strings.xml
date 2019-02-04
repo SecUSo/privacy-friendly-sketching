@@ -107,6 +107,9 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="error_loading_image">Error loading image</string>
     <string name="sketch_saved">Sketch saved!</string>
     <string name="permission_error">Permission error!</string>
+    <string name="export_where">Where would you like to export to?</string>
+    <string name="export_into_gallery">Export into gallery</string>
+    <string name="export_into_external">Export into external storage</string>
 
 
 </resources>

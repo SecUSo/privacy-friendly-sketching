@@ -18,6 +18,7 @@ package org.secuso.privacyfriendlysketches.helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 
 import com.divyanshu.draw.widget.MyPath;
@@ -53,7 +54,7 @@ public class Utility {
     public static LinkedHashMap<MyPath, PaintOptions> deserializePaths(byte[] lines) {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(lines);
              ObjectInput in = new ObjectInputStream(bis)) {
-            return (LinkedHashMap<MyPath, PaintOptions>)in.readObject();
+            return (LinkedHashMap<MyPath, PaintOptions>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -65,12 +66,17 @@ public class Utility {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         boolean result = bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
         if (!result)
-            Log.e("Sketching","Cannot convert bitmap to compressed array.");
+            Log.e("Sketching", "Cannot convert bitmap to compressed array.");
         byte[] blob = baos.toByteArray();
         return blob;
     }
 
     public static Bitmap blobToBitmap(byte[] blob) {
         return BitmapFactory.decodeByteArray(blob, 0, blob.length);
+    }
+
+    public static boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
     }
 }
