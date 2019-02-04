@@ -37,6 +37,7 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mScaleGestureDetector: ScaleGestureDetector
 
     private var mBackground: Bitmap? = null
+    private var mBackgroundRect = RectF()
 
     init {
         mPaint.apply {
@@ -144,10 +145,15 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mTransform.setTranslate(mScrollX, mScrollY)
         mTransform.postScale(mScale, mScale)
         canvas.matrix = mTransform
-        mTransform.invert(mTransform)
 
-        if (mBackground != null)
-            canvas.drawBitmap(mBackground, null, canvas.clipBounds, null)
+        if (mBackground != null) {
+            mBackgroundRect.set(canvas.clipBounds)
+            if (mBackground?.height != 1 || mBackground?.width != 1)
+                mTransform.mapRect(mBackgroundRect)
+            canvas.drawBitmap(mBackground, null, mBackgroundRect, null)
+        }
+
+        mTransform.invert(mTransform)
 
         for ((key, value) in mPaths) {
             changePaint(value)
