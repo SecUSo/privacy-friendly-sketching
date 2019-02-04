@@ -17,6 +17,7 @@
 package org.secuso.privacyfriendlysketches.activities;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -68,6 +69,7 @@ public class SketchActivity extends BaseActivity {
     private SeekBar seekBarOpacity;
 
     private Sketch sketch = null;
+    private AlertDialog backgroundColorSelectDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,26 +170,19 @@ public class SketchActivity extends BaseActivity {
                                 switch (which) {
                                     case 0: //select background
                                         Log.i("SKETCH ACTIVITY", "renaming..");
-                                        AlertDialog.Builder backgroundBuilder = new AlertDialog.Builder(SketchActivity.this);
+                                        final AlertDialog.Builder backgroundBuilder = new AlertDialog.Builder(SketchActivity.this);
                                         backgroundBuilder.setTitle(R.string.select_background);
 
                                         //create a dialog to select bgColor or bgImage
                                         LinearLayout l = new LinearLayout(SketchActivity.this);
                                         l.setOrientation(LinearLayout.VERTICAL);
 
-                                        View backgroundPalette = LayoutInflater.from(SketchActivity.this).inflate(R.layout.color_palette_view2, null);
-//                                        LinearLayout backgroundPalette = (R.layout.color_palette_view2);
-                                        TextView bgImageTextView = new TextView(SketchActivity.this);
-                                        bgImageTextView.setText(R.string.select_background);
-                                        bgImageTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                                        backgroundPalette.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-
-                                        l.addView(backgroundPalette);
-                                        l.addView(bgImageTextView);
-                                        backgroundBuilder.setView(l);
-                                        backgroundBuilder.create();
-                                        backgroundBuilder.show();
+                                        View backgroundPalette = LayoutInflater.from(SketchActivity.this).inflate(R.layout.select_background_menu, null);
+//
+                                        backgroundBuilder.setView(backgroundPalette);
+                                        final AlertDialog dialog = backgroundBuilder.create();
+                                        SketchActivity.this.backgroundColorSelectDialog = dialog;
+                                        dialog.show();
                                         break;
                                     case 1: //rename sketch
                                         Log.i("SKETCH ACTIVITY", "renaming..");
@@ -348,6 +343,42 @@ public class SketchActivity extends BaseActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void onSelectBackgroundColor(View v) {
+        int colorId = 0;
+        switch (v.getId()) {
+            case R.id.image_color_black:
+                colorId = R.color.color_black;
+                break;
+            case R.id.image_color_blue:
+                colorId = R.color.color_blue;
+                break;
+            case R.id.image_color_brown:
+                colorId = R.color.color_brown;
+                break;
+            case R.id.image_color_green:
+                colorId = R.color.color_green;
+                break;
+            case R.id.image_color_pink:
+                colorId = R.color.color_pink;
+                break;
+            case R.id.image_color_red:
+                colorId = R.color.color_red;
+                break;
+            case R.id.image_color_yellow:
+                colorId = R.color.color_yellow;
+                break;
+        }
+
+        if (colorId != 0) {
+            Bitmap b = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+            b.eraseColor(getResources().getColor(colorId));
+            drawView.setBackground(b);
+            if (this.backgroundColorSelectDialog != null) {
+                this.backgroundColorSelectDialog.dismiss();
+            }
+        }
     }
 
     public void onSelectColor(View view) {
