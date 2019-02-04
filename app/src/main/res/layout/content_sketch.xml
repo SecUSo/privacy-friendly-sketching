@@ -32,6 +32,7 @@
         android:layout_height="56dp"
         android:src="@drawable/ic_menu_send"
         android:padding="16dp"
+        android:onClick="onShare"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/color_white"

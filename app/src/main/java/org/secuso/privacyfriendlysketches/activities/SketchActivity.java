@@ -39,6 +39,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import com.divyanshu.draw.widget.DrawView;
@@ -348,6 +349,24 @@ public class SketchActivity extends BaseActivity {
     @Override
     protected int getNavigationDrawerID() {
         return R.id.nav_sketch;
+    }
+
+    public void onShare(View view) {
+        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+            return;
+        }
+
+        String description = DateFormat.getDateInstance().format(new Date());
+        if (sketch != null)
+            description = sketch.description;
+        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), drawView.getBitmap(), description, null);
+        Uri bitmapUri = Uri.parse(bitmapPath);
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/png");
+        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+        startActivity(intent);
     }
 
     public void onClick(View view) {
