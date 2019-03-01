@@ -68,19 +68,19 @@
 
     <!-- ### TUTORIAL DIALOG ### -->
     <string name="slide1_heading">Willkommen!</string>
-    <string name="slide1_text">Diese App soll als Anleitung zum Design von Privacy Friendly Apps dienen. Hier wird die App in ein bis zwei Sätzen vorgestellt.</string>
+    <string name="slide1_text">Privacy Friendly Sketching ist eine App, um kleine Skizzen und Zeichnungen zu erstellen und zu verwalten. Dazu werden keine zusätzlichen Berechtigungen benötigt!</string>
 
-    <string name="slide2_heading">Schlüsselelements</string>
-    <string name="slide2_text">Hier können Schlüsselelemente vorgestellt werden. Achtung: Nicht zu detailliert werden.</string>
+    <string name="slide2_heading">Galerie</string>
+    <string name="slide2_text">In der Galerie findet man eine Übersicht an vorhandenen Zeichnungen. Mit dem "+" Symbol in der unteren rechten Ecke kann man eine neue Zeichnung erstellen. Langes Tippen auf eine Vorschau ermöglicht das Löschen einer Zeichnung.</string>
 
-    <string name="slide3_heading">Github und Guide</string>
-    <string name="slide3_text">Der Quellcode dieser App ist auf GitHub. Weitere Infos gibt es im Privacy Friendly App Guide.</string>
+    <string name="slide3_heading">Zeichnung bearbeiten</string>
+    <string name="slide3_text">Zusätzlich zu den Bearbeitungswerkzeugen am unteren Rand des Bildschirms besteht die Möglichkeit, eine Hintergrundfarbe auszuwählen, ein Hintergrundbild aus der Galerie zu laden und die aktuelle Zeichnung mit Freunden zu teilen. Viel Spaß!</string>
 
     <string name="next">Weiter</string>
     <string name="skip">Überspringen</string>
     <string name="title_activity_sketch">Zeichnung</string>
     <string name="action_sketch">Zeichnung</string>
-    <string name="keygen_infotext">Bereite Verschlüsselung Datenbank für den ersten Start vor...</string>
+    <string name="keygen_infotext">Bereite Verschlüsselung der Datenbank für den ersten Start vor...</string>
     <string name="title_gallery_sketch">Galerie</string>
     <string name="dialog_delete_message">Möchten Sie diese Zeichnung wirklich löschen?</string>
     <string name="dialog_ok">OK</string>
