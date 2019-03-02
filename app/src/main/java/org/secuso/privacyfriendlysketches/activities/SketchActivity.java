@@ -88,19 +88,43 @@ public class SketchActivity extends BaseActivity {
     private View toolbar;
     private CircleView preview;
 
-    private int sketchId = NEW_SKETCH_ID;
+    private Sketch sketch = null;
     private int focusedColor = 0;
 
     private View colorPalette;
     private SeekBar seekBarWidth;
     private SeekBar seekBarOpacity;
 
-    private Sketch sketch = null;
     private AlertDialog backgroundColorSelectDialog = null;
     private boolean writePermissionGranted = false;
 
     private static int SAVETYPE;
 
+    private void initFromSketch(Sketch sketch) {
+        this.sketch = sketch;
+        LinkedHashMap<MyPath, PaintOptions> path = sketch.getPaths();
+        if (path != null)
+            for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
+                drawView.addPath(itr.getKey(), itr.getValue());
+        drawView.setBackground(sketch.getBitmap());
+    }
+
+    private void updateSketchBeforeSave() {
+        String description;
+        int sketchId;
+
+        if (sketch == null) {
+            description = DateFormat.getDateInstance().format(new Date());
+            sketchId = NEW_SKETCH_ID;
+        }
+        else {
+            description = sketch.description;
+            sketchId = sketch.id;
+        }
+
+        this.sketch = new Sketch(drawView.getPaintBackground(), drawView.getMPaths(), description);
+        sketch.setId(sketchId);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,39 +175,30 @@ public class SketchActivity extends BaseActivity {
             }
         });
 
-        boolean isTemp = false;
         if (savedInstanceState != null) {
-            this.sketchId = savedInstanceState.getInt("sketchId");
-            if (sketchId == TEMP_SKETCH_ID) {
-                isTemp = true;
-                Sketch s = getRoomHandler().getSketch(sketchId);
-                if (s != null) {
-                    this.sketch = s;
-                    LinkedHashMap<MyPath, PaintOptions> path = s.getPaths();
-                    if (path != null)
-                        for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
-                            drawView.addPath(itr.getKey(), itr.getValue());
-                    drawView.setBackground(s.getBitmap());
-                    getRoomHandler().deleteSketch(TEMP_SKETCH_ID);
+            int sketchId = savedInstanceState.getInt("sketchId");
+            Sketch sketch = getRoomHandler().getSketch(TEMP_SKETCH_ID);
+            if (sketch != null) {
+                sketch.setId(sketchId);
+                initFromSketch(sketch);
+            }
+        }
+
+        if (sketch == null) {
+            Bundle b = getIntent().getExtras();
+            if (b != null) {
+                int sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
+                if (sketchId != NEW_SKETCH_ID) {
+                    Sketch sketch = getRoomHandler().getSketch(sketchId);
+                    initFromSketch(sketch);
                 }
             }
         }
-        if (!isTemp) {
-            Bundle b = getIntent().getExtras();
-            if (b != null) {
-                sketchId = b.getInt("sketchId", NEW_SKETCH_ID);
-                if (sketchId != NEW_SKETCH_ID) {
-                    Sketch sketch = getRoomHandler().getSketch(sketchId);
-                    this.sketch = sketch;
-                    LinkedHashMap<MyPath, PaintOptions> path = sketch.getPaths();
-                    if (path != null)
-                        for (Map.Entry<MyPath, PaintOptions> itr : path.entrySet())
-                            drawView.addPath(itr.getKey(), itr.getValue());
-                    drawView.setBackground(sketch.getBitmap());
-                }
-            }
 
-
+        if (sketch == null) {
+            String description = DateFormat.getDateInstance().format(new Date());
+            sketch = new Sketch(null, drawView.getMPaths(), description);
+            sketch.setId(NEW_SKETCH_ID);
         }
 
         ImageView iv = findViewById(R.id.image_close_drawing);
@@ -232,12 +247,7 @@ public class SketchActivity extends BaseActivity {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                 String newName = input.getText().toString();
-                                                Sketch s = new Sketch(SketchActivity.this.drawView.getPaintBackground(), SketchActivity.this.drawView.getMPaths(), newName);
-                                                if (SketchActivity.this.sketchId != SketchActivity.this.NEW_SKETCH_ID) {
-                                                    SketchActivity.this.sketch = s;
-                                                } else {
-                                                    getRoomHandler().insertSketch(s);
-                                                }
+                                                sketch.description = newName;
                                             }
                                         });
                                         renameBuilder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
@@ -314,35 +324,26 @@ public class SketchActivity extends BaseActivity {
         if (drawView.getMPaths().size() == 0)
             return;
 
-
-        if (sketchId != NEW_SKETCH_ID) {
-            Sketch sketch = new Sketch(this.drawView.getPaintBackground(), this.drawView.getMPaths(),
-                    this.sketch.description);
-            sketch.id = sketchId;
+        updateSketchBeforeSave();
+        if (sketch.id != NEW_SKETCH_ID)
             getRoomHandler().updateSketch(sketch);
-        } else {
-            Sketch sketch = new Sketch(this.drawView.getPaintBackground(), this.drawView.getMPaths(),
-                    DateFormat.getDateTimeInstance().format(new Date()));
-            getRoomHandler().insertSketch(sketch);
+        else {
+            sketch.id = 0; // use auto increment
+            sketch.id = getRoomHandler().insertSketch(sketch);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        getRoomHandler().deleteSketch(TEMP_SKETCH_ID);
         super.onSaveInstanceState(outState);
 
-        if (drawView.getMPaths().size() == 0) {
+        if (drawView.getMPaths().size() == 0)
             return;
-        }
 
-        Sketch s = new Sketch(this.drawView.getPaintBackground(), this.drawView.getMPaths(), DateFormat.getDateInstance().format(new Date()));
-        if (sketchId == TEMP_SKETCH_ID || sketchId == NEW_SKETCH_ID) {
-            s.id = TEMP_SKETCH_ID;
-            getRoomHandler().insertSketch(s);
-            outState.putInt("sketchId", TEMP_SKETCH_ID);
-        }
-
+        updateSketchBeforeSave();
+        outState.putInt("sketchId", sketch.id);
+        sketch.setId(TEMP_SKETCH_ID);
+        getRoomHandler().insertSketch(sketch);
     }
 
 
@@ -595,30 +596,18 @@ public class SketchActivity extends BaseActivity {
 
     public void saveSketchIntoGallery() {
         Bitmap bmp = drawView.getBitmap();
-        Sketch s = null;
-        if (this.sketch == null) {
-            s = new Sketch(this.drawView.getPaintBackground(), SketchActivity.this.drawView.getMPaths(), DateFormat.getDateInstance().format(new Date()));
-        } else {
-            s = this.sketch;
-        }
-        MediaStore.Images.Media.insertImage(getContentResolver(), bmp, s.getDescription(), null);
-        getRoomHandler().insertSketch(s);
+        updateSketchBeforeSave();
+        MediaStore.Images.Media.insertImage(getContentResolver(), bmp, sketch.getDescription(), null);
         Toast.makeText(SketchActivity.this, R.string.sketch_saved, Toast.LENGTH_SHORT).show();
     }
 
     public void saveSketchIntoExternal() {
         if (Utility.isExternalStorageWritable()) {
             String root = Environment.getExternalStorageDirectory().toString();
-            Sketch s = null;
-            if (sketch == null) {
-                s = new Sketch(this.drawView.getPaintBackground(), SketchActivity.this.drawView.getMPaths(), DateFormat.getDateInstance().format(new Date()));
-            } else {
-                s = this.sketch;
-            }
             OutputStream os;
             File dir = new File(root + "/Sketches");
             dir.mkdirs();
-            File f = new File(dir, s.getDescription() + ".jpg");
+            File f = new File(dir, sketch.getDescription() + ".jpg");
             Bitmap bmp = drawView.getBitmap();
             if (f.exists()) {
                 f.delete();

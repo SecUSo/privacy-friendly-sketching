@@ -31,7 +31,7 @@ import android.arch.persistence.room.Update;
 public interface SketchDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertSketch(Sketch... sketches);
+    long insertSketch(Sketch sketch);
 
     @Query("SELECT * FROM sketch")
     Sketch[] getAllSketches();

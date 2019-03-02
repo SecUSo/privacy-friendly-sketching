@@ -69,11 +69,11 @@ class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.SketchViewHolde
                 return;
             if (data.first == null) {
                 holder.getTextView().setText(String.format("Error loading sketch id=%d", sketchId));
-                return;
+            } else {
+                holder.cardView.setTag(data.first);
+                holder.getTextView().setText(data.first.getDescription());
+                holder.getImageView().setImageBitmap(data.second);
             }
-            holder.cardView.setTag(data.first);
-            holder.getTextView().setText(data.first.getDescription());
-            holder.getImageView().setImageBitmap(data.second);
             holder.cardView.animate().alpha(1);
         }
     }
@@ -203,6 +203,7 @@ public class GalleryActivity extends BaseActivity implements View.OnLongClickLis
     @Override
     protected void onStart() {
         super.onStart();
+        getRoomHandler().deleteSketch(SketchActivity.TEMP_SKETCH_ID);
         GetSketchCountAsyncTask asyncTask = new GetSketchCountAsyncTask(getRoomHandler(), recyclerView);
         asyncTask.execute();
     }
