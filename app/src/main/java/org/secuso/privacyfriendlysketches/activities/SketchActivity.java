@@ -34,6 +34,9 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -200,121 +203,36 @@ public class SketchActivity extends BaseActivity {
             sketch = new Sketch(null, drawView.getMPaths(), description);
             sketch.setId(NEW_SKETCH_ID);
         }
+    }
 
-        ImageView iv = findViewById(R.id.image_close_drawing);
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("SKETCH ACTIVITY", "top left menu clicked");
-                final AlertDialog.Builder builder = new AlertDialog.Builder(SketchActivity.this);
-                builder.setTitle(R.string.what_would_you_like_to_do)
-                        .setItems(new String[]{
-                                getResources().getString(R.string.select_background),
-                                getResources().getString(R.string.rename_sketch),
-                                getResources().getString(R.string.export_sketch)
-                        }, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                Log.i("SKETCH ACTIVITY", "button " + which + " clicked");
-                                dialogInterface.dismiss();
-                                switch (which) {
-                                    case 0: //select background
-                                        Log.i("SKETCH ACTIVITY", "renaming..");
-                                        final AlertDialog.Builder backgroundBuilder = new AlertDialog.Builder(SketchActivity.this);
-                                        backgroundBuilder.setTitle(R.string.select_background);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sketch_menu, menu);
+        return true;
+    }
 
-                                        //create a dialog to select bgColor or bgImage
-                                        LinearLayout l = new LinearLayout(SketchActivity.this);
-                                        l.setOrientation(LinearLayout.VERTICAL);
-
-                                        View backgroundPalette = LayoutInflater.from(SketchActivity.this).inflate(R.layout.select_background_menu, null);
-//
-                                        backgroundBuilder.setView(backgroundPalette);
-                                        final AlertDialog dialog = backgroundBuilder.create();
-                                        SketchActivity.this.backgroundColorSelectDialog = dialog;
-                                        dialog.show();
-                                        break;
-                                    case 1: //rename sketch
-                                        Log.i("SKETCH ACTIVITY", "renaming..");
-                                        AlertDialog.Builder renameBuilder = new AlertDialog.Builder(SketchActivity.this);
-                                        renameBuilder.setTitle(R.string.rename_sketch);
-
-                                        final EditText input = new EditText(SketchActivity.this);
-                                        input.setInputType(InputType.TYPE_CLASS_TEXT);
-                                        renameBuilder.setView(input);
-
-                                        renameBuilder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                String newName = input.getText().toString();
-                                                sketch.description = newName;
-                                            }
-                                        });
-                                        renameBuilder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                return;
-                                            }
-                                        });
-
-                                        renameBuilder.create();
-                                        renameBuilder.show();
-                                        break;
-                                    case 2: //export sketch
-                                        AlertDialog.Builder saveDialogBuilder = new AlertDialog.Builder(SketchActivity.this);
-                                        saveDialogBuilder.setTitle(R.string.export_where);
-                                        saveDialogBuilder.setItems(new String[]{
-                                                getResources().getString(R.string.export_into_gallery),
-                                                getResources().getString(R.string.export_into_external)
-                                        }, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                dialogInterface.dismiss();
-                                                switch (i) {
-                                                    case 0: //export to gallery
-                                                        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                                            setSAVETYPE(SAVETYPE_GALLERY);
-                                                            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-                                                        } else {
-                                                            setWritePermissionGranted(true);
-                                                        }
-                                                        if (writePermissionGranted) {
-                                                            saveSketchIntoGallery();
-                                                        }
-                                                        break;
-                                                    case 1: //export to external storage
-                                                        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                                            setSAVETYPE(SAVETYPE_EXTERNAL);
-                                                            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-                                                        } else {
-                                                            setWritePermissionGranted(true);
-                                                        }
-                                                        if (writePermissionGranted) {
-                                                            saveSketchIntoExternal();
-                                                        }
-                                                        break;
-                                                }
-                                                return;
-                                            }
-
-
-                                        });
-                                        AlertDialog saveDialog = saveDialogBuilder.create();
-                                        saveDialog.show();
-
-                                        break;
-                                    default:
-                                        return;
-                                }
-
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-            }
-        });
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_select_background:
+                showSelectBackgroundDialog();
+                return true;
+            case R.id.action_clear_background:
+                drawView.setBackground((Bitmap)null);
+                return true;
+            case R.id.action_export_sketch:
+                showExportDialog();
+                return true;
+            case R.id.action_rename_sketch:
+                showRenameDialog();
+                return true;
+            case R.id.action_share_sketch:
+                onShare();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -352,7 +270,89 @@ public class SketchActivity extends BaseActivity {
         return R.id.nav_sketch;
     }
 
-    public void onShare(View view) {
+    private void showSelectBackgroundDialog() {
+        final AlertDialog.Builder backgroundBuilder = new AlertDialog.Builder(SketchActivity.this);
+        backgroundBuilder.setTitle(R.string.select_background);
+
+        //create a dialog to select bgColor or bgImage
+        LinearLayout l = new LinearLayout(SketchActivity.this);
+        l.setOrientation(LinearLayout.VERTICAL);
+
+        View backgroundPalette = LayoutInflater.from(SketchActivity.this).inflate(R.layout.select_background_menu, null);
+
+        backgroundBuilder.setView(backgroundPalette);
+        final AlertDialog dialog = backgroundBuilder.create();
+        SketchActivity.this.backgroundColorSelectDialog = dialog;
+        dialog.show();
+    }
+
+    private void showRenameDialog() {
+        AlertDialog.Builder renameBuilder = new AlertDialog.Builder(SketchActivity.this);
+        renameBuilder.setTitle(R.string.rename_sketch);
+
+        final EditText input = new EditText(SketchActivity.this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        renameBuilder.setView(input);
+
+        renameBuilder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                sketch.description = input.getText().toString();
+            }
+        });
+        renameBuilder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+
+        renameBuilder.create();
+        renameBuilder.show();
+    }
+
+    private void showExportDialog() {
+        AlertDialog.Builder saveDialogBuilder = new AlertDialog.Builder(SketchActivity.this);
+        saveDialogBuilder.setTitle(R.string.export_where);
+        saveDialogBuilder.setItems(new String[]{
+                getResources().getString(R.string.export_into_gallery),
+                getResources().getString(R.string.export_into_external)
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                switch (i) {
+                    case 0: //export to gallery
+                        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            setSAVETYPE(SAVETYPE_GALLERY);
+                            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                        } else {
+                            setWritePermissionGranted(true);
+                        }
+                        if (writePermissionGranted) {
+                            saveSketchIntoGallery();
+                        }
+                        break;
+                    case 1: //export to external storage
+                        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            setSAVETYPE(SAVETYPE_EXTERNAL);
+                            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                        } else {
+                            setWritePermissionGranted(true);
+                        }
+                        if (writePermissionGranted) {
+                            saveSketchIntoExternal();
+                        }
+                        break;
+                }
+            }
+
+
+        });
+        AlertDialog saveDialog = saveDialogBuilder.create();
+        saveDialog.show();
+    }
+
+    private void onShare() {
         if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
             return;

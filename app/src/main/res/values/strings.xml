@@ -115,6 +115,11 @@
     <string name="help_feature_five">How do I select another background?</string>
     <string name="help_feature_six">How do I export a sketch onto the device storage?</string>
     <string name="help_feature_six_answer">While editing a sketch, you can tap the button on the top left, which will give you the possibility of exporting your sketch onto the device storage. However, exporting an image onto the device storage requires writing permission!</string>
+    <string name="action_select_background">Select a background</string>
+    <string name="action_rename_sketch">Rename Sketch</string>
+    <string name="action_clear_background">Clear background</string>
+    <string name="action_export_sketch">Export sketch</string>
+    <string name="action_share_sketch">Share</string>
 
 
 </resources>

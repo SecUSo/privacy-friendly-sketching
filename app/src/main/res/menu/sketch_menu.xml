@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_select_background"
+        android:title="@string/action_select_background"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_clear_background"
+        android:title="@string/action_clear_background"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_rename_sketch"
+        android:title="@string/action_rename_sketch"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_export_sketch"
+        android:title="@string/action_export_sketch"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share_sketch"
+        android:title="@string/action_share_sketch"
+        app:showAsAction="never" />
+</menu>

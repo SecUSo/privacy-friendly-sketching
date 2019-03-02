@@ -14,30 +14,6 @@
         android:layout_height="match_parent"
         android:background="@color/color_white" />
 
-    <ImageView
-        android:id="@+id/image_close_drawing"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:src="@drawable/ic_menu_gallery"
-        android:tint="@color/icon_color"
-        android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/color_white"
-        android:foreground="?selectableItemBackgroundBorderless" />
-
-    <ImageView
-        android:id="@+id/image_send_drawing"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:src="@drawable/ic_menu_send"
-        android:padding="16dp"
-        android:onClick="onShare"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/color_white"
-        android:foreground="?selectableItemBackgroundBorderless" />
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/draw_tools"
         android:layout_width="wrap_content"

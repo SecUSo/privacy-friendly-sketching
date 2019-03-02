@@ -38,5 +38,6 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
 
     implementation "com.commonsware.cwac:saferoom:0.4.5"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
 }

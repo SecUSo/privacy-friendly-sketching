@@ -113,5 +113,10 @@
     <string name="export_into_gallery">In die Galerie exportieren</string>
     <string name="export_into_external">In den externen Speicher exportieren</string>
     <string name="export_where">Wohin soll die Zeichnung exportiert werden?</string>
+    <string name="action_select_background">Select a background</string>
+    <string name="action_rename_sketch">Rename Sketch</string>
+    <string name="action_clear_background">Clear background</string>
+    <string name="action_export_sketch">Export sketch</string>
+    <string name="action_share_sketch">Share</string>
 
 </resources>
