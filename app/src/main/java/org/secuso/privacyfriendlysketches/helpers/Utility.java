@@ -52,6 +52,7 @@ public class Utility {
     }
 
     public static LinkedHashMap<MyPath, PaintOptions> deserializePaths(byte[] lines) {
+        Log.i("Deserialization", String.format("Deserializing %d path bytes.", lines.length));
         try (ByteArrayInputStream bis = new ByteArrayInputStream(lines);
              ObjectInput in = new ObjectInputStream(bis)) {
             return (LinkedHashMap<MyPath, PaintOptions>) in.readObject();
@@ -72,6 +73,7 @@ public class Utility {
     }
 
     public static Bitmap blobToBitmap(byte[] blob) {
+        Log.i("Deserialization", String.format("Deserializing %d bitmap bytes.", blob.length));
         return BitmapFactory.decodeByteArray(blob, 0, blob.length);
     }
 
