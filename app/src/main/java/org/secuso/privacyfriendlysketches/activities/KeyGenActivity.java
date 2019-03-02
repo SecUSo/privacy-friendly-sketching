@@ -175,6 +175,7 @@ public class KeyGenActivity extends BaseActivity {
         protected void onPostExecute(Long aLong) {
             super.onPostExecute(aLong);
             Intent i = new Intent(KeyGenActivity.this, GalleryActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         }
     }
