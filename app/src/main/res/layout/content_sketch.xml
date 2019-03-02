@@ -30,7 +30,7 @@
         android:id="@+id/image_send_drawing"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_menu_send"
+        android:src="@drawable/ic_share_black_24dp"
         android:padding="16dp"
         android:onClick="onShare"
         app:layout_constraintEnd_toEndOf="parent"
