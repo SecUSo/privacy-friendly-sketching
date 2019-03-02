@@ -107,19 +107,19 @@
     <string name="help_feature_two">How do i edit/delete a sketch?</string>
     <string name="help_feature_two_answer">On the gallery screen. you can tap on the preview of a sketch to edit an existing sketch. A long tap on the preview allows you to delete an existing sketch.</string>
     <string name="help_feature_three">How can I share a sketch?</string>
-    <string name="help_feature_three_answer">While editing a sketch, you can tap on the top right button of the screen to share the current sketch.</string>
+    <string name="help_feature_three_answer">While editing a sketch,you can tap the three dot button on the top right to share the current sketch.</string>
     <string name="help_feature_four">How do I name a sketch?</string>
-    <string name="help_feature_four_answer">While editing a sketch, you can tap the button on the top left, which will give you the possibility of renaming your sketch.</string>
-    <string name="help_feature_five_answer">While editing a sketch, you can tap the button on the top left, which will give you the possibility of selecting a different background color. However, importing an image from the device storage requires reading permission!</string>
+    <string name="help_feature_four_answer">While editing a sketch, you can tap the three dot button on the top right, which will give you the possibility of renaming your sketch.</string>
     <string name="help_feature_five">How do I select another background?</string>
     <string name="help_feature_six">How do I export a sketch onto the device storage?</string>
-    <string name="help_feature_six_answer">While editing a sketch, you can tap the button on the top left, which will give you the possibility of exporting your sketch onto the device storage. However, exporting an image onto the device storage requires writing permission!</string>
+    <string name="help_feature_six_answer">While editing a sketch, you can tap the three dot button on the top right, which will give you the possibility of exporting your sketch onto the device storage. However, exporting an image onto the device storage requires writing permission!</string>
     <string name="version_number">Version v%s</string>
     <string name="action_select_background">Select a background</string>
     <string name="action_rename_sketch">Rename Sketch</string>
     <string name="action_clear_background">Clear background</string>
     <string name="action_export_sketch">Export sketch</string>
     <string name="action_share_sketch">Share</string>
+    <string name="help_feature_five_answer">While editing a sketch, you can tap the three dot button on the top right, which will give you the possibility of selecting another background.</string>
 
 
 </resources>
