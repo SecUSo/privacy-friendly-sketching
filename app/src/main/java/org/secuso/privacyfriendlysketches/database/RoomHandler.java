@@ -36,16 +36,18 @@ public class RoomHandler {
         this.sketchDAO = db.sketchDao();
     }
 
-    public void insertSketch(Sketch... sketches) {
+    public int insertSketch(Sketch... sketches) {
 
         InsertAsyncTask iat = new InsertAsyncTask(this.sketchDAO);
         try {
-            iat.execute(sketches).get();
+            return iat.execute(sketches).get().intValue();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        return -1;
     }
 
     //TODO
@@ -112,7 +114,7 @@ public class RoomHandler {
     }
 
 
-    private static class InsertAsyncTask extends AsyncTask<Sketch, Long, Integer> {
+    private static class InsertAsyncTask extends AsyncTask<Sketch, Long, Long> {
 
         private SketchDAO sketchDAO;
 
@@ -121,9 +123,8 @@ public class RoomHandler {
         }
 
         @Override
-        protected Integer doInBackground(Sketch... sketches) {
-            this.sketchDAO.insertSketch(sketches);
-            return null;
+        protected Long doInBackground(Sketch... sketches) {
+            return this.sketchDAO.insertSketch(sketches[0]);
         }
     }
 

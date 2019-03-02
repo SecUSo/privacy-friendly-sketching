@@ -12,6 +12,7 @@ class MyPath : Path(), Serializable {
         inputStream.defaultReadObject()
 
         val copiedActions = actions.map { it }
+        actions.clear()
         copiedActions.forEach {
             it.perform(this)
         }
