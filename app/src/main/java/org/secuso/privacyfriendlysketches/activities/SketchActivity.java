@@ -31,7 +31,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,8 +118,7 @@ public class SketchActivity extends BaseActivity {
         if (sketch == null) {
             description = DateFormat.getDateInstance().format(new Date());
             sketchId = NEW_SKETCH_ID;
-        }
-        else {
+        } else {
             description = sketch.description;
             sketchId = sketch.id;
         }
@@ -240,7 +241,22 @@ public class SketchActivity extends BaseActivity {
                                         renameBuilder.setTitle(R.string.rename_sketch);
 
                                         final EditText input = new EditText(SketchActivity.this);
-                                        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                                        if (sketch != null && sketch.description != null) {
+                                            input.setText(sketch.description);
+                                        }
+                                        input.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
+                                        input.setFilters(new InputFilter[]{new InputFilter() {
+                                            @Override
+                                            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                                                for (int i = start; i < end; i++) {
+                                                    if (!Character.isLetterOrDigit(source.charAt(i))) {
+                                                        return "";
+                                                    }
+                                                }
+                                                return null;
+                                            }
+                                        }, new InputFilter.LengthFilter(30)});
                                         renameBuilder.setView(input);
 
                                         renameBuilder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
