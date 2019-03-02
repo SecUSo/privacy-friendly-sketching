@@ -38,15 +38,10 @@
     <!--###HELP###-->
     <string name="help">Help</string>
 
-    <string name="help_whatis">What is Privacy Friendly App Example?</string>
-    <string name="help_whatis_answer">Privacy Friendly App Example is an app that demonstrates the design of a Privacy Friendly App.</string>
-    <string name="help_feature_one">Feature 1</string>
-    <string name="help_feature_one_answer">Description of first feature.
-Lorem ipsum dolor sit amet, eu ius alia fierent indoctum, ad pri sale tation. Elit dictas sit an, ad volumus urbanitas duo. Ei clita iracundia mel, eum et laoreet pertinax abhorreant. Nonumy suavitate dignissim quo id, ius audire prodesset adipiscing ei, altera saperet his et. Nostrud pertinax eu has, qui munere complectitur an.
-
-Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constituto ex. Per soleat impedit delicatissimi cu. Inermis volumus his ea, id quo praesent eloquentiam conclusionemque. Dolores mediocrem ad sit, ex cibo evertitur cotidieque eos.
-
-    </string>
+    <string name="help_whatis">What is Privacy Friendly Sketching?</string>
+    <string name="help_whatis_answer">Privacy Friendly Sketching is an app to create and manage simple drawings and sketches. In addition to that, it offers the possibility of renaming sketches, selecting various backgrounds and sharing the sketches with friends.</string>
+    <string name="help_feature_one">How do I create a new sketch?</string>
+    <string name="help_feature_one_answer">On the gallery screen you can tap on the + symbol on the bottom right corner to create a new sketch.</string>
     <string name="help_privacy">What makes the app privacy-friendly?</string>
     <string name="help_privacy_answer">Privacy Friendly App Example does not require any permission. It further does not include any tracking mechanisms or advertisement.</string>
     <string name="help_permission">Which permissions requires the app?</string>
@@ -110,6 +105,16 @@ Ne albucius perfecto adolescens eum, id choro assueverit mea, sed viris constitu
     <string name="export_where">Where would you like to export to?</string>
     <string name="export_into_gallery">Export into gallery</string>
     <string name="export_into_external">Export into external storage</string>
+    <string name="help_feature_two">How do i edit/delete a sketch?</string>
+    <string name="help_feature_two_answer">On the gallery screen. you can tap on the preview of a sketch to edit an existing sketch. A long tap on the preview allows you to delete an existing sketch.</string>
+    <string name="help_feature_three">How can I share a sketch?</string>
+    <string name="help_feature_three_answer">While editing a sketch, you can tap on the top right button of the screen to share the current sketch.</string>
+    <string name="help_feature_four">How do I name a sketch?</string>
+    <string name="help_feature_four_answer">While editing a sketch, you can tap the button on the top left, which will give you the possibility of renaming your sketch.</string>
+    <string name="help_feature_five_answer">While editing a sketch, you can tap the button on the top left, which will give you the possibility of selecting a different background color. However, importing an image from the device storage requires reading permission!</string>
+    <string name="help_feature_five">How do I select another background?</string>
+    <string name="help_feature_six">How do I export a sketch onto the device storage?</string>
+    <string name="help_feature_six_answer">While editing a sketch, you can tap the button on the top left, which will give you the possibility of exporting your sketch onto the device storage. However, exporting an image onto the device storage requires writing permission!</string>
 
 
 </resources>

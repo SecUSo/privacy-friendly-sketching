@@ -36,14 +36,28 @@
     <!--###HELP###-->
     <string name="help">Help</string>
 
-    <string name="help_whatis">Was ist Privacy Friendly Beispiel?</string>
-    <string name="help_whatis_answer">Privacy Friendly Beispiel zeigt das Standard-Design einer Privacy Friendly App.</string>
-    <string name="help_feature_one">Feature 1</string>
-    <string name="help_feature_one_answer">Beschreibung vom 1. Feature.</string>
+    <string name="help_whatis">Was ist Privacy Friendly Sketching?</string>
+    <string name="help_whatis_answer">Privacy Friendly Sketching ist eine App zum Erstellen und Verwalten von einfachen Zeichnungen und Skizzen. Darüber hinaus bietet Privacy Friendly Sketching die Möglichkeit, Zeichnungen umzubenennen, Hintergründe für Zeichnungen auszuwählen und Zeichnungen mit Freunden zu teilen.</string>
+    <string name="help_feature_one">Wie erstelle ich eine neue Zeichnung?</string>
+    <string name="help_feature_one_answer">In der Galerie können Sie auf das + Symbol in der unteren rechten Ecke des Bildschirms tippen, um eine neue Zeichnung zu erstellen.</string>
+    <string name="help_feature_two">Wie bearbeite/lösche ich eine Zeichnung?</string>
+    <string name="help_feature_two_answer">In der Galerie können Sie auf die Vorschau einer Zeichnung tippen, um die Zeichnung zu bearbeiten. Langes Tippen auf die Vorschau erlaubt es, die Zeichnung zu löschen.</string>
+    <string name="help_feature_three">Wie kann ich eine Zeichnung teilen?</string>
+    <string name="help_feature_three_answer">Beim Bearbeiten einer Zeichnung befindet sich oben rechts ein Feld, welches das Teilen der Zeichnung ermöglicht.</string>
+    <string name="help_feature_four">Wie benenne ich eine Zeichnung?</string>
+    <string name="help_feature_four_answer">Beim Bearbeiten einer Zeichnung befindet oben links ein Menüfeld, welches die Möglichkeit bietet, Zeichnungen umzubenennen.</string>
+    <string name="help_feature_five">Wie wähle ich einen Hintergrund?</string>
+    <string name="help_feature_five_answer">Beim Bearbeiten einer Zeichnung befindet oben links ein Menüfeld, welches die Möglichkeit bietet, Hintergrundfarbe bzw. Hintergrundbild aus der Galerie zu laden. Dafür werden jedoch Leserechte auf den externen Speicher benötigt!</string>
+    <string name="help_feature_six">Wie exportiere eine Zeichung in den externen Speicher?</string>
+    <string name="help_feature_six_answer">Beim Bearbeiten einer Zeichnung befindet oben links ein Menüfeld, welches die Möglichkeit bietet, die Zeichnung in den externen Speicher zu exportieren. Dafür werden jedoch Schreibrechte auf den externen Speicher benötigt!</string>
+
+
+
+
     <string name="help_privacy">Was macht die App privatsphäre-freundlich?</string>
-    <string name="help_privacy_answer">Erklären welche Mechanismen verwendet wurden.</string>
+    <string name="help_privacy_answer">Jede Zeichnung, die erstellt und gespeichert wird, wird verschlüsselt in einer Datenbank abgelegt. Diese Datenbank ist nur durch diese App erreichbar. Zusätzlich werden keine weiteren Berechtigungen benötigt, außer, es werden Bilder aus der Galerie geladen oder auf das Gerät exportiert.</string>
     <string name="help_permission">Welche Berechtigungen braucht die App?</string>
-    <string name="help_permission_answer">Privacy Friendly Beispiel benötigt keine Berechtigungen.</string>
+    <string name="help_permission_answer">Privacy Friendly Sketching benötigt keinerlei Berechtigungen für die Grundfunktionalitäten. Zum Laden von Bildern aus dem Gerätespeicher bzw. zum Exportieren von Bildern in der Gerätespeicher werden allerdings Lese- bzw. Schreibzugriff benötigt.</string>
 
     <!--###ABOUT###-->
     <string name="about">Über</string>
