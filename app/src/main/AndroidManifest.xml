@@ -66,16 +66,6 @@
                 android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.GameActivity"
-            android:label="@string/title_activity_game"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.MainActivity" />
-        </activity>
-        <activity
             android:name="org.secuso.privacyfriendlysketches.activities.SketchActivity"
             android:label="@string/title_activity_sketch"
             android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity">

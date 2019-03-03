@@ -28,12 +28,18 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class RoomHandler {
-
+    private static RoomHandler instance;
     private SketchDAO sketchDAO;
 
-    public RoomHandler(Application application) {
+    private RoomHandler(Application application) {
         SketchingRoomDB db = SketchingRoomDB.getDatabase(application);
         this.sketchDAO = db.sketchDao();
+    }
+
+    public static RoomHandler getInstance(Application application) {
+        if (instance == null)
+            instance = new RoomHandler(application);
+        return instance;
     }
 
     public int insertSketch(Sketch... sketches) {
