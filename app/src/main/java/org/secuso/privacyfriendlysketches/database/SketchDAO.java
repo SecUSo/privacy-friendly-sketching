@@ -48,7 +48,7 @@ public interface SketchDAO {
     @Query("SELECT COUNT(*) FROM sketch")
     int getSketchCount();
 
-    @Query("SELECT id FROM sketch")
+    @Query("SELECT id FROM sketch ORDER BY id DESC")
     int[] getSketchIds();
 
     @Update
