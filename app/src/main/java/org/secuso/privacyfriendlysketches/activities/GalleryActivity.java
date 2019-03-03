@@ -38,7 +38,6 @@ import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketches.database.RoomHandler;
 import org.secuso.privacyfriendlysketches.database.Sketch;
-import org.secuso.privacyfriendlysketches.database.SketchData;
 
 class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.SketchViewHolder> {
     final private int[] sketchIds;

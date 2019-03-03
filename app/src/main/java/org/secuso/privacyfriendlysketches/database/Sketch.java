@@ -40,7 +40,7 @@ import java.util.Map;
  */
 
 @Entity(tableName = "sketch")
-public class Sketch implements SketchData {
+public class Sketch {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public byte[] bitmap;
