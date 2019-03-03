@@ -1,6 +1,7 @@
 package com.divyanshu.draw.widget
 
 import android.graphics.Path
+import android.graphics.RectF
 import java.io.ObjectInputStream
 import java.io.Serializable
 import java.util.*
@@ -36,5 +37,23 @@ class MyPath : Path(), Serializable {
     override fun quadTo(x1: Float, y1: Float, x2: Float, y2: Float) {
         actions.add(Quad(x1, y1, x2, y2))
         super.quadTo(x1, y1, x2, y2)
+    }
+
+    fun getBounds(): RectF {
+        if (actions.size == 0)
+            return RectF()
+
+        val result = RectF(actions[0].getTargetX(), actions[0].getTargetY(), actions[0].getTargetX(), actions[0].getTargetY())
+        actions.forEach{ itr ->
+            if (result.left > itr.getTargetX())
+                result.left = itr.getTargetX()
+            if (result.right < itr.getTargetX())
+                result.right = itr.getTargetX()
+            if (result.top > itr.getTargetY())
+                result.top = itr.getTargetY()
+            if (result.bottom < itr.getTargetY())
+                result.bottom = itr.getTargetY()
+        }
+        return result
     }
 }

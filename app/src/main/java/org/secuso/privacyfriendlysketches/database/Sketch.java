@@ -21,7 +21,9 @@ import android.arch.persistence.room.PrimaryKey;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 import com.divyanshu.draw.widget.MyPath;
 import com.divyanshu.draw.widget.PaintOptions;
@@ -96,14 +98,46 @@ public class Sketch implements SketchData {
         Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(Color.WHITE);
 
-        if (background != null)
-            canvas.drawBitmap(background, null, canvas.getClipBounds(), null);
+        RectF sourceRect = new RectF(0.f, 0.f, width, height );
+        RectF targetRect = new RectF( width/ 2.f, height/ 2.f, width/ 2.f, height/ 2.f);
+        Matrix transform = new Matrix();
 
         if (paths != null) {
-            Iterator<Map.Entry<MyPath, PaintOptions>> itr = paths.entrySet().iterator();
-            while (itr.hasNext()) {
-                Map.Entry<MyPath, PaintOptions> pair = itr.next();
+            for (Map.Entry<MyPath, PaintOptions> pair : paths.entrySet()) {
+                float size = pair.getValue().getStrokeWidth();
+                RectF bounds = pair.getKey().getBounds();
+                bounds.left -= size;
+                bounds.right += size;
+                bounds.top -= size;
+                bounds.bottom += size;
+                if (targetRect.left > bounds.left)
+                    targetRect.left = bounds.left;
+                if (targetRect.right < bounds.right)
+                    targetRect.right = bounds.right;
+                if (targetRect.top > bounds.top)
+                    targetRect.top = bounds.top;
+                if (targetRect.bottom < bounds.bottom)
+                    targetRect.bottom = bounds.bottom;
+            }
+        }
 
+        transform.setRectToRect(targetRect, sourceRect, Matrix.ScaleToFit.CENTER);
+        canvas.setMatrix(transform);
+
+        if (background != null) {
+            RectF backgroundRect = new RectF();
+            backgroundRect.left = (width - background.getWidth()) / 2.f;
+            backgroundRect.right = (width + background.getWidth()) / 2.f;
+            backgroundRect.top = (height - background.getHeight()) / 2.f;
+            backgroundRect.bottom = (height + background.getHeight()) / 2.f;
+            if (background.getHeight() != 1 || background.getHeight() != 1)
+                transform.mapRect(backgroundRect);
+
+            canvas.drawBitmap(background, null, backgroundRect, null);
+        }
+
+        if (paths != null) {
+            for (Map.Entry<MyPath, PaintOptions> pair : paths.entrySet()) {
                 Paint mPaint = new Paint();
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setStrokeJoin(Paint.Join.ROUND);
