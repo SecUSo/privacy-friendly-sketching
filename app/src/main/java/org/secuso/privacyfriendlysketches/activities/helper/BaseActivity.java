@@ -52,14 +52,13 @@ import org.secuso.privacyfriendlysketches.database.RoomHandler;
  * @version 20171017
  * This class is a parent class of all activities that can be accessed from the
  * Navigation Drawer (example see MainActivity.java)
- *
+ * <p>
  * The default NavigationDrawer functionality is implemented in this class. If you wish to inherit
  * the default behaviour, make sure the content view has a NavigationDrawer with the id 'nav_view',
  * the header should point to 'nav_header_main' and the menu should be loaded from 'main_drawer'.
- *
+ * <p>
  * Also the main layout that holds the content of the activity should have the id 'main_content'.
  * This way it will automatically fade in and out every time a transition is happening.
- *
  */
 public abstract class BaseActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
 
@@ -79,6 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     protected SharedPreferences mSharedPreferences;
 
     private RoomHandler roomHandler;
+
     protected RoomHandler getRoomHandler() {
         if (roomHandler == null)
             roomHandler = new RoomHandler(getApplication());
@@ -116,7 +116,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     protected boolean goToNavigationItem(final int itemId) {
 
-        if(itemId == getNavigationDrawerID()) {
+        if (itemId == getNavigationDrawerID()) {
             // just close drawer because we are already in this activity
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
@@ -144,7 +144,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
 
     // set active navigation item
     private void selectNavigationItem(int itemId) {
-        for(int i = 0 ; i < mNavigationView.getMenu().size(); i++) {
+        for (int i = 0; i < mNavigationView.getMenu().size(); i++) {
             boolean b = itemId == mNavigationView.getMenu().getItem(i).getItemId();
             mNavigationView.getMenu().getItem(i).setChecked(b);
         }
@@ -153,6 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     /**
      * Enables back navigation for activities that are launched from the NavBar. See
      * {@code AndroidManifest.xml} to find out the parent activity names for each activity.
+     *
      * @param intent
      */
     private void createBackStack(Intent intent) {
@@ -169,17 +170,14 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     /**
      * This method manages the behaviour of the navigation drawer
      * Add your menu items (ids) to res/menu/activity_main_drawer.xml
+     *
      * @param itemId Item that has been clicked by the user
      */
     private void callDrawerItem(final int itemId) {
 
         Intent intent;
 
-        switch(itemId) {
-            case R.id.nav_sketch:
-                intent = new Intent(this, SketchActivity.class);
-                createBackStack(intent);
-                break;
+        switch (itemId) {
             case R.id.nav_gallery:
                 intent = new Intent(this, GalleryActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -197,16 +195,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
                 intent = new Intent(this, HelpActivity.class);
                 createBackStack(intent);
                 break;
-            case R.id.nav_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-                intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
-                createBackStack(intent);
-                break;
-            case R.id.nav_keygen:
-                intent = new Intent(this, KeyGenActivity.class);
-                createBackStack(intent);
-                break;
             default:
         }
     }
@@ -216,7 +204,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
         super.onPostCreate(savedInstanceState);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(getSupportActionBar() == null) {
+        if (getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
         }
 

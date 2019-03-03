@@ -220,7 +220,7 @@ public class SketchActivity extends BaseActivity {
                 showSelectBackgroundDialog();
                 return true;
             case R.id.action_clear_background:
-                drawView.setBackground((Bitmap)null);
+                drawView.setBackground((Bitmap) null);
                 return true;
             case R.id.action_export_sketch:
                 showExportDialog();
@@ -268,7 +268,7 @@ public class SketchActivity extends BaseActivity {
 
     @Override
     protected int getNavigationDrawerID() {
-        return R.id.nav_sketch;
+        return -1;
     }
 
     private void showSelectBackgroundDialog() {
@@ -307,7 +307,7 @@ public class SketchActivity extends BaseActivity {
                 }
                 return null;
             }
-            }, new InputFilter.LengthFilter(30)});
+        }, new InputFilter.LengthFilter(30)});
         renameBuilder.setView(input);
 
         renameBuilder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {

@@ -16,6 +16,7 @@
  */
 package org.secuso.privacyfriendlysketches.activities;
 
+import android.app.Activity;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -56,7 +57,7 @@ import javax.security.auth.x500.X500Principal;
  * Also, this class checks the database and rekeys it, if needed.
  */
 
-public class KeyGenActivity extends BaseActivity {
+public class KeyGenActivity extends Activity {
 
     TextView progressText;
 
@@ -66,11 +67,6 @@ public class KeyGenActivity extends BaseActivity {
         setContentView(R.layout.activity_keygen);
 
         this.progressText = findViewById(R.id.keyGenProgressText);
-    }
-
-    @Override
-    protected int getNavigationDrawerID() {
-        return R.id.nav_keygen;
     }
 
     @Override

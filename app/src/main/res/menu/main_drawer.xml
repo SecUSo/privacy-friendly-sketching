@@ -7,10 +7,7 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Gallery" />
-        <item
-            android:id="@+id/nav_sketch"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/action_sketch" />
+
         <item
             android:id="@+id/nav_tutorial"
             android:icon="@drawable/ic_menu_tutorial"
@@ -20,10 +17,6 @@
     <group android:id="@+id/nav_group_add"
         android:checkableBehavior="all">
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_settings"
-            android:title="@string/action_settings" />
-        <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_menu_help"
             android:title="@string/action_help" />
@@ -31,9 +24,5 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_info"
             android:title="@string/action_about" />
-        <item
-            android:id="@+id/nav_keygen"
-            android:icon="@drawable/ic_menu_info"
-            android:title="KeyGen" />
     </group>
 </menu>
