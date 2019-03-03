@@ -142,21 +142,23 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        mTransform.setTranslate(mScrollX, mScrollY)
+        mTransform.setTranslate(mScrollX + canvas.clipBounds.centerX(), mScrollY + canvas.clipBounds.centerY())
         mTransform.postScale(mScale, mScale)
-        canvas.matrix = mTransform
 
         val bg = mBackground
         if (bg != null) {
-            mBackgroundRect.left = canvas.clipBounds.centerX() - bg.width.toFloat() / 2
-            mBackgroundRect.right = canvas.clipBounds.centerX() + bg.width.toFloat() / 2
-            mBackgroundRect.top = canvas.clipBounds.centerY() - bg.height.toFloat() / 2
-            mBackgroundRect.bottom = canvas.clipBounds.centerY() + bg.height.toFloat() / 2
-            if (bg.height != 1 || bg.width != 1)
+            mBackgroundRect.left = - bg.width.toFloat() / 2
+            mBackgroundRect.right = bg.width.toFloat() / 2
+            mBackgroundRect.top = - bg.height.toFloat() / 2
+            mBackgroundRect.bottom = bg.height.toFloat() / 2
+            if (bg.height == 1 && bg.width == 1)
+                mBackgroundRect.set(canvas.clipBounds)
+            else
                 mTransform.mapRect(mBackgroundRect)
+
             canvas.drawBitmap(mBackground, null, mBackgroundRect, null)
         }
-
+        canvas.matrix = mTransform
         mTransform.invert(mTransform)
 
         for ((key, value) in mPaths) {

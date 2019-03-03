@@ -99,7 +99,7 @@ public class Sketch implements SketchData {
         canvas.drawColor(Color.WHITE);
 
         RectF sourceRect = new RectF(0.f, 0.f, width, height );
-        RectF targetRect = new RectF( width/ 2.f, height/ 2.f, width/ 2.f, height/ 2.f);
+        RectF targetRect = new RectF( 0.f, 0.f, 0.f, 0.f);
         Matrix transform = new Matrix();
 
         if (paths != null) {
@@ -122,19 +122,22 @@ public class Sketch implements SketchData {
         }
 
         transform.setRectToRect(targetRect, sourceRect, Matrix.ScaleToFit.CENTER);
-        canvas.setMatrix(transform);
 
         if (background != null) {
             RectF backgroundRect = new RectF();
-            backgroundRect.left = (width - background.getWidth()) / 2.f;
-            backgroundRect.right = (width + background.getWidth()) / 2.f;
-            backgroundRect.top = (height - background.getHeight()) / 2.f;
-            backgroundRect.bottom = (height + background.getHeight()) / 2.f;
-            if (background.getHeight() != 1 || background.getHeight() != 1)
+            backgroundRect.left = - background.getWidth() / 2.f;
+            backgroundRect.right = background.getWidth() / 2.f;
+            backgroundRect.top = - background.getHeight() / 2.f;
+            backgroundRect.bottom = + background.getHeight() / 2.f;
+            if (background.getHeight() == 1 && background.getHeight() == 1)
+                backgroundRect.set(canvas.getClipBounds());
+            else
                 transform.mapRect(backgroundRect);
 
             canvas.drawBitmap(background, null, backgroundRect, null);
         }
+
+        canvas.setMatrix(transform);
 
         if (paths != null) {
             for (Map.Entry<MyPath, PaintOptions> pair : paths.entrySet()) {
