@@ -92,11 +92,11 @@ class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.SketchViewHolde
         }
 
         public ImageView getImageView() {
-            return (ImageView) this.cardView.getChildAt(0);
+            return (ImageView) this.cardView.findViewById(R.id.image_view);
         }
 
         TextView getTextView() {
-            return ((TextView) this.cardView.getChildAt(1));
+            return ((TextView) this.cardView.findViewById(R.id.info_text));
         }
     }
 
