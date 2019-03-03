@@ -146,9 +146,13 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mTransform.postScale(mScale, mScale)
         canvas.matrix = mTransform
 
-        if (mBackground != null) {
-            mBackgroundRect.set(canvas.clipBounds)
-            if (mBackground?.height != 1 || mBackground?.width != 1)
+        val bg = mBackground
+        if (bg != null) {
+            mBackgroundRect.left = canvas.clipBounds.centerX() - bg.width.toFloat() / 2
+            mBackgroundRect.right = canvas.clipBounds.centerX() + bg.width.toFloat() / 2
+            mBackgroundRect.top = canvas.clipBounds.centerY() - bg.height.toFloat() / 2
+            mBackgroundRect.bottom = canvas.clipBounds.centerY() + bg.height.toFloat() / 2
+            if (bg.height != 1 || bg.width != 1)
                 mTransform.mapRect(mBackgroundRect)
             canvas.drawBitmap(mBackground, null, mBackgroundRect, null)
         }
