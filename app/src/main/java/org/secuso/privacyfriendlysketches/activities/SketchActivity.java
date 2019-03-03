@@ -260,9 +260,11 @@ public class SketchActivity extends BaseActivity {
             return;
 
         updateSketchBeforeSave();
-        outState.putInt("sketchId", sketch.id);
+        int sketchId = sketch.id;
+        outState.putInt("sketchId", sketchId);
         sketch.setId(TEMP_SKETCH_ID);
         getRoomHandler().insertSketch(sketch);
+        sketch.setId(sketchId);
     }
 
 
