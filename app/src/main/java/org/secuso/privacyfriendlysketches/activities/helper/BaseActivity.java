@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
@@ -38,12 +37,7 @@ import android.view.View;
 import org.secuso.privacyfriendlysketches.R;
 import org.secuso.privacyfriendlysketches.activities.AboutActivity;
 import org.secuso.privacyfriendlysketches.activities.GalleryActivity;
-import org.secuso.privacyfriendlysketches.activities.GameActivity;
 import org.secuso.privacyfriendlysketches.activities.HelpActivity;
-import org.secuso.privacyfriendlysketches.activities.KeyGenActivity;
-import org.secuso.privacyfriendlysketches.activities.MainActivity;
-import org.secuso.privacyfriendlysketches.activities.SettingsActivity;
-import org.secuso.privacyfriendlysketches.activities.SketchActivity;
 import org.secuso.privacyfriendlysketches.activities.TutorialActivity;
 import org.secuso.privacyfriendlysketches.database.RoomHandler;
 
@@ -77,12 +71,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnNaviga
     private Handler mHandler;
     protected SharedPreferences mSharedPreferences;
 
-    private RoomHandler roomHandler;
-
     protected RoomHandler getRoomHandler() {
-        if (roomHandler == null)
-            roomHandler = new RoomHandler(getApplication());
-        return roomHandler;
+        return RoomHandler.getInstance(getApplication());
     }
 
     @Override

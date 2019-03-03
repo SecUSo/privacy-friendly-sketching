@@ -21,8 +21,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +29,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
@@ -44,16 +43,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
+import com.divyanshu.draw.widget.CircleView;
 import com.divyanshu.draw.widget.DrawView;
 import com.divyanshu.draw.widget.MyPath;
 import com.divyanshu.draw.widget.PaintOptions;
-import com.divyanshu.draw.widget.CircleView;
 
 import org.secuso.privacyfriendlysketches.R;
-import org.secuso.privacyfriendlysketches.activities.helper.BaseActivity;
+import org.secuso.privacyfriendlysketches.database.RoomHandler;
 import org.secuso.privacyfriendlysketches.database.Sketch;
 import org.secuso.privacyfriendlysketches.helpers.Utility;
 
@@ -78,7 +76,7 @@ enum ToolbarMode {
  * This class represents the editing of a sketch and gives the user the ability to draw sketches with different tools, rename sketches, select a
  * new background and export the sketches
  */
-public class SketchActivity extends BaseActivity {
+public class SketchActivity extends AppCompatActivity {
     static final int NEW_SKETCH_ID = -1;
     static final int TEMP_SKETCH_ID = -2;
 
@@ -104,6 +102,10 @@ public class SketchActivity extends BaseActivity {
     private boolean writePermissionGranted = false;
 
     private static int SAVETYPE;
+
+    private RoomHandler getRoomHandler() {
+        return RoomHandler.getInstance(getApplication());
+    }
 
     private void initFromSketch(Sketch sketch) {
         this.sketch = sketch;
@@ -136,7 +138,8 @@ public class SketchActivity extends BaseActivity {
         setContentView(R.layout.activity_sketch);
 
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null)
+            ab.setDisplayHomeAsUpEnabled(true);
 
         drawView = findViewById(R.id.draw_view);
         toolbar = findViewById(R.id.draw_tools);
@@ -265,12 +268,6 @@ public class SketchActivity extends BaseActivity {
         sketch.setId(TEMP_SKETCH_ID);
         getRoomHandler().insertSketch(sketch);
         sketch.setId(sketchId);
-    }
-
-
-    @Override
-    protected int getNavigationDrawerID() {
-        return -1;
     }
 
     private void showSelectBackgroundDialog() {
