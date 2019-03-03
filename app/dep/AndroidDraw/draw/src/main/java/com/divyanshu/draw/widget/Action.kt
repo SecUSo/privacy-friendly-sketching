@@ -8,4 +8,7 @@ interface Action : Serializable {
     fun perform(path: Path)
 
     fun perform(writer: Writer)
+
+    fun getTargetX(): Float
+    fun getTargetY(): Float
 }
