@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.security.KeyPairGeneratorSpec;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -57,7 +58,7 @@ import javax.security.auth.x500.X500Principal;
  * Also, this class checks the database and rekeys it, if needed.
  */
 
-public class KeyGenActivity extends Activity {
+public class KeyGenActivity extends BaseActivity {
 
     TextView progressText;
 
@@ -67,6 +68,11 @@ public class KeyGenActivity extends Activity {
         setContentView(R.layout.activity_keygen);
 
         this.progressText = findViewById(R.id.keyGenProgressText);
+    }
+
+    @Override
+    protected int getNavigationDrawerID() {
+        return -1;
     }
 
     @Override
@@ -171,7 +177,6 @@ public class KeyGenActivity extends Activity {
         protected void onPostExecute(Long aLong) {
             super.onPostExecute(aLong);
             Intent i = new Intent(KeyGenActivity.this, GalleryActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         }
     }
