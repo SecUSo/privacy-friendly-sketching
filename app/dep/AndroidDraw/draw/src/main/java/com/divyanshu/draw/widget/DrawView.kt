@@ -55,6 +55,7 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     override fun onScale(detector: ScaleGestureDetector): Boolean {
                         val oldScale = mScale
                         mScale *= detector.scaleFactor
+                        mScale = Math.min(Math.max(mScale, 0.5f), 3.0f)
                         mScrollX += detector.focusX * (oldScale - mScale) / mScale
                         mScrollY += detector.focusY * (oldScale - mScale) / mScale
                         invalidate()
