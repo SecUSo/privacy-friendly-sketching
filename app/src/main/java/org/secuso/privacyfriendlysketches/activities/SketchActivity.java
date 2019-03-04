@@ -27,6 +27,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -368,21 +369,45 @@ public class SketchActivity extends AppCompatActivity {
     }
 
     private void onShare() {
-        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-            return;
+//        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+//            return;
+//        }
+
+//        String description = DateFormat.getDateInstance().format(new Date());
+//        if (sketch != null)
+//            description = sketch.description;
+//        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), drawView.getBitmap(), description, null);
+//        Uri bitmapUri = Uri.parse(bitmapPath);
+//
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("image/png");
+//        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+//        startActivity(intent);
+
+        File cachePath = new File(getApplicationContext().getCacheDir(), "images");
+        cachePath.mkdirs();
+        try {
+            FileOutputStream fos = new FileOutputStream(cachePath + "/sketch.png");
+            drawView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+
+            File imageFile = new File(cachePath, "sketch.png");
+            Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), "org.secuso.privacyfriendlysketches.fileprovider", imageFile);
+
+            if (contentUri != null) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+                intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                startActivity(Intent.createChooser(intent, getString(R.string.action_share_sketch)));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        String description = DateFormat.getDateInstance().format(new Date());
-        if (sketch != null)
-            description = sketch.description;
-        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), drawView.getBitmap(), description, null);
-        Uri bitmapUri = Uri.parse(bitmapPath);
-
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("image/png");
-        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
-        startActivity(intent);
     }
 
     public void onClick(View view) {
