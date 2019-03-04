@@ -369,22 +369,6 @@ public class SketchActivity extends AppCompatActivity {
     }
 
     private void onShare() {
-//        if (ContextCompat.checkSelfPermission(SketchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(SketchActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-//            return;
-//        }
-
-//        String description = DateFormat.getDateInstance().format(new Date());
-//        if (sketch != null)
-//            description = sketch.description;
-//        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), drawView.getBitmap(), description, null);
-//        Uri bitmapUri = Uri.parse(bitmapPath);
-//
-//        Intent intent = new Intent(Intent.ACTION_SEND);
-//        intent.setType("image/png");
-//        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
-//        startActivity(intent);
-
         File cachePath = new File(getApplicationContext().getCacheDir(), "images");
         cachePath.mkdirs();
         try {
