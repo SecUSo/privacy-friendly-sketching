@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.secuso.privacyfriendlysketches">
+    package="org.secuso.privacyfriendlysketching">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.SplashActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,69 +28,69 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.TutorialActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.TutorialActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
+                android:value="org.secuso.privacyfriendlysketching.activities.GalleryActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.MainActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.AboutActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
+            android:parentActivityName="org.secuso.privacyfriendlysketching.activities.GalleryActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
+                android:value="org.secuso.privacyfriendlysketching.activities.GalleryActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.HelpActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.HelpActivity"
             android:label="@string/help"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
+            android:parentActivityName="org.secuso.privacyfriendlysketching.activities.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
+                android:value="org.secuso.privacyfriendlysketching.activities.GalleryActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.SettingsActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
+            android:parentActivityName="org.secuso.privacyfriendlysketching.activities.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
+                android:value="org.secuso.privacyfriendlysketching.activities.GalleryActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.SketchActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.SketchActivity"
             android:label="@string/title_activity_sketch"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity">
+            android:parentActivityName="org.secuso.privacyfriendlysketching.activities.GalleryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
+                android:value="org.secuso.privacyfriendlysketching.activities.GalleryActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.GalleryActivity"
             android:label="@string/title_gallery_sketch"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="org.secuso.privacyfriendlysketches.activities.KeyGenActivity"
+            android:name="org.secuso.privacyfriendlysketching.activities.KeyGenActivity"
             android:label="@string/title_activity_game"
             android:noHistory="true"
-            android:parentActivityName="org.secuso.privacyfriendlysketches.activities.GalleryActivity"
+            android:parentActivityName="org.secuso.privacyfriendlysketching.activities.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlysketches.activities.GalleryActivity" />
+                android:value="org.secuso.privacyfriendlysketching.activities.GalleryActivity" />
         </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="org.secuso.privacyfriendlysketches.fileprovider"
+            android:authorities="org.secuso.privacyfriendlysketching.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
