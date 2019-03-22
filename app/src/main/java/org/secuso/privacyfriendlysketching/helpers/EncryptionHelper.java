@@ -116,12 +116,6 @@ public class EncryptionHelper {
             cos.close();
             byte[] plaintext = baos.toByteArray();
 
-            String pass = "";
-            for (int i = 0; i < plaintext.length; i++) {
-                pass += Byte.toString(plaintext[i]);
-            }
-            Log.i("ENCRYPTIONHELPER", "Decrypted Passphrase: " + pass);
-
             char[] plaintextChar = new char[plaintext.length];
             for (int i = 0; i < plaintext.length; i++) {
                 plaintextChar[i] = (char) plaintext[i];
