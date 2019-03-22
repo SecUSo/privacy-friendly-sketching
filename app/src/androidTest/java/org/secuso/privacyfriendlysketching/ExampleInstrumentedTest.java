@@ -17,6 +17,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.divyanshu.draw.test", appContext.getPackageName());
+        assertEquals("org.secuso.privacyfriendlysketching", appContext.getPackageName());
     }
 }
