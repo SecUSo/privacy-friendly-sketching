@@ -68,9 +68,6 @@ public class EncryptionHelper {
             SharedPreferences sp = context.getSharedPreferences(appName, Context.MODE_PRIVATE);
             sp.edit().putString(keyAlias, b64Cipher).apply();
 
-            Log.i("ENCRYPTIONHELPER", "saving: " + b64Cipher);
-
-
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (NoSuchPaddingException e) {
@@ -96,8 +93,6 @@ public class EncryptionHelper {
 
             SharedPreferences sp = context.getSharedPreferences(appName, Context.MODE_PRIVATE);
             String retrieved = sp.getString(keyAlias, "nope");
-
-            Log.i("ENCRYPTIONHELPER", "retrieved: " + retrieved);
 
             byte[] encryptedPassphrase = Base64.decode(retrieved, Base64.DEFAULT);
 
