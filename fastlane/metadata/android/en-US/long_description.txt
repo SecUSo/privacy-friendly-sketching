@@ -1,0 +1,26 @@
+Privacy Friendly Sketching lets you create and save simple sketches in a quick manner without having to endure ads or requiring additional permissions!
+
+Select a background color or a background image and start drawing! This app allows you to draw simple sketches in a matter of seconds to share with your friends.
+A key feature of Privacy Friendly Sketching is ensuring the users privacy at all costs. This means that every sketch is saved encrypted and that there are no permissions being required in order to use this app.
+In addition, we will never display any annoying ads to increase the fun factor while using the app and eliminate any data usage that might occur!
+The only permission that this app requires (that is completely optional) is to access the import/export functionality of this app, in which you can import an image from the device storage or export a sketch into the device storage.
+
+Functionalities:
+
+Edit a sketch with various different colors, thickness and transparency
+
+Undo/redo the last action
+
+Zoom and Scrolling
+
+Select a background image or a background color for your sketch
+
+Export sketches as a PNG into the device storage
+
+Share sketchs with your friends
+
+Gallery overview that shows all encrypted sketches
+
+
+Privacy Friendly App on GitHub:
+https://github.com/SecUSo/privacy-friendly-sketching
