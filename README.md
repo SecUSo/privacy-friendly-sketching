@@ -1,4 +1,4 @@
-﻿# Privacy Friendly Sketching
+# Privacy Friendly Sketching
 
 This application represents a privacy friendly tool for creating simple sketches. It belongs to the group of Privacy Friendly Apps developed by the Karlsruhe Institute of Technology.
 
@@ -7,7 +7,16 @@ This application represents a privacy friendly tool for creating simple sketches
 Privacy Friendly Sketches has been developed to create and manage simple sketches while maintaining user privacy. This includes use of minimum permissions and the absence of advertisement.
 Privacy Friendly Apps are group of Android applications which are optimized regarding privacy. Further information can be found on https://secuso.org/pfa
 
-## Download and more Information
+## Download
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/org.secuso.privacyfriendlysketching/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=org.secuso.privacyfriendlysketching)
+
+## More Information
 
 Further development requires Android Studio, we recommend to use at least version 3.1.1
  
