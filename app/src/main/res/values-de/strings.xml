@@ -115,7 +115,7 @@
     <string name="version_number" translatable="false">Version v%s</string>
     <string name="action_select_background">Hintergrund auswählen</string>
     <string name="action_rename_sketch">Zeichnung umbenennen</string>
-    <string name="action_clear_background">Hintegrund löschen</string>
+    <string name="action_clear_background">Hintergrund löschen</string>
     <string name="action_export_sketch">Zeichnung exportieren</string>
     <string name="action_share_sketch">Teilen</string>
 
