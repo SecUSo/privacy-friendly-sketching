@@ -1,3 +1,8 @@
+[![Twitter](https://img.shields.io/badge/twitter-@SECUSOResearch-%231DA1F2.svg?&style=flat-square&logo=twitter&logoColor=1DA1F2)][Twitter]
+[![Mastodon](https://img.shields.io/badge/mastodon-@SECUSO__Research@baw%C3%BC.social-%233088D4.svg?&style=flat-square&logo=mastodon&logoColor=3088D4)][Mastodon]
+
+[Mastodon]: https://xn--baw-joa.social/@SECUSO_Research
+[Twitter]: https://twitter.com/SECUSOResearch
 # Privacy Friendly Sketching
 
 This application represents a privacy friendly tool for creating simple sketches. It belongs to the group of Privacy Friendly Apps developed by the Karlsruhe Institute of Technology.
