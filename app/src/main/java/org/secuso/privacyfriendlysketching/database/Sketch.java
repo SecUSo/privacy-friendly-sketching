@@ -16,8 +16,8 @@
  */
 package org.secuso.privacyfriendlysketching.database;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;

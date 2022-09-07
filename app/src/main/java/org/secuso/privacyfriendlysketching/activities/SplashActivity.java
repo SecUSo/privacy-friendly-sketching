@@ -19,7 +19,7 @@ package org.secuso.privacyfriendlysketching.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.secuso.privacyfriendlysketching.helpers.EncryptionHelper;
 import org.secuso.privacyfriendlysketching.helpers.FirstLaunchManager;
