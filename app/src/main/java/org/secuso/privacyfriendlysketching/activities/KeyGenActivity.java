@@ -121,7 +121,13 @@ public class KeyGenActivity extends BaseActivity {
                 Calendar now = Calendar.getInstance();
                 Calendar end = Calendar.getInstance();
                 end.add(Calendar.YEAR, 30);
-                KeyPairGeneratorSpec kpgs = new KeyPairGeneratorSpec.Builder(getApplicationContext()).setAlias(getString(R.string.key_alias)).setSubject(new X500Principal("CN=" + getString(R.string.key_alias))).setSerialNumber(BigInteger.ONE).setStartDate(now.getTime()).setEndDate(end.getTime()).build();
+                KeyPairGeneratorSpec kpgs = new KeyPairGeneratorSpec.Builder(getApplicationContext())
+                        .setAlias(EncryptionHelper.PASSPHRASE_KEY_PREF_NAME)
+                        .setSubject(new X500Principal("CN=" + EncryptionHelper.PASSPHRASE_KEY_PREF_NAME))
+                        .setSerialNumber(BigInteger.ONE)
+                        .setStartDate(now.getTime())
+                        .setEndDate(end.getTime())
+                        .build();
                 kpg.initialize(kpgs);
                 KeyPair pair = kpg.generateKeyPair();
 
@@ -129,11 +135,7 @@ public class KeyGenActivity extends BaseActivity {
                 EncryptionHelper.savePassPhrase(getApplicationContext(), passphrase);
 
 
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (NoSuchProviderException e) {
-                e.printStackTrace();
-            } catch (InvalidAlgorithmParameterException e) {
+            } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidAlgorithmParameterException e) {
                 e.printStackTrace();
             }
             if (kpg == null) {
