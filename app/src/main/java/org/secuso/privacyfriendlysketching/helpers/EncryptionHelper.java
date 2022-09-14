@@ -19,7 +19,6 @@ package org.secuso.privacyfriendlysketching.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
-import android.util.Log;
 
 import org.secuso.privacyfriendlysketching.R;
 
@@ -46,14 +45,14 @@ import javax.crypto.NoSuchPaddingException;
 public class EncryptionHelper {
 
     private final static String ANDROIDKEYSTORE = "AndroidKeyStore";
+    public final static String PASSPHRASE_KEY_PREF_NAME = "PASSPHRASE_KEY";
+    public final static String PREFERENCE_NAME = "Sketches";
 
     public static void savePassPhrase(Context context, byte[] passphrase) {
         try {
-            String keyAlias = context.getString(R.string.key_alias);
-            String appName = context.getString(R.string.app_name);
             KeyStore store = KeyStore.getInstance(ANDROIDKEYSTORE);
             store.load(null);
-            KeyStore.PrivateKeyEntry skEntry = (KeyStore.PrivateKeyEntry) store.getEntry(keyAlias, null);
+            KeyStore.PrivateKeyEntry skEntry = (KeyStore.PrivateKeyEntry) store.getEntry(PASSPHRASE_KEY_PREF_NAME, null);
             PublicKey pk = skEntry.getCertificate().getPublicKey();
             Cipher c = Cipher.getInstance("RSA/ECB/PKCS1PADDING");
             c.init(Cipher.ENCRYPT_MODE, pk);
@@ -65,22 +64,10 @@ public class EncryptionHelper {
             byte[] cipher = baos.toByteArray();
             String b64Cipher = Base64.encodeToString(cipher, Base64.DEFAULT);
 
-            SharedPreferences sp = context.getSharedPreferences(appName, Context.MODE_PRIVATE);
-            sp.edit().putString(keyAlias, b64Cipher).apply();
+            SharedPreferences sp = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+            sp.edit().putString(PASSPHRASE_KEY_PREF_NAME, b64Cipher).apply();
 
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (UnrecoverableEntryException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | KeyStoreException | UnrecoverableEntryException | InvalidKeyException | IOException | CertificateException e) {
             e.printStackTrace();
         }
     }
@@ -88,17 +75,15 @@ public class EncryptionHelper {
     public static char[] loadPassPhrase(Context context) {
 
         try {
-            String keyAlias = context.getString(R.string.key_alias);
-            String appName = context.getString(R.string.app_name);
 
-            SharedPreferences sp = context.getSharedPreferences(appName, Context.MODE_PRIVATE);
-            String retrieved = sp.getString(keyAlias, "nope");
+            SharedPreferences sp = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+            String retrieved = sp.getString(PASSPHRASE_KEY_PREF_NAME, "nope");
 
             byte[] encryptedPassphrase = Base64.decode(retrieved, Base64.DEFAULT);
 
             KeyStore store = KeyStore.getInstance(ANDROIDKEYSTORE);
             store.load(null);
-            KeyStore.PrivateKeyEntry skEntry = (KeyStore.PrivateKeyEntry) store.getEntry(keyAlias, null);
+            KeyStore.PrivateKeyEntry skEntry = (KeyStore.PrivateKeyEntry) store.getEntry(PASSPHRASE_KEY_PREF_NAME, null);
             if (skEntry == null)
                 return null;
             PrivateKey sk = skEntry.getPrivateKey();
@@ -118,19 +103,7 @@ public class EncryptionHelper {
 
             return plaintextChar;
 
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (UnrecoverableEntryException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
+        } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | InvalidKeyException | UnrecoverableEntryException | NoSuchPaddingException e) {
             e.printStackTrace();
         }
 

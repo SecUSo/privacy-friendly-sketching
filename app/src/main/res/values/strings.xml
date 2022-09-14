@@ -85,7 +85,6 @@
     <string name="title_gallery_sketch">Gallery</string>
 
     <string name="keygen_infotext">Preparing Encryption and Database for first time use..</string>
-    <string name="key_alias" translatable="false">PASSPHRASE_KEY</string>
     <string name="dialog_delete_message">Delete this sketch?</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>

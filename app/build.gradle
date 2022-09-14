@@ -46,4 +46,10 @@ dependencies {
 
     implementation "com.commonsware.cwac:saferoom:0.4.5"
 
+    // Backup API
+    implementation project(':backup-api')
+    def work_version = '2.7.1'
+    implementation "androidx.work:work-runtime:$work_version"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    androidTestImplementation "androidx.work:work-testing:$work_version"
 }
