@@ -49,6 +49,6 @@ You should have received a copy of the GNU General Public License along with thi
 
 ## Contributors
 
-<a href="https://github.com/SecUSo/privacy-friendly-food-tracker/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=SecUSo/privacy-friendly-food-tracker&max=100&columns=20" />
+<a href="https://github.com/SecUSo/privacy-friendly-sketching/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=SecUSo/privacy-friendly-sketching&max=100&columns=20" />
 </a>
