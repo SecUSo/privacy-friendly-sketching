@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
-
+    namespace "com.divyanshu.draw"
 
 
     defaultConfig {
@@ -22,6 +22,10 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
 }
 
 dependencies {
@@ -36,4 +40,3 @@ dependencies {
 }
 
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
