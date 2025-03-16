@@ -157,9 +157,9 @@ class DrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             else
                 mTransform.mapRect(mBackgroundRect)
 
-            canvas.drawBitmap(mBackground, null, mBackgroundRect, null)
+            canvas.drawBitmap(mBackground!!, null, mBackgroundRect, null)
         }
-        canvas.matrix = mTransform
+        canvas.setMatrix(mTransform)
         mTransform.invert(mTransform)
 
         for ((key, value) in mPaths) {
