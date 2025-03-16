@@ -10,8 +10,8 @@ android {
         applicationId "org.secuso.privacyfriendlysketching"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 2
-        versionName "1.1.0"
+        versionCode 3
+        versionName "1.1.1"
     }
 
     buildFeatures {
@@ -67,8 +67,8 @@ dependencies {
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    implementation 'androidx.room:room-runtime:2.4.3'
-    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
 
     // SQLCipher
     implementation 'net.zetetic:android-database-sqlcipher:4.5.0'
