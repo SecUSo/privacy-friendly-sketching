@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_button_3">3</string>
+    <string name="action_help">Справка</string>
+    <string name="app_name">Зарисовки</string>
+    <string name="help_whatis_answer">Зарисовки — это приложение для создания и управления простыми рисунками и эскизами. Кроме того, оно предлагает возможность переименования эскизов, выбора различных фонов и обмена эскизами с друзьями.</string>
+    <string name="app_name_long">Зарисовки (PFA)</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_main">Главная</string>
+    <string name="action_game">Игра</string>
+    <string name="action_tutorial">Руководство</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+    <string name="main_button_disabled_text">Неактивная кнопка</string>
+    <string name="main_button_1">1</string>
+    <string name="main_button_4">4</string>
+    <string name="main_button_5">5</string>
+    <string name="game_desc">Это главное меню по умолчанию для игровых приложений. Вышеупомянутый просмотрщик должен использоваться для переключения между режимами игры.</string>
+    <string name="help">Справка</string>
+    <string name="help_whatis">Что такое Зарисовки?</string>
+    <string name="about_affiliation">В сотрудничестве с</string>
+    <string name="pref_example_switch_summary">Пример сводки Switch</string>
+    <string name="next">Далее</string>
+    <string name="skip">Пропустить</string>
+    <string name="title_gallery_sketch">Галерея</string>
+    <string name="action_sketch">Рисунок</string>
+    <string name="dialog_cancel">Отмена</string>
+    <string name="sketch_saved">Рисунок сохранён!</string>
+    <string name="action_about">О приложении</string>
+    <string name="action_share_sketch">Поделиться</string>
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+    <string name="dialog_delete_message">Удалить этот рисунок?</string>
+    <string name="action_export_sketch">Экспорт рисунка</string>
+    <string name="help_feature_one">Как создать новый эскиз?</string>
+    <string name="more_info">Подробнее можно узнать на:</string>
+    <string name="main_button_2">2</string>
+    <string name="main_text_fullwithbutton_desc">Кнопка, использующая полную ширину экрана, выглядит так:</string>
+    <string name="main_button_text">Кнопка полной ширины</string>
+    <string name="about_author_contributors">и другие участники.</string>
+    <string name="main_text_disabledbutton_desc">Отключённая кнопка выглядит так (любой размер):</string>
+    <string name="about_author">Авторы：</string>
+</resources>
