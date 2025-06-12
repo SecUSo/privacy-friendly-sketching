@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.secuso.privacyfriendlysketching.GoodbyeGoogleHelperKt;
 import org.secuso.privacyfriendlysketching.R;
 import org.secuso.privacyfriendlysketching.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketching.database.RoomHandler;
@@ -176,6 +177,7 @@ public class GalleryActivity extends BaseActivity implements View.OnLongClickLis
         }
         layoutManager = new GridLayoutManager(this, amountOfColums);
         recyclerView.setLayoutManager(layoutManager);
+        GoodbyeGoogleHelperKt.checkGoodbyeGoogle(this, getLayoutInflater());
     }
 
     private static class GetSketchCountAsyncTask extends AsyncTask<Void, Void, int[]> {
