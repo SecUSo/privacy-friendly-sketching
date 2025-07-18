@@ -57,17 +57,17 @@
     <string name="pref_example_switch_summary">Example Switch Summary</string>
     <string name="pref_example_summary">Example Summary</string>
     <!-- ### TUTORIAL DIALOG ### -->
-    <string name="slide1_heading">Bienvenue!</string>
+    <string name="slide1_heading">Welcome!</string>
     <string name="slide1_text">Privacy Friendly Sketching is an app to create and manage simple paintings and sketches without the need of extra permissions.</string>
     <string name="slide2_heading">Gallery</string>
     <string name="slide2_text">The gallery displays an overview of existing sketches. Using the + symbol on the bottom right corner of the screen allows you to create a new sketch. A long touch over a preview allows you to delete an existing sketch.</string>
     <string name="slide3_heading">Editing a sketch</string>
     <string name="slide3_text">In addition to the editing tools on the bottom side of the screen you can select a background color or a background image.You can also share the current sketch with your friends. Have fun!</string>
-    <string name="okay">Ok</string>
-    <string name="viewhelp">Voir l\'aide</string>
+    <string name="okay">Okay</string>
+    <string name="viewhelp">View Help</string>
     <string name="main_floating_button">Floating Button</string>
-    <string name="next">Suivant</string>
-    <string name="skip">Passer</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
     <string name="title_activity_sketch">Sketch</string>
     <string name="action_sketch">Sketch</string>
     <string name="title_gallery_sketch">Gallery</string>
