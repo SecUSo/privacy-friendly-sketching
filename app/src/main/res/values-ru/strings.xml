@@ -46,8 +46,8 @@
     <string name="slide1_heading">Добро пожаловать!</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="main_button_welcomedialog_text">Используйте кнопку в нижнем левом углу, чтобы вызвать диалог приветствия.</string>
-    <string name="viewhelp">Смотреть Справку</string>
-    <string name="okay">Ладно</string>
+    <string name="viewhelp">Просмотр справки</string>
+    <string name="okay">Хорошо</string>
     <string name="main_text_normalbutton_desc">Существует несколько способов отображения основных кнопок. Кнопка 1 — это основная кнопка. Если вы хотите визуально отделить кнопку, используйте кнопку 2. Кнопки 3–5 — это примеры выделенных кнопок. В зависимости от приложения возможны другие цвета.</string>
     <string name="main_text_title">Это пример приложения, демонстрирует дизайн Privacy Friendly App. Дополнительные пояснения можно найти в Privacy Friendly App Guide.</string>
     <string name="game_button_continue">Продолжить игру</string>
