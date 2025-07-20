@@ -15,7 +15,7 @@
     <string name="main_button_4">4</string>
     <string name="main_button_5">5</string>
     <string name="game_desc">Это главное меню по умолчанию для игровых приложений. Просмоторщик выше следует использовать для переключения между игровыми режимами.</string>
-    <string name="help">Справка</string>
+    <string name="help">Помощь</string>
     <string name="help_whatis">Что такое Зарисовки?</string>
     <string name="about_affiliation">В сотрудничестве с</string>
     <string name="pref_example_switch_summary">Пример сводки Switch</string>
@@ -41,7 +41,7 @@
     <string name="title_activity_game">Игра</string>
     <string name="game_button_start">Новая игра</string>
     <string name="help_privacy">Что делает это приложение конфиденциальным?</string>
-    <string name="about">О приложении</string>
+    <string name="about">О программе</string>
     <string name="pref_header_general">Главные</string>
     <string name="slide1_heading">Добро пожаловать!</string>
     <string name="title_activity_settings">Настройки</string>
