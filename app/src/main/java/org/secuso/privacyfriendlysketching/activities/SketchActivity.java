@@ -608,6 +608,7 @@ public class SketchActivity extends AppCompatActivity {
 
                 break;
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public void setWritePermissionGranted(boolean b) {

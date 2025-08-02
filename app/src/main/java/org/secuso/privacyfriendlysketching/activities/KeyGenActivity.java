@@ -23,13 +23,14 @@ import android.security.KeyPairGeneratorSpec;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.commonsware.cwac.saferoom.SQLCipherUtils;
-import com.commonsware.cwac.saferoom.SafeHelperFactory;
+import net.sqlcipher.database.SQLiteDatabase;
+
 
 import org.secuso.privacyfriendlysketching.activities.helper.BaseActivity;
 import org.secuso.privacyfriendlysketching.R;
 import org.secuso.privacyfriendlysketching.database.SketchingRoomDB;
 import org.secuso.privacyfriendlysketching.helpers.EncryptionHelper;
+import org.secuso.privacyfriendlysketching.helpers.SQLCipherUtils;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -144,7 +145,8 @@ public class KeyGenActivity extends BaseActivity {
             publishProgress(1);
 
             //reset key in case keyGen is called again
-            SQLCipherUtils.State dbstate = SQLCipherUtils.getDatabaseState(getApplicationContext(), SketchingRoomDB.DATABASENAME);
+            SQLiteDatabase.loadLibs(getApplicationContext());
+            SQLCipherUtils.State dbstate = org.secuso.privacyfriendlysketching.helpers.SQLCipherUtils.getDatabaseState(getApplicationContext(), SketchingRoomDB.DATABASENAME);
             Log.i("KEYGEN_ACTIVITY", dbstate.toString());
 
             if (dbstate.equals(SQLCipherUtils.State.UNENCRYPTED)) {
@@ -160,8 +162,7 @@ public class KeyGenActivity extends BaseActivity {
                 Log.i("KEYGEN_ACTIVITY", "DB Encrypted, rekeying..");
 
                 SketchingRoomDB db = SketchingRoomDB.getDatabase(getApplication());
-                SafeHelperFactory.rekey(db.getOpenHelper().getWritableDatabase(), EncryptionHelper.loadPassPhrase(getApplicationContext()));
-
+                db.getOpenHelper().getWritableDatabase().execSQL("PRAGMA rekey = '" + EncryptionHelper.loadPassPhrase(getApplicationContext()).toString() + "';");
             }
 
             return new Long(0);
