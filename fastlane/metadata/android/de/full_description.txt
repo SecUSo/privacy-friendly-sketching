@@ -1,7 +1,7 @@
-Privacy Friendly Sketching bietet die Möglichkeit, schnell und einfach simple Zeichnungen zu erstellen und zu speichern. Und das alles ohne störende Werbung oder zusätzliche Berechtigungen!
+Privacy Friendly Zeichnen bietet die Möglichkeit, schnell und einfach simple Zeichnungen zu erstellen und zu speichern. Und das alles ohne störende Werbung oder zusätzliche Berechtigungen!
 
 Wählen Sie sich ein Hintergrundbild oder eine Hintergrundfarbe aus und legen Sie sofort los zu zeichnen! Die App lässt Sie im Nu Zeichnungen anfertigen, bearbeiten oder zum Teilen mit Freunden abspeichern.
-Ein Hauptmerkmal von Privacy Friendy Sketching ist dabei, dass die Privätsphäre des Nutzers unter jeden Umständen gewährleistet wird. Das bedeutet, dass die gespeicherten Zeichnungen verschlüsselt hinterlegt werden und keine Berechtigungen benötigt werden, um die App zu nutzen.
+Ein Hauptmerkmal von Privacy Friendy Zeichnen ist dabei, dass die Privätsphäre des Nutzers unter jeden Umständen gewährleistet wird. Das bedeutet, dass die gespeicherten Zeichnungen verschlüsselt hinterlegt werden und keine Berechtigungen benötigt werden, um die App zu nutzen.
 Zusätzlich wird auf das Zeigen von nerviger Werbung vollständig verzichtet, um den Spaß am Zeichnen zu erhöhen und Datenverkehr zu eliminieren!
 Einzig zum Nutzen der Importierfunktion von Zeichnungen aus dem Gerätespeicher und der Exportierfunktion von Zeichnungen in den Gerätespeicher benötigt die App Lese- bzw. Schreibezugriff.
 
@@ -28,4 +28,4 @@ https://github.com/SecUSo/privacy-friendly-sketching
 Kontaktieren Sie uns gerne über:
 BlueSky - https://bsky.app/profile/secusoresearch.bsky.social
 Mastodon - @SECUSO_Research@bawü.social https://xn--baw-joa.social/@SECUSO_Research/
-Offene Stellen - https://secuso.aifb.kit.edu/83.php
+Offene Stellen - https://secuso.aifb.kit.edu/english/Job_Offers.php
