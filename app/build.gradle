@@ -72,7 +72,7 @@ dependencies {
 
     // SQLCipher
     implementation 'net.zetetic:android-database-sqlcipher:4.5.0'
-    implementation project(':cwac-saferoom')
+    implementation 'net.zetetic:android-database-sqlcipher:4.4.3'
 
     // Backup API
     implementation project(':backup-api')
