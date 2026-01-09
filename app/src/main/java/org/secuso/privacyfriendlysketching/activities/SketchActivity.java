@@ -122,7 +122,7 @@ public class SketchActivity extends AppCompatActivity {
         int sketchId;
 
         if (sketch == null) {
-            description = DateFormat.getDateInstance().format(new Date());
+            description = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
             sketchId = NEW_SKETCH_ID;
         } else {
             description = sketch.description;
@@ -204,7 +204,7 @@ public class SketchActivity extends AppCompatActivity {
         }
 
         if (sketch == null) {
-            String description = DateFormat.getDateInstance().format(new Date());
+            String description = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
             sketch = new Sketch(null, drawView.getMPaths(), description);
             sketch.setId(NEW_SKETCH_ID);
         }
